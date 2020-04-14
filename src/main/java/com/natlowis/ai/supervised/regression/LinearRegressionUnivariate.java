@@ -3,6 +3,11 @@ package com.natlowis.ai.supervised.regression;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This implements linear and non linear regression with one variable
+ * @author low101043
+ *
+ */
 public class LinearRegressionUnivariate implements Regression {
 
 	private ArrayList<ArrayList<Double>> data;
@@ -12,7 +17,7 @@ public class LinearRegressionUnivariate implements Regression {
 	private int iterations;
 	private double alpha;
 
-	private LinearRegressionUnivariate() {
+	/*private LinearRegressionUnivariate() {
 		super();
 		data = new ArrayList<ArrayList<Double>>();
 
@@ -22,21 +27,25 @@ public class LinearRegressionUnivariate implements Regression {
 		iterations = 0;
 		alpha = 0.0;
 
-	}
-
-	public LinearRegressionUnivariate(int iterations, double alpha, int polynomialSize) {
+	}*/
+	
+	/**
+	 * This is the default constructor.  It will just get the data needed
+	 */
+	public LinearRegressionUnivariate() {
 		super();
 		data = new ArrayList<ArrayList<Double>>();
 
 		getData();
-		wValues = new double[polynomialSize + 1];
-		this.iterations = iterations;
-		this.alpha = alpha;
+		
 
 	}
 
 	@Override
-	public void gradientDescent() {
+	public void gradientDescent(int iterations, double alpha, int polynomialSize) {
+		wValues = new double[polynomialSize + 1];
+		this.iterations = iterations;
+		this.alpha = alpha;
 		for (int i = 0; i < iterations; i++) { // This part of the code is the code for gradient descent.
 
 			for (int j = 0; j < data.size(); j++) { // This goes over each pair of values in the training data
@@ -104,9 +113,22 @@ public class LinearRegressionUnivariate implements Regression {
 	}
 
 	@Override
-	public double calculate() {
+	public double calculate(double inputs[]) {
 		// TODO Auto-generated method stub
-		return 0;
+		
+		double predicted = 0;
+		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+
+			double wValue = wValues[wValueIndex];
+
+			double xToPower = Math.pow(inputs[wValueIndex], wValueIndex);
+
+			predicted += wValue * xToPower;
+
+		}
+		
+		return predicted;
+
 	}
 
 	@Override

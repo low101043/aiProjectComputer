@@ -7,6 +7,11 @@ import org.apache.log4j.Logger;
 
 import com.natlowis.ai.ui.TextBasedUI;
 
+/**
+ * This will implement logistic regression with multiple variables.
+ * @author low101043
+ *
+ */
 public class LogisticRegressionMultivariate extends LogisticRegression implements Regression {
 
 	private static final Logger logger = Logger.getLogger(LogisticRegressionMultivariate.class);
@@ -18,7 +23,7 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 	private int iterations;
 	private double alpha;
 
-	private LogisticRegressionMultivariate() {
+	/*private LogisticRegressionMultivariate() {
 		super();
 		data = new ArrayList<ArrayList<Double>>();
 
@@ -28,21 +33,26 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 		iterations = 0;
 		alpha = 0.0;
 
-	}
+	}*/
 
-	public LogisticRegressionMultivariate(int iterations, double alpha, int variableSize) {
+	/**
+	 * The default constructor.  This just gets the data for the function
+	 */
+	public LogisticRegressionMultivariate() {
 		super();
 		data = new ArrayList<ArrayList<Double>>();
 
 		getData();
-		wValues = new double[variableSize + 1];
-		this.iterations = iterations;
-		this.alpha = alpha;
+		
 
 	}
 
 	@Override
-	public void gradientDescent() {
+	public void gradientDescent(int iterations, double alpha, int variableSize) {
+		
+		wValues = new double[variableSize + 1];
+		this.iterations = iterations;
+		this.alpha = alpha;
 		for (int i = 0; i < iterations; i++) { // The gradient descent code for Logistic Regression.
 
 			for (int j = 0; j < data.size(); j++) { // Going through each triplet of values
@@ -122,9 +132,25 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 	}
 
 	@Override
-	public double calculate() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double calculate(double[] inputs) {
+		double answer = 0;
+		
+		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+
+			double wValue = wValues[wValueIndex];
+
+			double xValue = inputs[wValueIndex];
+
+			answer += wValue * xValue;
+
+		}
+		double finalPredicted = activationFunction(answer);
+		
+		if (finalPredicted <= 0.5)
+			finalPredicted = 0;
+		else
+			finalPredicted = 1;
+		return finalPredicted;
 	}
 
 	@Override

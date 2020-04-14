@@ -6,20 +6,31 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Graph which implemnts {@code GraphInterface}. 
+ * Will implement a directed Graph data structure
+ * @author low101043
+ *
+ */
 public class Graph implements GraphInterface {
 
 	protected Map<Integer, ArrayList<Connection>> graph;
 
+	/**
+	 * Default Constructor for Graph Class.  Initialises the hash map needed
+	 */
 	public Graph() {
 		graph = new HashMap<Integer, ArrayList<Connection>>();
 	}
-
+	
+	@Override
 	public void addNode(int nodeToAdd) {
 		ArrayList<Connection> connectionsToAdd = new ArrayList<Connection>();
 
 		graph.put(nodeToAdd, connectionsToAdd);
 	}
 
+	@Override
 	public void addConnection(int originNode, int destinationNode, int weight) {
 
 		List<Connection> edgeList = graph.get(originNode);
@@ -37,6 +48,7 @@ public class Graph implements GraphInterface {
 
 	}
 
+	@Override
 	public void removeNode(int nodeToRemove) {
 
 		graph.remove(nodeToRemove);
@@ -65,6 +77,12 @@ public class Graph implements GraphInterface {
 		}
 	}
 
+	/**
+	 * This will remove a connection if you know the connections exact distance
+	 * @param originNode - The origin node of the connection
+	 * @param destinationNode - the destination node of the connection
+	 * @param distance - the weight of the connection
+	 */
 	public void removeConnection(int originNode, int destinationNode, int distance) {
 
 		ArrayList<Connection> dataToLose = graph.get(originNode);
@@ -74,6 +92,7 @@ public class Graph implements GraphInterface {
 
 	}
 
+	@Override
 	public void removeConnection(int originNode, int destinationNode) {
 
 		ArrayList<Connection> dataWillBeHere = graph.get(originNode);
@@ -89,6 +108,7 @@ public class Graph implements GraphInterface {
 		}
 	}
 
+	@Override
 	public int[][] getConnections() {
 		ArrayList<int[]> connections = new ArrayList<>();
 		for (Map.Entry<Integer, ArrayList<Connection>> entry : graph.entrySet()) {
@@ -100,10 +120,12 @@ public class Graph implements GraphInterface {
 		return connections.toArray(new int[0][0]);
 	}
 
+	@Override
 	public int getNumberOfNodes() {
 		return graph.size();
 	}
 
+	@Override
 	public ArrayList<Connection> getConnection(int nodeNum) {
 		return graph.get(nodeNum);
 	}
