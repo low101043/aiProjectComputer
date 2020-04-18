@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.natlowis.ai.graphs"},{"l":"com.natlowis.ai.search.uninformed"},{"l":"com.natlowis.ai.supervised.regression"},{"l":"com.natlowis.ai.ui"},{"l":"com.natlowis.ai.unsupervised"}]
