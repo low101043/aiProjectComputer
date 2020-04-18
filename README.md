@@ -12,3 +12,15 @@ Logistic Regression (Linear MultiVariable)
 Depth First Search
 Breadth First Search
 Q-Learning
+
+Credits:
+Miqing Li 
+Harish Tayyar Madabushi
+Leandro Minku
+All three provided pseudocode for the different AI algorithms being implemented
+
+MrEbbinghaus https://stackoverflow.com/questions/37200845/how-to-switch-scenes-in-javafx. 
+Provided Code for ScreenChanger which I have then edited to make it work for my purposes
+
+Oracle Docs https://docs.oracle.com/javafx/2/ui_controls/text-field.htm
+Provided Code for GUI which is used throughout.
