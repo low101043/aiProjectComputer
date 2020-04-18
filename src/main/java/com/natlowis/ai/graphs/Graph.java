@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Graph which implemnts {@code GraphInterface}. 
- * Will implement a directed Graph data structure
+ * Graph which implemnts {@code GraphInterface}. Will implement a directed Graph
+ * data structure
+ * 
  * @author low101043
  *
  */
@@ -17,12 +18,12 @@ public class Graph implements GraphInterface {
 	protected Map<Integer, ArrayList<Connection>> graph;
 
 	/**
-	 * Default Constructor for Graph Class.  Initialises the hash map needed
+	 * Default Constructor for Graph Class. Initialises the hash map needed
 	 */
 	public Graph() {
 		graph = new HashMap<Integer, ArrayList<Connection>>();
 	}
-	
+
 	@Override
 	public void addNode(int nodeToAdd) {
 		ArrayList<Connection> connectionsToAdd = new ArrayList<Connection>();
@@ -79,9 +80,10 @@ public class Graph implements GraphInterface {
 
 	/**
 	 * This will remove a connection if you know the connections exact distance
-	 * @param originNode - The origin node of the connection
+	 * 
+	 * @param originNode      - The origin node of the connection
 	 * @param destinationNode - the destination node of the connection
-	 * @param distance - the weight of the connection
+	 * @param distance        - the weight of the connection
 	 */
 	public void removeConnection(int originNode, int destinationNode, int distance) {
 

@@ -1,15 +1,14 @@
 package com.natlowis.ai.unsupervised;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
 
 /**
  * This will perform Q-learning a Reinforcement learning algorithm
+ * 
  * @author low101043
  *
  */
@@ -21,7 +20,8 @@ public class QLearning {
 	Random rand;
 
 	/**
-	 * The Constructor for QLearning.  Takes a graph as a parameter
+	 * The Constructor for QLearning. Takes a graph as a parameter
+	 * 
 	 * @param graph the graph to perform Q Learning on
 	 */
 	public QLearning(Graph graph) {
@@ -31,15 +31,20 @@ public class QLearning {
 	}
 
 	/**
-	 * This will perform Q learning.  
-	 * @param discountRate The discount rate for the algorithm.  Higher value will mean more emphasis on the future actions
-	 * @param learningRate The learning rate for the algorithm.  Higher value will focus on the reward and the next action.  Lower values will focus on what the current Q value is
-	 * @param epoch The amount of episodes to do.
-	 * @param endState What the destination node for the algorithm is
-	 * @return A 2D array which is the final Q table with the above variables and the given graph
+	 * This will perform Q learning.
+	 * 
+	 * @param discountRate The discount rate for the algorithm. Higher value will
+	 *                     mean more emphasis on the future actions
+	 * @param learningRate The learning rate for the algorithm. Higher value will
+	 *                     focus on the reward and the next action. Lower values
+	 *                     will focus on what the current Q value is
+	 * @param epoch        The amount of episodes to do.
+	 * @param endState     What the destination node for the algorithm is
+	 * @return A 2D array which is the final Q table with the above variables and
+	 *         the given graph
 	 */
 	public double[][] qLearning(double discountRate, double learningRate, int epoch, int endState) {
-		
+
 		this.endState = endState;
 
 		qTable = new double[graph.getNumberOfNodes()][graph.getNumberOfNodes()];
@@ -50,7 +55,7 @@ public class QLearning {
 
 			do {
 				ArrayList<Connection> data = graph.getConnection(stateInt);
-				int nextActionIndex = rand.nextInt(data.size());
+				int nextActionIndex = rand.nextInt(data.size()); // TODO Error here if no connections in graph!!
 				Connection nextAction = data.get(nextActionIndex);
 				int reward = nextAction.getWeight();
 
@@ -78,21 +83,23 @@ public class QLearning {
 		return qTable;
 
 	}
-	
+
 	/**
-	 * This will work out the final solution for the graph from the stated startNode and what has been given as the end state
+	 * This will work out the final solution for the graph from the stated startNode
+	 * and what has been given as the end state
+	 * 
 	 * @param startNode The node to start from
 	 * @return An array of which nodes to go to
 	 */
 	public Integer[] nodesToFinish(int startNode) {
 		ArrayList<Integer> finalList = new ArrayList<Integer>();
 		int currentNode = startNode;
-		
+
 		while (currentNode != endState) {
 			double[] nextValues = qTable[currentNode];
 			int nextNode = 0;
-			
-			for (int index = 0; index< nextValues.length; index++) {
+
+			for (int index = 0; index < nextValues.length; index++) {
 				if (nextValues[nextNode] < nextValues[index]) {
 					nextNode = index;
 				}
@@ -100,9 +107,38 @@ public class QLearning {
 			finalList.add(nextNode);
 			currentNode = nextNode;
 		}
-		
+
 		return finalList.toArray(new Integer[0]);
-		
+
+	}
+
+	@Override
+	public String toString() {
+		String finalString = "";
+
+		int numOfDigits = (int) Math.log10(graph.getNumberOfNodes()) + 1;
+
+		for (int i = 0; i < numOfDigits; i++) {
+			finalString += " ";
+		}
+
+		finalString += " ";
+		for (int i = 0; i < graph.getNumberOfNodes(); i++) {
+			finalString += i + " ";
+		}
+
+		finalString += "\n";
+
+		for (int i = 0; i < graph.getNumberOfNodes(); i++) {
+			finalString += i + " ";
+
+			for (int j = 0; j < graph.getNumberOfNodes(); j++) {
+				finalString += qTable[i][j] + " ";
+			}
+
+			finalString += "\n";
+		}
+		return finalString;
 	}
 
 }

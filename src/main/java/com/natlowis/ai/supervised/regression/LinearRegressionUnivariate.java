@@ -1,10 +1,10 @@
 package com.natlowis.ai.supervised.regression;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This implements linear and non linear regression with one variable
+ * 
  * @author low101043
  *
  */
@@ -17,27 +17,25 @@ public class LinearRegressionUnivariate implements Regression {
 	private int iterations;
 	private double alpha;
 
-	/*private LinearRegressionUnivariate() {
-		super();
-		data = new ArrayList<ArrayList<Double>>();
+	/*
+	 * private LinearRegressionUnivariate() { super(); data = new
+	 * ArrayList<ArrayList<Double>>();
+	 * 
+	 * int lenOfXValues = 0; wValues = new double[lenOfXValues];
+	 * 
+	 * iterations = 0; alpha = 0.0;
+	 * 
+	 * }
+	 */
 
-		int lenOfXValues = 0;
-		wValues = new double[lenOfXValues];
-
-		iterations = 0;
-		alpha = 0.0;
-
-	}*/
-	
 	/**
-	 * This is the default constructor.  It will just get the data needed
+	 * This is the default constructor. It will just get the data needed
 	 */
 	public LinearRegressionUnivariate() {
 		super();
 		data = new ArrayList<ArrayList<Double>>();
 
 		getData();
-		
 
 	}
 
@@ -115,7 +113,7 @@ public class LinearRegressionUnivariate implements Regression {
 	@Override
 	public double calculate(double inputs[]) {
 		// TODO Auto-generated method stub
-		
+
 		double predicted = 0;
 		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
 
@@ -126,7 +124,7 @@ public class LinearRegressionUnivariate implements Regression {
 			predicted += wValue * xToPower;
 
 		}
-		
+
 		return predicted;
 
 	}
@@ -173,6 +171,45 @@ public class LinearRegressionUnivariate implements Regression {
 									// final
 									// equation
 									// out
+	}
+
+	@Override
+	public double[] answers() {
+		// TODO Auto-generated method stub
+		return wValues;
+	}
+
+	@Override
+	public double cost() {
+		// TODO Auto-generated method stub
+		double cost = 0;
+		for (int j = 0; j < data.size(); j++) { // This part of the code will just output the final predicted
+												// values against the actual values. Used for debugging.
+			double xData = (double) data.get(j).get(0); // Assume only 2 inputs
+
+			double yData = (double) data.get(j).get(1);
+
+			double predicted = 0; // This uses the formula h(x) parameterised by W
+			// to work out the predicted y values given x
+			// and the vector W. The formula used here is
+			// hw(x) = w0 + w1x + w2x^2
+
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+
+				double wValue = wValues[wValueIndex];
+
+				double xToPower = Math.pow(xData, wValueIndex);
+
+				predicted += wValue * xToPower;
+
+			}
+
+			cost = cost + Math.pow((yData - predicted), 2.0); // This is (y- hw(x))**2
+
+		}
+		cost = cost / data.size(); // This will be the final cost.
+
+		return cost;
 	}
 
 }

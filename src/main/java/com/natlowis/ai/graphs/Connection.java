@@ -3,6 +3,7 @@ package com.natlowis.ai.graphs;
 /**
  * The class which holds the information for a connection and provides access to
  * this data
+ * 
  * @author low101043
  */
 public class Connection {
@@ -27,6 +28,7 @@ public class Connection {
 
 	/**
 	 * A setter which changes the weight of the connection
+	 * 
 	 * @param newWeight - The new weight for the node
 	 */
 	public void changeWeight(int newWeight) {
@@ -35,6 +37,7 @@ public class Connection {
 
 	/**
 	 * A getter which gets the origin Node
+	 * 
 	 * @return - Integer which is the origin Node of the connection
 	 */
 	public int getOriginNode() {
@@ -43,6 +46,7 @@ public class Connection {
 
 	/**
 	 * A getter which gets the destination node
+	 * 
 	 * @return - Integer which is the destination node of the connection#
 	 */
 	public int getDestinationNode() {
@@ -51,6 +55,7 @@ public class Connection {
 
 	/**
 	 * A getter which gets the weight of the node
+	 * 
 	 * @return - Integer which is the weight of the node
 	 */
 	public int getWeight() {

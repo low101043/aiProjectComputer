@@ -11,6 +11,7 @@ import com.natlowis.ai.graphs.Graph;
 
 /**
  * This class will implement the Breadth First Algorithm
+ * 
  * @author low101043
  *
  */
@@ -25,6 +26,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 
 	/**
 	 * This will construct the object.
+	 * 
 	 * @param graphToImplement This is the graph to do a Breadth First Search on.
 	 */
 	public BreadthFirstSearch(Graph graphToImplement) {

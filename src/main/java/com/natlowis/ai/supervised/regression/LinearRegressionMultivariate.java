@@ -1,10 +1,10 @@
 package com.natlowis.ai.supervised.regression;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This implements multivariate linear regression
+ * 
  * @author low101043
  *
  */
@@ -17,17 +17,16 @@ public class LinearRegressionMultivariate implements Regression {
 	private int iterations;
 	private double alpha;
 
-	/*private LinearRegressionMultivariate() {
-		super();
-		data = new ArrayList<ArrayList<Double>>();
-
-		int lenOfXValues = 0;
-		wValues = new double[lenOfXValues];
-
-		iterations = 0;
-		alpha = 0.0;
-
-	}*/
+	/*
+	 * private LinearRegressionMultivariate() { super(); data = new
+	 * ArrayList<ArrayList<Double>>();
+	 * 
+	 * int lenOfXValues = 0; wValues = new double[lenOfXValues];
+	 * 
+	 * iterations = 0; alpha = 0.0;
+	 * 
+	 * }
+	 */
 
 	/**
 	 * This will get the data needed for this regression
@@ -37,14 +36,13 @@ public class LinearRegressionMultivariate implements Regression {
 		data = new ArrayList<ArrayList<Double>>();
 
 		getData();
-		
 
 	}
 
 	@Override
 	public double calculate(double[] inputs) {
 		// TODO Auto-generated method stub
-		
+
 		double predicted = 0; // Working out the predicted value of
 		// whether it is in a set or not. The
 		// equation is hW(X) = g(w0 + w1x1 +
@@ -195,6 +193,53 @@ public class LinearRegressionMultivariate implements Regression {
 
 		return;
 
+	}
+
+	@Override
+	public double[] answers() {
+		return wValues;
+
+	}
+
+	@Override
+	public double cost() {
+		// TODO Auto-generated method stub
+
+		double cost = 0;
+		for (int j = 0; j < data.size(); j++) { // This part of the code will just output the final predicted
+												// values against the actual values. Used for debugging.
+			double[] xValues = new double[data.get(j).size()];
+
+			for (int place = 0; place < xValues.length; place++) {
+				if (place == 0) {
+					xValues[place] = 1;
+				} else {
+					xValues[place] = data.get(j).get(place - 1);
+				}
+			}
+			double yData = (double) data.get(j).get(data.get(j).size() - 1);
+
+			double predicted = 0; // Working out the predicted value of
+			// whether it is in a set or not. The
+			// equation is hW(X) = g(w0 + w1x1 +
+			// w2x2)
+
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+
+				double wValue = wValues[wValueIndex];
+
+				double xValue = xValues[wValueIndex];
+
+				predicted += wValue * xValue;
+
+			}
+
+			cost = cost + Math.pow((yData - predicted), 2.0); // This is (y- hw(x))**2
+
+		}
+		cost = cost / data.size(); // This will be the final cost.
+
+		return cost;
 	}
 
 }

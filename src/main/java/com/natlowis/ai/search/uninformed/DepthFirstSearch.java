@@ -4,7 +4,6 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 import com.natlowis.ai.graphs.Connection;
@@ -12,6 +11,7 @@ import com.natlowis.ai.graphs.Graph;
 
 /**
  * This will implement the Depth First Search
+ * 
  * @author low101043
  *
  */
@@ -25,7 +25,8 @@ public class DepthFirstSearch implements SearchAlgorithm {
 	private Deque<Connection> answerOfConnections;
 
 	/**
-	 * This will construct the object.  Needs a graph to be made
+	 * This will construct the object. Needs a graph to be made
+	 * 
 	 * @param graphToImplement The graph to do the search on.
 	 */
 	public DepthFirstSearch(Graph graphToImplement) {
