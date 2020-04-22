@@ -1,6 +1,9 @@
 package com.natlowis.ai.supervised.regression;
 
+import java.io.File;
 import java.util.ArrayList;
+
+import com.natlowis.ai.fileHandaling.CSVFiles;
 
 /**
  * This implements multivariate linear regression
@@ -10,51 +13,48 @@ import java.util.ArrayList;
  */
 public class LinearRegressionMultivariate implements Regression {
 
-	private ArrayList<ArrayList<Double>> data;
+	private ArrayList<ArrayList<Double>> data;  //The data to be used
+	private double[] wValues;  //The wValues which are being used
+	private File file;  //The file which holds the training data  //TODO  Maybe don;t pass in file to make better space usage
 
-	private double[] wValues;
-
-	private int iterations;
-	private double alpha;
-
-	/*
-	 * private LinearRegressionMultivariate() { super(); data = new
-	 * ArrayList<ArrayList<Double>>();
-	 * 
-	 * int lenOfXValues = 0; wValues = new double[lenOfXValues];
-	 * 
-	 * iterations = 0; alpha = 0.0;
-	 * 
-	 * }
-	 */
 
 	/**
 	 * This will get the data needed for this regression
 	 */
 	public LinearRegressionMultivariate() {
+		
 		super();
 		data = new ArrayList<ArrayList<Double>>();
+		getData();  //Will get the test data
 
-		getData();
+	}
 
+	/**
+	 * This Constructor assumes you have the file
+	 * @param files The file which has all the data
+	 * @param multibleVariables The number of different variables needed
+	 */
+	public LinearRegressionMultivariate(File files, int multibleVariables) {
+		
+		//Initialises all needed variables
+		file = files;
+		data = new ArrayList<ArrayList<Double>>();
+		getData(multibleVariables + 1);  //Gets the data from the file
 	}
 
 	@Override
 	public double calculate(double[] inputs) {
-		// TODO Auto-generated method stub
+		
 
-		double predicted = 0; // Working out the predicted value of
-		// whether it is in a set or not. The
-		// equation is hW(X) = g(w0 + w1x1 +
-		// w2x2)
+		double predicted = 0; //This will be the predicted value from the inputs
 
-		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //For each W value
 
-			double wValue = wValues[wValueIndex];
+			double wValue = wValues[wValueIndex];  //Gets the w value
 
-			double xValue = inputs[wValueIndex];
-
-			predicted += wValue * xValue;
+			double xValue = inputs[wValueIndex];  //Gets the corresponding x value
+ 
+			predicted += wValue * xValue;  // Works out the predicted value
 
 		}
 		return predicted;
@@ -62,28 +62,30 @@ public class LinearRegressionMultivariate implements Regression {
 
 	@Override
 	public void checkFunction() {
-		// TODO Auto-generated method stub
 
-		double cost = 0;
-		for (int j = 0; j < data.size(); j++) { // This part of the code will just output the final predicted
-												// values against the actual values. Used for debugging.
-			double[] xValues = new double[data.get(j).size()];
 
-			for (int place = 0; place < xValues.length; place++) {
+		double cost = 0;  //The cost of the current w values used
+		
+		for (int j = 0; j < data.size(); j++) {  //For each item in the training data
+			
+			double[] xValues = new double[data.get(j).size()];  //This will hold the x values 
+
+			//Sets the x values.  Will set the bias bit as well
+			for (int place = 0; place < xValues.length; place++) { 
+				
 				if (place == 0) {
 					xValues[place] = 1;
+					
 				} else {
 					xValues[place] = data.get(j).get(place - 1);
 				}
 			}
-			double yData = (double) data.get(j).get(data.get(j).size() - 1);
+			
+			double yData = (double) data.get(j).get(data.get(j).size() - 1); //Gets the correct y value
 
-			double predicted = 0; // Working out the predicted value of
-			// whether it is in a set or not. The
-			// equation is hW(X) = g(w0 + w1x1 +
-			// w2x2)
+			double predicted = 0;  //Will hold the predicted value			
 
-			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //For each W value and x value work out what the value should be
 
 				double wValue = wValues[wValueIndex];
 
@@ -94,59 +96,45 @@ public class LinearRegressionMultivariate implements Regression {
 			}
 
 			cost = cost + Math.pow((yData - predicted), 2.0); // This is (y- hw(x))**2
-			System.out.println("Predicted: " + predicted + " Actual: " + yData);
+			//System.out.println("Predicted: " + predicted + " Actual: " + yData);  //TODO Output to a file
 		}
 		cost = cost / data.size(); // This will be the final cost.
-
-		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
-
-			double wValue = wValues[wValueIndex];
-			System.out.println(wValue);
-
-		}
-		System.out.println(cost); // This
-									// prints
-									// the
-									// final
-									// equation
-									// out
 
 	}
 
 	@Override
 	public void gradientDescent(int iterations, double alpha, int variableSize) {
-		// TODO Auto-generated method stub
 
-		wValues = new double[variableSize + 1];
-		this.iterations = iterations;
-		this.alpha = alpha;
+		wValues = new double[variableSize + 1];  //This will hold all the W value
+
 		for (int i = 0; i < iterations; i++) { // The gradient descent code for Logistic Regression.
 
-			for (int j = 0; j < data.size(); j++) { // Going through each triplet of values
+			for (int j = 0; j < data.size(); j++) { // Going through each set of values
 
-				double[] xValues = new double[data.get(j).size()];
+				double[] xValues = new double[data.get(j).size()];  //This will hold the x values 
 
-				for (int place = 0; place < xValues.length; place++) {
+				//Sets the x values.  Will set the bias bit as well
+				for (int place = 0; place < xValues.length; place++) { 
+					
 					if (place == 0) {
 						xValues[place] = 1;
+						
 					} else {
 						xValues[place] = data.get(j).get(place - 1);
 					}
 				}
-				double yData = data.get(j).get(data.get(j).size() - 1);
+				
+				double yData = (double) data.get(j).get(data.get(j).size() - 1); //Gets the correct y value
 
-				double predicted = 0; // Working out the predicted value of
-										// whether it is in a set or not. The
-										// equation is hW(X) = g(w0 + w1x1 +
-										// w2x2)
+				double predicted = 0;  //Will hold the predicted value	
 
-				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { //Goes through each w value
 
-					double wValue = wValues[wValueIndex];
+					double wValue = wValues[wValueIndex];  //Gets the w value
 
-					double xValue = xValues[wValueIndex];
+					double xValue = xValues[wValueIndex];  //Gets the corresponding x value
 
-					predicted += wValue * xValue;
+					predicted += wValue * xValue;  //Update predicted
 
 				}
 
@@ -154,7 +142,7 @@ public class LinearRegressionMultivariate implements Regression {
 															// the
 															// predicted answer
 
-				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //This updates all the w values
 
 					double wValue = wValues[wValueIndex];
 
@@ -173,26 +161,24 @@ public class LinearRegressionMultivariate implements Regression {
 	}
 
 	@Override
-	public void getData() {
-		// TODO Auto-generated method stub
+	public void getData(int variableSize) {  //TODO what happens if not passed a number?
 
-		double[][] trainingData = { { 0, 0, 4 }, { 0, 1, 6 }, { 0, 2, 8 }, { 0, 3, 10 }, { 1, 0, 9 }, { 1, 1, 11 },
-				{ 1, 2, 13 }, { 1, 3, 15 }, { 2, 0, 14 }, { 2, 1, 16 }, { 2, 2, 18 }, { 2, 3, 20 }, { 3, 0, 19 },
-				{ 3, 1, 21 }, { 3, 2, 23 }, { 3, 3, 25 } };
+		CSVFiles formattor = new CSVFiles(file, variableSize);  //Makes a new formatter object
+		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV();  //Get all the data 
 
-		for (double[] item : trainingData) {
-
+		for (ArrayList<String> item : dataToUse) {  // For each set of items in the data they will be converted to type double
+			
 			ArrayList<Double> dataToAdd = new ArrayList<Double>();
-			for (double number : item) {
+			
+			for (String numberStr : item) {
+
+				double number = Double.parseDouble(numberStr);
 				dataToAdd.add(number);
 			}
 
 			data.add(dataToAdd);
 
 		}
-
-		return;
-
 	}
 
 	@Override
@@ -203,28 +189,29 @@ public class LinearRegressionMultivariate implements Regression {
 
 	@Override
 	public double cost() {
-		// TODO Auto-generated method stub
+		
+double cost = 0;  //The cost of the current w values used
+		
+		for (int j = 0; j < data.size(); j++) {  //For each item in the training data
+			
+			double[] xValues = new double[data.get(j).size()];  //This will hold the x values 
 
-		double cost = 0;
-		for (int j = 0; j < data.size(); j++) { // This part of the code will just output the final predicted
-												// values against the actual values. Used for debugging.
-			double[] xValues = new double[data.get(j).size()];
-
-			for (int place = 0; place < xValues.length; place++) {
+			//Sets the x values.  Will set the bias bit as well
+			for (int place = 0; place < xValues.length; place++) { 
+				
 				if (place == 0) {
 					xValues[place] = 1;
+					
 				} else {
 					xValues[place] = data.get(j).get(place - 1);
 				}
 			}
-			double yData = (double) data.get(j).get(data.get(j).size() - 1);
+			
+			double yData = (double) data.get(j).get(data.get(j).size() - 1); //Gets the correct y value
 
-			double predicted = 0; // Working out the predicted value of
-			// whether it is in a set or not. The
-			// equation is hW(X) = g(w0 + w1x1 +
-			// w2x2)
+			double predicted = 0;  //Will hold the predicted value
 
-			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //For each W value and x value work out what the value should be
 
 				double wValue = wValues[wValueIndex];
 
@@ -240,6 +227,12 @@ public class LinearRegressionMultivariate implements Regression {
 		cost = cost / data.size(); // This will be the final cost.
 
 		return cost;
+	}
+
+	@Override
+	public void getData() {
+		// TODO Auto-generated method stub  WHat to do with this???
+		
 	}
 
 }

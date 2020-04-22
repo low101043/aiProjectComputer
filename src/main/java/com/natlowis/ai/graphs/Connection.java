@@ -8,9 +8,9 @@ package com.natlowis.ai.graphs;
  */
 public class Connection {
 
-	protected int originNode;
-	protected int destinationNode;
-	protected int weight;
+	protected int originNode; //This is the origin node  
+	protected int destinationNode;  //This is the destination node
+	protected double weight; //This is the weight of the edge
 
 	/**
 	 * The constructor for the class.
@@ -19,7 +19,7 @@ public class Connection {
 	 * @param node2  - The destinationNode for the connection
 	 * @param weight - The weight of the node
 	 */
-	public Connection(int node1, int node2, int weight) {
+	public Connection(int node1, int node2, double weight) {
 		this.originNode = node1;
 		this.destinationNode = node2;
 		this.weight = weight;
@@ -58,7 +58,7 @@ public class Connection {
 	 * 
 	 * @return - Integer which is the weight of the node
 	 */
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
@@ -68,31 +68,27 @@ public class Connection {
 		int result = 1;
 		result = prime * result + destinationNode;
 		result = prime * result + originNode;
-		result = prime * result + weight;
+		long temp;
+		temp = Double.doubleToLongBits(weight);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Connection other = (Connection) obj;
-		if (destinationNode != other.destinationNode) {
+		if (destinationNode != other.destinationNode)
 			return false;
-		}
-		if (originNode != other.originNode) {
+		if (originNode != other.originNode)
 			return false;
-		}
-		if (weight != other.weight) {
+		if (Double.doubleToLongBits(weight) != Double.doubleToLongBits(other.weight))
 			return false;
-		}
 		return true;
 	}
 

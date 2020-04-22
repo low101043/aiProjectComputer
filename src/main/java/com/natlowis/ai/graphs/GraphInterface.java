@@ -26,7 +26,7 @@ public interface GraphInterface {
 	 * @param destinationNode - The node the connection goes to
 	 * @param weight          - The weight of the node
 	 */
-	public void addConnection(int originNode, int destinationNode, int weight);
+	public void addConnection(int originNode, int destinationNode, double weight);
 
 	/**
 	 * This will remove the node from the graph and any connections to that node
@@ -41,7 +41,7 @@ public interface GraphInterface {
 	 * 
 	 * @return 2D array of all connections in the graph
 	 */
-	public int[][] getConnections();
+	public Object[][] getConnections();
 
 	/**
 	 * This will remove the connection between the originNode and the

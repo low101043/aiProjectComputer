@@ -17,12 +17,12 @@ import com.natlowis.ai.graphs.Graph;
  */
 public class BreadthFirstSearch implements SearchAlgorithm {
 
-	private Deque<Integer> frontier;
-	private Set<Integer> visited;
-	private Graph graph;
-	private Graph tree;
-	private Deque<Integer> answerOfNodes;
-	private Deque<Connection> answerOfConnections;
+	private Deque<Integer> frontier;  //This will hold the nodes to be visited
+	private Set<Integer> visited;  //This will hold the nodes which has been visited
+	private Graph graph;  //This will hold the graph being processed
+	private Graph tree;  //This will hold the tree which is created by the algorithm
+	private Deque<Integer> answerOfNodes;  //This hold the solution of which nodes to visit
+	private Deque<Connection> answerOfConnections;  //This holds the connections which need to be visited
 
 	/**
 	 * This will construct the object.
@@ -30,6 +30,8 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 	 * @param graphToImplement This is the graph to do a Breadth First Search on.
 	 */
 	public BreadthFirstSearch(Graph graphToImplement) {
+		
+		//This just initialises all the needed variables		
 		graph = graphToImplement;
 		frontier = new ArrayDeque<Integer>();
 		visited = new HashSet<Integer>();
@@ -39,30 +41,39 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 	}
 
 	@Override
-	public void algorithmToImplement(int startNode, int endNode) {
-		// TODO Auto-generated method stub
+	public void algorithmToImplement(int currentNode, int endNode) {
 
-		ArrayList<Connection> connectionsToUse = graph.getConnection(startNode);
-		visited.add(startNode);
-		for (Connection item : connectionsToUse) {
-			int child = item.getDestinationNode();
+		ArrayList<Connection> connectionsToUse = graph.getConnection(currentNode);  //This will get the connections for that node 
+		visited.add(currentNode);  //This will add the node to the visited set
+		
+		for (Connection item : connectionsToUse) {  //For each connection from the current node
+			
+			int child = item.getDestinationNode();  //It gets the destination node
 
-			if (!visited.contains(child) && !frontier.contains(child)) {
-				tree.addConnection(startNode, child, 1);
-				frontier.addLast(child);
+			if (!visited.contains(child) && !frontier.contains(child)) {  //Checks if the destination node is in the frontier or in the visited set
+				
+				//If it is not
+				tree.addConnection(currentNode, child, 1);  //Adds the connection to the tree
+				frontier.addLast(child);  //Adds the node to the end of the frontier queue
 			}
 
 		}
 
-		if (frontier.contains(endNode) == true) {
-			answerOfNodes.push(endNode);
-			answerOfNodes.push(startNode);
-		} else if (!frontier.isEmpty()) {
-			algorithmToImplement(frontier.removeFirst(), endNode);
-			ArrayList<Connection> childrenOfTree = tree.getConnection(startNode);
-			for (Connection item : childrenOfTree) {
-				if (item.getDestinationNode() == answerOfNodes.peek()) {
-					answerOfNodes.push(startNode);
+		if (frontier.contains(endNode) == true) {  //If the frontier now contains the end node
+			
+			//The end node and the current node is pushed to the answerOfNodes 
+			answerOfNodes.push(endNode);  
+			answerOfNodes.push(currentNode);
+			
+		} else if (!frontier.isEmpty()) {  //If the frontier is not empty
+			
+			algorithmToImplement(frontier.removeFirst(), endNode);  //Will do BFS on the next node in the frontier
+			ArrayList<Connection> childrenOfTree = tree.getConnection(currentNode);  //Gets the connections for the current node
+			
+			for (Connection item : childrenOfTree) {  //Will go through each connection
+				
+				if (item.getDestinationNode() == answerOfNodes.peek()) {  //If the connection links to the last node in the answerOfNodes 
+					answerOfNodes.push(currentNode);  //Will be added to both stacks
 					answerOfConnections.push(item);
 				}
 			}
@@ -71,13 +82,13 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 
 	@Override
 	public Integer[] nodesToVisit() {
-		// TODO Auto-generated method stub
+		
 		return answerOfNodes.toArray(new Integer[0]);
 	}
 
 	@Override
 	public Connection[] solutionActions() {
-		// TODO Auto-generated method stub
+		
 		return answerOfConnections.toArray(new Connection[0]);
 	}
 

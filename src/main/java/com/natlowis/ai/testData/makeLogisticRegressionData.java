@@ -20,7 +20,7 @@ public class makeLogisticRegressionData {
 			double[] inputsSmall = new double[3];
 			double randomNumberX = rand.nextDouble();
 			double randomNumberY = rand.nextDouble();
-			double actualY = randomNumberX + (5 * randomNumberX) + (2 * Math.pow(randomNumberX, 2.0));
+			double actualY = randomNumberX + (5 * randomNumberX) + (2 * Math.pow(randomNumberX, 2.0));  //  makes the y value
 
 			double dis = actualY - randomNumberY;
 			double actualOutput = -1;

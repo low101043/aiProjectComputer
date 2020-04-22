@@ -1,5 +1,9 @@
 package com.natlowis.ai.ui.gui;
 
+import java.io.File;
+import java.util.ArrayList;
+
+import com.natlowis.ai.fileHandaling.CSVFiles;
 import com.natlowis.ai.graphs.Graph;
 import com.natlowis.ai.unsupervised.QLearning;
 
@@ -12,12 +16,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-//Code edited from: https://docs.oracle.com/javafx/2/ui_controls/text-field.htm
+/**
+ * The page which allows you to use Q Learning
+ * @author low101043
+ *
+ */
 public class QLearningInput extends Application implements Window {
 
-	private Button backHome;
+	
+	//Sets up variables which are needed
+	private Button backHome; 
 	private TextField learningRate;
 	private TextField epoch;
 	private TextField discountRate;
@@ -26,7 +37,13 @@ public class QLearningInput extends Application implements Window {
 	private Button clear;
 	private Label label;
 
+	/**
+	 * The Constructor where it constructs the page and adds it to <code> sceneChanger </code>
+	 * @param sceneChooser The {@code ScreenController} which has all the correct pages
+	 */
 	public QLearningInput(ScreenController sceneChooser) {
+		
+		//This sets up the root and then 
 		BorderPane root = new BorderPane();
 		backHome = new Button("Go back home");
 		root.setLeft(backHome);
@@ -37,7 +54,7 @@ public class QLearningInput extends Application implements Window {
 		grid.setVgap(5);
 		grid.setHgap(5);
 
-		// Defining the Name text field
+		// Defining the learningRate text field
 		learningRate = new TextField();
 		learningRate.setPromptText("Enter your alpha value");
 		learningRate.setPrefColumnCount(10);
@@ -45,20 +62,20 @@ public class QLearningInput extends Application implements Window {
 		GridPane.setConstraints(learningRate, 0, 0);
 		grid.getChildren().add(learningRate);
 
-		// Defining the Last Name text field
+		// Defining the epoch text field
 		epoch = new TextField();
 		epoch.setPromptText("Enter the number of iterations");
 		GridPane.setConstraints(epoch, 0, 1);
 		grid.getChildren().add(epoch);
 
-		// Defining the Comment text field
+		// Defining the discountRate text field
 		discountRate = new TextField();
 		discountRate.setPrefColumnCount(15);
 		discountRate.setPromptText("Enter the discount rate");
 		GridPane.setConstraints(discountRate, 0, 2);
 		grid.getChildren().add(discountRate);
 
-		// Defining end state
+		// Defining endstate field
 		endState = new TextField();
 		endState.setPromptText("Enter the end state");
 		GridPane.setConstraints(endState, 0, 3);
@@ -80,23 +97,26 @@ public class QLearningInput extends Application implements Window {
 		GridPane.setColumnSpan(label, 2);
 		grid.getChildren().add(label);
 
+		//Adding all buttons and label to scene
 		root.setCenter(grid);
 
-		sceneChooser.addScreen("Q Learning Input", root, this);
+		sceneChooser.addScreen("Q Learning Input", root, this);  //Adds the screen to the ScreenController
 	}
 
 	@Override
 	public void controls(ScreenController sceneChooser) {
-		// TODO Auto-generated method stub
+		
+		//Takes the user back to the main page
 		backHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
+				//Clears all inputs
 				learningRate.clear();
 				epoch.clear();
 				discountRate.clear();
 				endState.clear();
 				label.setText(null);
-				sceneChooser.activate("Main Page");
+				sceneChooser.activate("Main Page");  //activates the main page
 				return;
 			}
 		});
@@ -106,21 +126,26 @@ public class QLearningInput extends Application implements Window {
 
 			@Override
 			public void handle(ActionEvent e) {
+				
 				if ((!learningRate.getText().isEmpty() && !epoch.getText().isEmpty()
-						&& !discountRate.getText().isEmpty() && !endState.getText().isEmpty())) {
+						&& !discountRate.getText().isEmpty() && !endState.getText().isEmpty())) {  //Checks if there is an input
 
-					Graph graph = new Graph(); // TODO THIS NEEDS TO BE GOT FROM A FILE!!
+					//Opens a file
+					FileChooser fileChooser = new FileChooser();
+					fileChooser.setTitle("Open Data File");
+					Stage stage = sceneChooser.getStage();
+					File files = fileChooser.showOpenDialog(stage);  //allow user to open file
+					CSVFiles formattor = new CSVFiles(files, 3);  //makes a formatter to use
+					ArrayList<ArrayList<String>> data = formattor.readCSV();  //gets the data
 
-					graph.addNode(0);
-					graph.addNode(1);
-					graph.addNode(2);
+					Graph graph = new Graph(data);  //Makes a graph from the data
 
-					QLearning a = new QLearning(graph);
-					a.qLearning(Double.parseDouble(discountRate.getText()), Double.parseDouble(learningRate.getText()),
-							Integer.parseInt(epoch.getText()), Integer.parseInt(endState.getText()));
-					label.setText(a.toString());
+					QLearning qLearning = new QLearning(graph);  //makes a QLearning object
+					qLearning.qLearning(Double.parseDouble(discountRate.getText()), Double.parseDouble(learningRate.getText()),
+							Integer.parseInt(epoch.getText()), Integer.parseInt(endState.getText()));  //does qLearning
+					label.setText(qLearning.toString());  //Outputs the table
 				} else {
-					label.setText("You have not left a comment.");
+					label.setText("You have not inputted all data.");
 				}
 			}
 		});

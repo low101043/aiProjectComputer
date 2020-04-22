@@ -1,8 +1,11 @@
 package com.natlowis.ai.supervised.regression;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
+
+import com.natlowis.ai.fileHandaling.CSVFiles;
 
 /**
  * This will implement logistic regression with multiple variables.
@@ -14,23 +17,9 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 
 	private static final Logger logger = Logger.getLogger(LogisticRegressionMultivariate.class);
 
-	private ArrayList<ArrayList<Double>> data;
-
-	private double[] wValues;
-
-	private int iterations;
-	private double alpha;
-
-	/*
-	 * private LogisticRegressionMultivariate() { super(); data = new
-	 * ArrayList<ArrayList<Double>>();
-	 * 
-	 * int lenOfXValues = 0; wValues = new double[lenOfXValues];
-	 * 
-	 * iterations = 0; alpha = 0.0;
-	 * 
-	 * }
-	 */
+	private ArrayList<ArrayList<Double>> data;  //The data to be used
+	private double[] wValues;  //The wValues which are being used
+	private File file;  //The file which holds the training data  //TODO  Maybe don;t pass in file to make better space usage
 
 	/**
 	 * The default constructor. This just gets the data for the function
@@ -38,38 +27,51 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 	public LogisticRegressionMultivariate() {
 		super();
 		data = new ArrayList<ArrayList<Double>>();
+		getData();  //This gets data where I know the values
 
-		getData();
-
+	}
+	
+	/**
+	 * This Constructor should be used if you have the file with the data in it and know how many variables you need.
+	 * @param files The file with the data in it
+	 * @param multibleVariables The number of variables used
+	 */
+	public LogisticRegressionMultivariate(File files, int multibleVariables) {
+		
+		//Initialises the variables
+		file = files;
+		data = new ArrayList<ArrayList<Double>>();
+		getData(multibleVariables);  //Get the correct user inputs
 	}
 
 	@Override
 	public void gradientDescent(int iterations, double alpha, int variableSize) {
 
-		wValues = new double[variableSize + 1];
-		this.iterations = iterations;
-		this.alpha = alpha;
+		wValues = new double[variableSize + 1];  //This will hold the vector of W 
+		
+		
 		for (int i = 0; i < iterations; i++) { // The gradient descent code for Logistic Regression.
 
 			for (int j = 0; j < data.size(); j++) { // Going through each triplet of values
 
-				double[] xValues = new double[data.get(j).size()];
+				double[] xValues = new double[data.get(j).size()];  //This will hold the x values 
 
-				for (int place = 0; place < xValues.length; place++) {
+				//Sets the x values.  Will set the bias bit as well
+				for (int place = 0; place < xValues.length; place++) { 
+					
 					if (place == 0) {
 						xValues[place] = 1;
+						
 					} else {
 						xValues[place] = data.get(j).get(place - 1);
 					}
 				}
-				double yData = data.get(j).get(data.get(j).size() - 1);
+				double yData = data.get(j).get(data.get(j).size() - 1);  //Sets the y value
 
 				double predicted = 0; // Working out the predicted value of
-										// whether it is in a set or not. The
-										// equation is hW(X) = g(w0 + w1x1 +
-										// w2x2)
+										// whether it is in a set or not. 
 
-				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //Will work out the current predicted value with the current W values
 
 					double wValue = wValues[wValueIndex];
 
@@ -79,12 +81,12 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 
 				}
 
-				double finalPredicted = activationFunction(predicted);
+				double finalPredicted = activationFunction(predicted);  //work out the final predicted value
 				double difference = (yData - finalPredicted); // Works out the difference between the actual answer and
 																// the
 																// predicted answer
 
-				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //Updates the W values
 
 					double wValue = wValues[wValueIndex];
 
@@ -98,17 +100,14 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 
 			}
 
-			if (i < 10) {
-				logger.trace(wValues[0] + " " + wValues[1] + " " + wValues[2] + "  Values");
-			}
-
 		}
 
 	}
 
 	@Override
 	public void getData() {
-		// TODO Auto-generated method stub
+		
+		//This is used for testing purposes
 		double[][] trainingData = { { 1, 1, 0 }, { 2, 2, 0 }, { 0.3, 1.2, 0 }, { .6, .8, 0 }, { 1.2, 1, 0 },
 				{ 1.3, 1, 0 }, { 1.8, 2, 0 }, { 1.5, 1.4, 0 }, { 3, 3, 1 }, { 4, 4, 1 }, { 3.1, 3.3, 1 },
 				{ 3.6, 3.8, 1 }, { 3.8, 2.1, 1 }, { 3.5, 2.2, 1 }, { 3.25, 2.8, 1 } };
@@ -127,6 +126,29 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 		return;
 	}
 
+	
+	@Override
+	public void getData(int variableSize) {
+		
+		CSVFiles formattor = new CSVFiles(file, variableSize);  //Makes a new formatter object
+		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV();  //Get all the data 
+
+		for (ArrayList<String> item : dataToUse) {  // For each set of items in the data they will be converted to type double
+			
+			ArrayList<Double> dataToAdd = new ArrayList<Double>();
+			
+			for (String numberStr : item) {
+
+				double number = Double.parseDouble(numberStr);
+				dataToAdd.add(number);
+			}
+
+			data.add(dataToAdd);
+
+		}
+	}
+	
+	
 	@Override
 	public double calculate(double[] inputs) {
 		double answer = 0;
@@ -151,27 +173,30 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 
 	@Override
 	public void checkFunction() {
-		// TODO Auto-generated method stub
-		double cost = 0;
+		
+		double cost = 0;  //Will hold the cost of the current W values
+		
 		for (int j = 0; j < data.size(); j++) { // This part of the code will just output the final predicted
-												// values against the actual values. Used for debugging.
-			double[] xValues = new double[data.get(j).size()];
+												// values against the actual values. 
 
-			for (int place = 0; place < xValues.length; place++) {
+			double[] xValues = new double[data.get(j).size()];  //This will hold the x values 
+
+			//Sets the x values.  Will set the bias bit as well
+			for (int place = 0; place < xValues.length; place++) { 
+				
 				if (place == 0) {
 					xValues[place] = 1;
+					
 				} else {
 					xValues[place] = data.get(j).get(place - 1);
 				}
 			}
-			double yData = (double) data.get(j).get(data.get(j).size() - 1);
+			double yData = data.get(j).get(data.get(j).size() - 1);  //Sets the y value
 
 			double predicted = 0; // Working out the predicted value of
-			// whether it is in a set or not. The
-			// equation is hW(X) = g(w0 + w1x1 +
-			// w2x2)
+			// whether it is in a set or not.
 
-			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //Work out the predicted value with current W values
 
 				double wValue = wValues[wValueIndex];
 
@@ -180,61 +205,58 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 				predicted += wValue * xValue;
 
 			}
-			double finalPredicted = activationFunction(predicted);
+			
+			double finalPredicted = activationFunction(predicted);  //Pass it through the activation function
 
-			if (yData == 1.0) {
+			//Split the data on what the actual yData to correctly work out cost
+			if (yData == 1.0) { 
+				
 				cost += yData * Math.log10(finalPredicted);
+				
 			} else {
+				
 				cost += (1 - yData) * Math.log10(1 - finalPredicted);
 			}
 
-			System.out.println("Predicted: " + predicted + " Actual: " + yData);
+			//System.out.println("Predicted: " + predicted + " Actual: " + yData);  //TODO Send to file
 		}
+		
 		cost = cost / data.size(); // This will be the final cost.
 
-		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
-
-			double wValue = wValues[wValueIndex];
-			System.out.println(wValue);
-
-		}
-		System.out.println(cost); // This
-									// prints
-									// the
-									// final
-									// equation
-									// out
 	}
 
 	@Override
 	public double[] answers() {
-		// TODO Auto-generated method stub
+		
 		return wValues;
 	}
 
 	@Override
 	public double cost() {
-		// TODO Auto-generated method stub
-		double cost = 0;
+		
+		double cost = 0;  //Will hold the cost
+		
 		for (int j = 0; j < data.size(); j++) { // This part of the code will just output the final predicted
-												// values against the actual values. Used for debugging.
-			double[] xValues = new double[data.get(j).size()];
+												// values against the actual values.
+			
+			double[] xValues = new double[data.get(j).size()];  //This will hold the x values 
 
-			for (int place = 0; place < xValues.length; place++) {
+			//Sets the x values.  Will set the bias bit as well
+			for (int place = 0; place < xValues.length; place++) { 
+				
 				if (place == 0) {
 					xValues[place] = 1;
+					
 				} else {
 					xValues[place] = data.get(j).get(place - 1);
 				}
 			}
-			double yData = (double) data.get(j).get(data.get(j).size() - 1);
+			double yData = data.get(j).get(data.get(j).size() - 1);  //Sets the y value
 
 			double predicted = 0; // Working out the predicted value of
-			// whether it is in a set or not. The
-			// equation is hW(X) = g(w0 + w1x1 +
-			// w2x2)
+			// whether it is in a set or not.
 
-			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //Work out the predicted value with current W values
 
 				double wValue = wValues[wValueIndex];
 
@@ -243,11 +265,16 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 				predicted += wValue * xValue;
 
 			}
-			double finalPredicted = activationFunction(predicted);
+			
+			double finalPredicted = activationFunction(predicted);  //Pass it through the activation function
 
-			if (yData == 1.0) {
+			//Split the data on what the actual yData to correctly work out cost
+			if (yData == 1.0) { 
+				
 				cost += yData * Math.log10(finalPredicted);
+				
 			} else {
+				
 				cost += (1 - yData) * Math.log10(1 - finalPredicted);
 			}
 

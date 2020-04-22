@@ -14,10 +14,10 @@ import com.natlowis.ai.graphs.Graph;
  */
 public class QLearning {
 
-	private double[][] qTable;
-	private Graph graph;
-	private int endState;
-	Random rand;
+	private double[][] qTable;  //This will hold the final Q table
+	private Graph graph;  //This will hold the graph being used
+	private int endState;  //Will hold the end state used
+
 
 	/**
 	 * The Constructor for QLearning. Takes a graph as a parameter
@@ -26,8 +26,7 @@ public class QLearning {
 	 */
 	public QLearning(Graph graph) {
 
-		this.graph = graph;
-		rand = new Random();
+		this.graph = graph;	
 	}
 
 	/**
@@ -45,24 +44,28 @@ public class QLearning {
 	 */
 	public double[][] qLearning(double discountRate, double learningRate, int epoch, int endState) {
 
-		this.endState = endState;
+		this.endState = endState;  //Sets the end state
 
-		qTable = new double[graph.getNumberOfNodes()][graph.getNumberOfNodes()];
+		qTable = new double[graph.getNumberOfNodes()][graph.getNumberOfNodes()];  //Initialises the Q table
 
-		for (int i = 0; i < epoch; i++) {
+		for (int i = 0; i < epoch; i++) {  //For each episode
+			
+			Random rand = new Random();  //Creates a Random Object
+			int stateInt = rand.nextInt(graph.getNumberOfNodes());  //Gets a random state to start
 
-			int stateInt = rand.nextInt(graph.getNumberOfNodes());
-
-			do {
-				ArrayList<Connection> data = graph.getConnection(stateInt);
+			do {  //Completes one episode
+				
+				//Gets all the data needed
+				ArrayList<Connection> data = graph.getConnection(stateInt);  
 				int nextActionIndex = rand.nextInt(data.size()); // TODO Error here if no connections in graph!!
 				Connection nextAction = data.get(nextActionIndex);
-				int reward = nextAction.getWeight();
+				double reward = nextAction.getWeight();
 
 				int nextState = nextAction.getDestinationNode();
 				ArrayList<Connection> nextActions = graph.getConnection(nextState);
 				double nextQValueFinal = Double.NEGATIVE_INFINITY;
 
+				//Finds the connection with largest Q score in q Table
 				for (Connection nextStates : nextActions) {
 					double nextQValue = qTable[nextStates.getOriginNode()][nextStates.getDestinationNode()];
 					if (nextQValue > nextQValueFinal) {
@@ -73,9 +76,11 @@ public class QLearning {
 				double oldQValue = qTable[stateInt][nextState];
 				double newQValue = ((1 - learningRate) * oldQValue)
 						+ (learningRate * (reward + (discountRate * nextQValueFinal)));
-				qTable[stateInt][nextState] = newQValue;
+				qTable[stateInt][nextState] = newQValue;  //Updates Bellman equation
 
-				stateInt = nextState;
+				qTable[stateInt][nextState] = newQValue;  //Updates table
+				
+				stateInt = nextState; 
 
 			} while (endState != stateInt);
 		}
@@ -92,19 +97,24 @@ public class QLearning {
 	 * @return An array of which nodes to go to
 	 */
 	public Integer[] nodesToFinish(int startNode) {
+		
+		
 		ArrayList<Integer> finalList = new ArrayList<Integer>();
 		int currentNode = startNode;
 
-		while (currentNode != endState) {
-			double[] nextValues = qTable[currentNode];
+		while (currentNode != endState) {  //whilst the current node is not at the end state
+			
+			double[] nextValues = qTable[currentNode];  //Gets the array which has all the q values from that node
 			int nextNode = 0;
 
-			for (int index = 0; index < nextValues.length; index++) {
+			for (int index = 0; index < nextValues.length; index++) {  //finds the largest q value
+				
 				if (nextValues[nextNode] < nextValues[index]) {
 					nextNode = index;
 				}
 			}
-			finalList.add(nextNode);
+			
+			finalList.add(nextNode);  //Adds this to the table
 			currentNode = nextNode;
 		}
 
@@ -114,22 +124,24 @@ public class QLearning {
 
 	@Override
 	public String toString() {
-		String finalString = "";
+		
+		String finalString = "";  //The final string to output
 
-		int numOfDigits = (int) Math.log10(graph.getNumberOfNodes()) + 1;
+		int numOfDigits = (int) Math.log10(graph.getNumberOfNodes()) + 1;  //Work out how many spaces there should be at the start
 
-		for (int i = 0; i < numOfDigits; i++) {
+		for (int i = 0; i < numOfDigits; i++) {  //Adds those space
 			finalString += " ";
 		}
 
 		finalString += " ";
-		for (int i = 0; i < graph.getNumberOfNodes(); i++) {
+		
+		for (int i = 0; i < graph.getNumberOfNodes(); i++) { //Adds all the numbers
 			finalString += i + " ";
 		}
 
 		finalString += "\n";
 
-		for (int i = 0; i < graph.getNumberOfNodes(); i++) {
+		for (int i = 0; i < graph.getNumberOfNodes(); i++) { //This will add all the q values for each line
 			finalString += i + " ";
 
 			for (int j = 0; j < graph.getNumberOfNodes(); j++) {
@@ -138,6 +150,7 @@ public class QLearning {
 
 			finalString += "\n";
 		}
+		
 		return finalString;
 	}
 
