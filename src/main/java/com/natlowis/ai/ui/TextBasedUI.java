@@ -1,8 +1,13 @@
 package com.natlowis.ai.ui;
 
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 
 import com.natlowis.ai.graphs.Graph;
+import com.natlowis.ai.supervised.knn.ClassificationKNN;
+import com.natlowis.ai.supervised.knn.KNearestNeighbour;
+import com.natlowis.ai.supervised.knn.RegressionKNN;
 import com.natlowis.ai.unsupervised.QLearning;
 
 /**
@@ -23,15 +28,30 @@ public class TextBasedUI {
 		System.out.println("This will be the Command Line UI until I sort out JavaFX");
 		logger.trace("Does This work");
 
-		Graph graph = new Graph();
+		KNearestNeighbour a = new RegressionKNN();
+		
+		ArrayList<ArrayList<Double>> trainingData = new ArrayList<ArrayList<Double>>();
+		ArrayList<Double> input = new ArrayList<Double>();
+		input.add(2.0);
+		input.add(2.0);
+		
+		double[][] trainingData2 = { { 2, 1, 1 },
+									 { 2, 3, 2 },
+									};
 
-		graph.addNode(0);
-		graph.addNode(1);
-		graph.addNode(4);
+		for (double[] item : trainingData2) {
 
-		QLearning a = new QLearning(graph);
-		a.qLearning(0.0, 0.0, 0, 0);
-		System.out.println(a.toString());
+			ArrayList<Double> dataToAdd = new ArrayList<Double>();
+			for (double number : item) {
+				dataToAdd.add(number);
+			}
+
+			trainingData.add(dataToAdd);
+
+		}
+		
+		Double answer = a.knn(input, 1, trainingData);
+		
+		logger.trace("a" + answer);
 	}
-
 }
