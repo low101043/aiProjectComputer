@@ -7,17 +7,22 @@ Logger4 on the machine
 
 This is the AI Project. 
 It implements these Algorithms to a certain degree:
-Regression (Linear and Non linear and multivariable and univariate)
-Logistic Regression (Linear MultiVariable)
-Depth First Search
-Breadth First Search
-Q-Learning
+Regression (Linear and Non linear and multivariable and univariate),
+Logistic Regression (Linear MultiVariable),
+Depth First Search,
+Breadth First Search,
+Q-Learning,
+K Nearest Neighbour
+
 
 Credits:
-Miqing Li 
-Harish Tayyar Madabushi
-Leandro Minku
+Miqing Li, 
+Harish Tayyar Madabushi,
+Leandro Minku,
 All three provided pseudocode for the different AI algorithms being implemented
+
+Alan Sexton
+Provided starting code for Reading CSV files
 
 MrEbbinghaus https://stackoverflow.com/questions/37200845/how-to-switch-scenes-in-javafx. 
 Provided Code for ScreenChanger which I have then edited to make it work for my purposes
