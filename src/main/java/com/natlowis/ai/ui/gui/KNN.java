@@ -4,7 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.natlowis.ai.fileHandaling.CSVFiles;
-import com.natlowis.ai.supervised.knn.*;
+import com.natlowis.ai.supervised.knn.ClassificationKNN;
+import com.natlowis.ai.supervised.knn.KNearestNeighbour;
+import com.natlowis.ai.supervised.knn.RegressionKNN;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -19,6 +21,12 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * This will output the screen which has KNN on it
+ * 
+ * @author low101043
+ *
+ */
 public class KNN extends Application implements Window {
 
 	private Button backHome;
@@ -29,6 +37,11 @@ public class KNN extends Application implements Window {
 	private Button classificationKNN;
 	private File inputData;
 
+	/**
+	 * The Constructor which constructs the screen to be used
+	 * 
+	 * @param sceneChooser The <Code> ScreenController </Code> being used
+	 */
 	public KNN(ScreenController sceneChooser) {
 
 		// Sets the root page and the home button
@@ -105,88 +118,91 @@ public class KNN extends Application implements Window {
 				FileChooser fileChooser = new FileChooser();
 				fileChooser.setTitle("Open Data File");
 				Stage stage = sceneChooser.getStage();
-				inputData = fileChooser.showOpenDialog(stage);				
+				inputData = fileChooser.showOpenDialog(stage);
 			}
 		});
-		
+
 		regressionKNN.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
 				if (inputData != null && !neighboursWanted.getText().isEmpty()) {
 					label.setText("Computing");
 					ArrayList<Double> input = openFile();
-					
-					FileChooser fileChooser = new FileChooser();  //TODO these lines same as in other button maybe sort out
+
+					FileChooser fileChooser = new FileChooser(); // TODO these lines same as in other button maybe sort
+																	// out
 					fileChooser.setTitle("Open Data File");
 					Stage stage = sceneChooser.getStage();
 					File files = fileChooser.showOpenDialog(stage); // allow user to open file
 					CSVFiles formattor = new CSVFiles(files, input.size() + 1); // makes a formatter to use
 					ArrayList<ArrayList<String>> data = formattor.readCSV(); // gets the data
-					
+
 					ArrayList<ArrayList<Double>> trainingData = formattor.convertData(data);
-					
+
 					KNearestNeighbour knn = new RegressionKNN();
-					
+
 					double output = knn.knn(input, Integer.parseInt(neighboursWanted.getText()), trainingData);
-					
+
 					label.setText("The value for the input given and the training data is: " + output);
-				}
-				else {
+				} else {
 					label.setText("Not added a file for training data or not added number of neighbours needed");
 				}
 			}
 		});
-		
+
 		classificationKNN.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				
+
 				if (inputData != null && !neighboursWanted.getText().isEmpty()) {
 					label.setText("Computing");
-				ArrayList<Double> input = openFile();
-				
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setTitle("Open Data File");
-				Stage stage = sceneChooser.getStage();
-				File files = fileChooser.showOpenDialog(stage); // allow user to open file
-				CSVFiles formattor = new CSVFiles(files, input.size() + 1); // makes a formatter to use
-				ArrayList<ArrayList<String>> data = formattor.readCSV(); // gets the data
-				
-				ArrayList<ArrayList<Double>> trainingData = formattor.convertData(data);
-				
-				KNearestNeighbour knn = new ClassificationKNN();
-				Double output = knn.knn(input, Integer.parseInt(neighboursWanted.getText()), trainingData);
-				
-				if (output == null) {
-					label.setText("There was no majority.  Choose another amount of neighbours");;
-				}
-				else {
-					label.setText("The value for the input given and the training data is: " + output);
-				}
-				}
-				else {
+					ArrayList<Double> input = openFile();
+
+					FileChooser fileChooser = new FileChooser();
+					fileChooser.setTitle("Open Data File");
+					Stage stage = sceneChooser.getStage();
+					File files = fileChooser.showOpenDialog(stage); // allow user to open file
+					CSVFiles formattor = new CSVFiles(files, input.size() + 1); // makes a formatter to use
+					ArrayList<ArrayList<String>> data = formattor.readCSV(); // gets the data
+
+					ArrayList<ArrayList<Double>> trainingData = formattor.convertData(data);
+
+					KNearestNeighbour knn = new ClassificationKNN();
+					Double output = knn.knn(input, Integer.parseInt(neighboursWanted.getText()), trainingData);
+
+					if (output == null) {
+						label.setText("There was no majority.  Choose another amount of neighbours");
+						;
+					} else {
+						label.setText("The value for the input given and the training data is: " + output);
+					}
+				} else {
 					label.setText("Not added a file for training data or not added number of neighbours needed");
 				}
 			}
 		});
 	}
 
-	private ArrayList<Double> openFile() {
-		
+	/**
+	 * This will open the file and take the first line and convert to a double
+	 * 
+	 * @return The input line
+	 */
+	private ArrayList<Double> openFile() { // TODO this can be melded with CSVFiles convert data
+
 		CSVFiles reader = new CSVFiles(inputData);
-		
+
 		ArrayList<ArrayList<String>> data = reader.readCSV();
 		ArrayList<String> inputAsString = data.get(0);
-		
+
 		ArrayList<Double> actualInput = new ArrayList<Double>();
-		
-		for (String dataIn: inputAsString) {
-			
+
+		for (String dataIn : inputAsString) {
+
 			actualInput.add(Double.parseDouble(dataIn));
 		}
-		
+
 		return actualInput;
-		
-		
+
 	}
 }

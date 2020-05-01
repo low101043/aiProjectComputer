@@ -13,48 +13,48 @@ import com.natlowis.ai.fileHandaling.CSVFiles;
  */
 public class LinearRegressionMultivariate implements Regression {
 
-	private ArrayList<ArrayList<Double>> data;  //The data to be used
-	private double[] wValues;  //The wValues which are being used
-	private File file;  //The file which holds the training data  //TODO  Maybe don;t pass in file to make better space usage
-
+	private ArrayList<ArrayList<Double>> data; // The data to be used
+	private double[] wValues; // The wValues which are being used
+	private File file; // The file which holds the training data //TODO Maybe don;t pass in file to
+						// make better space usage
 
 	/**
 	 * This will get the data needed for this regression
 	 */
 	public LinearRegressionMultivariate() {
-		
+
 		super();
 		data = new ArrayList<ArrayList<Double>>();
-		getData();  //Will get the test data
+		getData(); // Will get the test data
 
 	}
 
 	/**
 	 * This Constructor assumes you have the file
-	 * @param files The file which has all the data
+	 * 
+	 * @param files             The file which has all the data
 	 * @param multibleVariables The number of different variables needed
 	 */
 	public LinearRegressionMultivariate(File files, int multibleVariables) {
-		
-		//Initialises all needed variables
+
+		// Initialises all needed variables
 		file = files;
 		data = new ArrayList<ArrayList<Double>>();
-		getData(multibleVariables + 1);  //Gets the data from the file
+		getData(multibleVariables + 1); // Gets the data from the file
 	}
 
 	@Override
 	public double calculate(double[] inputs) {
-		
 
-		double predicted = 0; //This will be the predicted value from the inputs
+		double predicted = 0; // This will be the predicted value from the inputs
 
-		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //For each W value
+		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // For each W value
 
-			double wValue = wValues[wValueIndex];  //Gets the w value
+			double wValue = wValues[wValueIndex]; // Gets the w value
 
-			double xValue = inputs[wValueIndex];  //Gets the corresponding x value
- 
-			predicted += wValue * xValue;  // Works out the predicted value
+			double xValue = inputs[wValueIndex]; // Gets the corresponding x value
+
+			predicted += wValue * xValue; // Works out the predicted value
 
 		}
 		return predicted;
@@ -63,29 +63,30 @@ public class LinearRegressionMultivariate implements Regression {
 	@Override
 	public void checkFunction() {
 
+		double cost = 0; // The cost of the current w values used
 
-		double cost = 0;  //The cost of the current w values used
-		
-		for (int j = 0; j < data.size(); j++) {  //For each item in the training data
-			
-			double[] xValues = new double[data.get(j).size()];  //This will hold the x values 
+		for (int j = 0; j < data.size(); j++) { // For each item in the training data
 
-			//Sets the x values.  Will set the bias bit as well
-			for (int place = 0; place < xValues.length; place++) { 
-				
+			double[] xValues = new double[data.get(j).size()]; // This will hold the x values
+
+			// Sets the x values. Will set the bias bit as well
+			for (int place = 0; place < xValues.length; place++) {
+
 				if (place == 0) {
 					xValues[place] = 1;
-					
+
 				} else {
 					xValues[place] = data.get(j).get(place - 1);
 				}
 			}
-			
-			double yData = (double) data.get(j).get(data.get(j).size() - 1); //Gets the correct y value
 
-			double predicted = 0;  //Will hold the predicted value			
+			double yData = (double) data.get(j).get(data.get(j).size() - 1); // Gets the correct y value
 
-			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //For each W value and x value work out what the value should be
+			double predicted = 0; // Will hold the predicted value
+
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // For each W value and x value
+																						// work out what the value
+																						// should be
 
 				double wValue = wValues[wValueIndex];
 
@@ -96,7 +97,8 @@ public class LinearRegressionMultivariate implements Regression {
 			}
 
 			cost = cost + Math.pow((yData - predicted), 2.0); // This is (y- hw(x))**2
-			//System.out.println("Predicted: " + predicted + " Actual: " + yData);  //TODO Output to a file
+			// System.out.println("Predicted: " + predicted + " Actual: " + yData); //TODO
+			// Output to a file
 		}
 		cost = cost / data.size(); // This will be the final cost.
 
@@ -105,36 +107,36 @@ public class LinearRegressionMultivariate implements Regression {
 	@Override
 	public void gradientDescent(int iterations, double alpha, int variableSize) {
 
-		wValues = new double[variableSize + 1];  //This will hold all the W value
+		wValues = new double[variableSize + 1]; // This will hold all the W value
 
 		for (int i = 0; i < iterations; i++) { // The gradient descent code for Logistic Regression.
 
 			for (int j = 0; j < data.size(); j++) { // Going through each set of values
 
-				double[] xValues = new double[data.get(j).size()];  //This will hold the x values 
+				double[] xValues = new double[data.get(j).size()]; // This will hold the x values
 
-				//Sets the x values.  Will set the bias bit as well
-				for (int place = 0; place < xValues.length; place++) { 
-					
+				// Sets the x values. Will set the bias bit as well
+				for (int place = 0; place < xValues.length; place++) {
+
 					if (place == 0) {
 						xValues[place] = 1;
-						
+
 					} else {
 						xValues[place] = data.get(j).get(place - 1);
 					}
 				}
-				
-				double yData = (double) data.get(j).get(data.get(j).size() - 1); //Gets the correct y value
 
-				double predicted = 0;  //Will hold the predicted value	
+				double yData = (double) data.get(j).get(data.get(j).size() - 1); // Gets the correct y value
 
-				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { //Goes through each w value
+				double predicted = 0; // Will hold the predicted value
 
-					double wValue = wValues[wValueIndex];  //Gets the w value
+				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // Goes through each w value
 
-					double xValue = xValues[wValueIndex];  //Gets the corresponding x value
+					double wValue = wValues[wValueIndex]; // Gets the w value
 
-					predicted += wValue * xValue;  //Update predicted
+					double xValue = xValues[wValueIndex]; // Gets the corresponding x value
+
+					predicted += wValue * xValue; // Update predicted
 
 				}
 
@@ -142,7 +144,8 @@ public class LinearRegressionMultivariate implements Regression {
 															// the
 															// predicted answer
 
-				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //This updates all the w values
+				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // This updates all the w
+																							// values
 
 					double wValue = wValues[wValueIndex];
 
@@ -161,15 +164,16 @@ public class LinearRegressionMultivariate implements Regression {
 	}
 
 	@Override
-	public void getData(int variableSize) {  //TODO what happens if not passed a number?
+	public void getData(int variableSize) { // TODO what happens if not passed a number?
 
-		CSVFiles formattor = new CSVFiles(file, variableSize);  //Makes a new formatter object
-		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV();  //Get all the data 
+		CSVFiles formattor = new CSVFiles(file, variableSize); // Makes a new formatter object
+		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV(); // Get all the data
 
-		for (ArrayList<String> item : dataToUse) {  // For each set of items in the data they will be converted to type double
-			
+		for (ArrayList<String> item : dataToUse) { // For each set of items in the data they will be converted to type
+													// double
+
 			ArrayList<Double> dataToAdd = new ArrayList<Double>();
-			
+
 			for (String numberStr : item) {
 
 				double number = Double.parseDouble(numberStr);
@@ -189,29 +193,31 @@ public class LinearRegressionMultivariate implements Regression {
 
 	@Override
 	public double cost() {
-		
-double cost = 0;  //The cost of the current w values used
-		
-		for (int j = 0; j < data.size(); j++) {  //For each item in the training data
-			
-			double[] xValues = new double[data.get(j).size()];  //This will hold the x values 
 
-			//Sets the x values.  Will set the bias bit as well
-			for (int place = 0; place < xValues.length; place++) { 
-				
+		double cost = 0; // The cost of the current w values used
+
+		for (int j = 0; j < data.size(); j++) { // For each item in the training data
+
+			double[] xValues = new double[data.get(j).size()]; // This will hold the x values
+
+			// Sets the x values. Will set the bias bit as well
+			for (int place = 0; place < xValues.length; place++) {
+
 				if (place == 0) {
 					xValues[place] = 1;
-					
+
 				} else {
 					xValues[place] = data.get(j).get(place - 1);
 				}
 			}
-			
-			double yData = (double) data.get(j).get(data.get(j).size() - 1); //Gets the correct y value
 
-			double predicted = 0;  //Will hold the predicted value
+			double yData = (double) data.get(j).get(data.get(j).size() - 1); // Gets the correct y value
 
-			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //For each W value and x value work out what the value should be
+			double predicted = 0; // Will hold the predicted value
+
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // For each W value and x value
+																						// work out what the value
+																						// should be
 
 				double wValue = wValues[wValueIndex];
 
@@ -231,8 +237,8 @@ double cost = 0;  //The cost of the current w values used
 
 	@Override
 	public void getData() {
-		// TODO Auto-generated method stub  WHat to do with this???
-		
+		// TODO Auto-generated method stub WHat to do with this???
+
 	}
 
 }

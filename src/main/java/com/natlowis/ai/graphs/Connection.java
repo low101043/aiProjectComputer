@@ -8,9 +8,9 @@ package com.natlowis.ai.graphs;
  */
 public class Connection {
 
-	protected int originNode; //This is the origin node  
-	protected int destinationNode;  //This is the destination node
-	protected double weight; //This is the weight of the edge
+	protected int originNode; // This is the origin node
+	protected int destinationNode; // This is the destination node
+	protected double weight; // This is the weight of the edge
 
 	/**
 	 * The constructor for the class.

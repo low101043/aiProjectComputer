@@ -10,7 +10,8 @@ package com.natlowis.ai.supervised.regression;
 public interface Regression {
 
 	/**
-	 * This will return the vector of W values.  
+	 * This will return the vector of W values.
+	 * 
 	 * @return A 2D array of type double which has the W values.
 	 */
 	public double[] answers();
@@ -45,14 +46,16 @@ public interface Regression {
 
 	/**
 	 * This will return the cost of the W values
+	 * 
 	 * @return The cost of W values
 	 */
 	public double cost();
 
 	/**
 	 * This will get data from a File
-	 * @param varaibleSize the number of variables needed 
+	 * 
+	 * @param varaibleSize the number of variables needed
 	 */
-	public void getData(int varaibleSize);  //TODO could be made private
+	public void getData(int varaibleSize); // TODO could be made private
 
 }

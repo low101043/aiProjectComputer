@@ -13,52 +13,57 @@ import com.natlowis.ai.fileHandaling.CSVFiles;
  */
 public class LinearRegressionUnivariate implements Regression {
 
-	private ArrayList<ArrayList<Double>> data;  //The data to be used
-	private double[] wValues;  //The wValues which are being used
-	private File file;  //The file which holds the training data  //TODO  Maybe don;t pass in file to make better space usage
+	private ArrayList<ArrayList<Double>> data; // The data to be used
+	private double[] wValues; // The wValues which are being used
+	private File file; // The file which holds the training data //TODO Maybe don;t pass in file to
+						// make better space usage
 
 	/**
-	 * This is the default constructor. It will just get the data needed.  It is basic data
+	 * This is the default constructor. It will just get the data needed. It is
+	 * basic data
 	 */
 	public LinearRegressionUnivariate() {
-		
-		//Initialises all the data needed
+
+		// Initialises all the data needed
 		super();
 		data = new ArrayList<ArrayList<Double>>();
-		getData();  //SOme practice data to use
+		getData(); // SOme practice data to use
 
 	}
+
 	/**
 	 * This constructor is used if you have the file with the data.
+	 * 
 	 * @param files
 	 */
 	public LinearRegressionUnivariate(File files) {
-		
-		//Initialises all the needed variables
+
+		// Initialises all the needed variables
 		file = files;
 		data = new ArrayList<ArrayList<Double>>();
-		getData(2);  //Gets the correct data from the file
+		getData(2); // Gets the correct data from the file
 	}
 
 	@Override
 	public void gradientDescent(int iterations, double alpha, int polynomialSize) {
-		
-		wValues = new double[polynomialSize + 1];  //Will hold the vector of W values to use
+
+		wValues = new double[polynomialSize + 1]; // Will hold the vector of W values to use
 
 		for (int i = 0; i < iterations; i++) { // This part of the code is the code for gradient descent.
 
 			for (int j = 0; j < data.size(); j++) { // This goes over each pair of values in the training data
 
-
-				double xData = (double) data.get(j).get(0); //Gets the x and y inputs 
+				double xData = (double) data.get(j).get(0); // Gets the x and y inputs
 
 				double yData = (double) data.get(j).get(1);
 
 				double predicted = 0; // This uses the formula h(x) parameterised by W
 										// to work out the predicted y values given x
-										// and the vector W. 
+										// and the vector W.
 
-				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //This will work out with the current W values what the model would predict
+				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // This will work out with the
+																							// current W values what the
+																							// model would predict
 
 					double wValue = wValues[wValueIndex];
 
@@ -71,7 +76,8 @@ public class LinearRegressionUnivariate implements Regression {
 				double difference = (yData - predicted); // The difference between the predicted value and the actual y
 															// value
 
-				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //This updates all the w values.
+				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // This updates all the w
+																							// values.
 
 					double wValue = wValues[wValueIndex];
 
@@ -90,8 +96,8 @@ public class LinearRegressionUnivariate implements Regression {
 
 	@Override
 	public void getData() {
-		
-		//This is training data which I know the answer to (1,1)
+
+		// This is training data which I know the answer to (1,1)
 		double[][] trainingData = { { -10, 91 }, { -3, 7 }, { 0, 1 }, { 1, 3 }, { 2, 7 }, { 3, 13 }, { 4, 21 },
 				{ 10, 111 }, { -100, 9901 }, { 100, 10101 } };
 
@@ -109,20 +115,21 @@ public class LinearRegressionUnivariate implements Regression {
 		return;
 
 	}
-	
+
 	@Override
 	public void getData(int variableSize) {
-		
 
-		CSVFiles formattor = new CSVFiles(file, variableSize);  //Makes a CSVFiles Object which can get data from a CSV file
-		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV();  //Read the file
+		CSVFiles formattor = new CSVFiles(file, variableSize); // Makes a CSVFiles Object which can get data from a CSV
+																// file
+		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV(); // Read the file
 
-		for (ArrayList<String> item : dataToUse) {  //For every line in the file will convert each value to type double and add
-			
-			//TODO what to do if input is not a number
-			
-			ArrayList<Double> dataToAdd = new ArrayList<Double>();  
-			
+		for (ArrayList<String> item : dataToUse) { // For every line in the file will convert each value to type double
+													// and add
+
+			// TODO what to do if input is not a number
+
+			ArrayList<Double> dataToAdd = new ArrayList<Double>();
+
 			for (String numberStr : item) {
 
 				double number = Double.parseDouble(numberStr);
@@ -136,11 +143,12 @@ public class LinearRegressionUnivariate implements Regression {
 
 	@Override
 	public double calculate(double inputs[]) {
-		
-		//TODO should only be ONE input not multiple.  MUST FIX
 
-		double predicted = 0;  //Will hold the predicted value
-		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //For every W value will work out wi * x^i and add to predicted
+		// TODO should only be ONE input not multiple. MUST FIX
+
+		double predicted = 0; // Will hold the predicted value
+		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // For every W value will work out wi *
+																					// x^i and add to predicted
 
 			double wValue = wValues[wValueIndex];
 
@@ -156,10 +164,9 @@ public class LinearRegressionUnivariate implements Regression {
 
 	@Override
 	public void checkFunction() {
-		
-		
-		double cost = 0;  //This will hold the current cost with the current W values
-		
+
+		double cost = 0; // This will hold the current cost with the current W values
+
 		for (int j = 0; j < data.size(); j++) { // This part of the code will just output the final predicted
 												// values against the actual values.
 			double xData = (double) data.get(j).get(0); // Get the two inputs
@@ -170,7 +177,9 @@ public class LinearRegressionUnivariate implements Regression {
 			// to work out the predicted y values given x
 			// and the vector W.
 
-			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //This will work out with the current W values what the model would predict
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // This will work out with the
+																						// current W values what the
+																						// model would predict
 
 				double wValue = wValues[wValueIndex];
 
@@ -181,7 +190,8 @@ public class LinearRegressionUnivariate implements Regression {
 			}
 
 			cost = cost + Math.pow((yData - predicted), 2.0); // This is (y- hw(x))**2
-			//System.out.println("Predicted: " + predicted + " Actual: " + yData);  //TODO output the value to a file along with cost
+			// System.out.println("Predicted: " + predicted + " Actual: " + yData); //TODO
+			// output the value to a file along with cost
 		}
 		cost = cost / data.size(); // This will be the final cost.
 
@@ -189,25 +199,26 @@ public class LinearRegressionUnivariate implements Regression {
 
 	@Override
 	public double[] answers() {
-		
+
 		return wValues;
 	}
 
 	@Override
 	public double cost() {
-		
+
 		double cost = 0;
 		for (int j = 0; j < data.size(); j++) { // This part of the code will just output the final predicted
-												// values against the actual values. 
+												// values against the actual values.
 			double xData = (double) data.get(j).get(0); // Get the two inputs
 
 			double yData = (double) data.get(j).get(1);
 
 			double predicted = 0; // This uses the formula h(x) parameterised by W
 			// to work out the predicted y values given x
-			// and the vector W. 
+			// and the vector W.
 
-			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //Works out the predicted value for the current W values
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // Works out the predicted value
+																						// for the current W values
 
 				double wValue = wValues[wValueIndex];
 

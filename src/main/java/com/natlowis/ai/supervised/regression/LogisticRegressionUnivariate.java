@@ -18,17 +18,16 @@ import com.natlowis.ai.testData.makeLogisticRegressionData;
 public class LogisticRegressionUnivariate extends LogisticRegression implements Regression {
 
 	private static final Logger logger = Logger.getLogger(LogisticRegressionUnivariate.class);
-	private ArrayList<ArrayList<Double>> data;  //The data to be used
-	private double[] wValues;  //The wValues which are being used
-	private File file;  //The file which holds the training data  //TODO  Maybe don;t pass in file to make better space usage
-
-	
+	private ArrayList<ArrayList<Double>> data; // The data to be used
+	private double[] wValues; // The wValues which are being used
+	private File file; // The file which holds the training data //TODO Maybe don;t pass in file to
+						// make better space usage
 
 	/**
 	 * Used if have no data but want to see it work
 	 */
 	public LogisticRegressionUnivariate() {
-		
+
 		super();
 		logger.fatal(
 				"Stop here this Class does not work at the moment.  IF you want to do Logistic Regression please use the Multivariable one which can do linear seperable stuff.");
@@ -39,49 +38,51 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 
 	/**
 	 * This Constructor assumes you have the file which has all the data.
+	 * 
 	 * @param files
 	 */
 	public LogisticRegressionUnivariate(File files) {
-		
-		//Initialises the variables
+
+		// Initialises the variables
 		file = files;
 		data = new ArrayList<ArrayList<Double>>();
 		getData(3);
 	}
-	
 
 	@Override
 	public void gradientDescent(int iterations, double alpha, int polynomialSize) {
 
-		wValues = new double[polynomialSize + 2];  //This will hold the W values
+		wValues = new double[polynomialSize + 2]; // This will hold the W values
 
 		for (int i = 0; i < iterations; i++) { // The gradient descent code for Logistic Regression.
 
 			for (int j = 0; j < data.size(); j++) { // Going through each triplet of values
 
-				double xData = data.get(j).get(0);  //Get all the values out of the file
+				double xData = data.get(j).get(0); // Get all the values out of the file
 				double x2Data = data.get(j).get(1);
 				double yData = data.get(j).get(2);
 
 				double predicted = 0; // Working out the predicted value of
-										// whether it is in a set or not. 
+										// whether it is in a set or not.
 
-				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) {  //Will go through all the W values working out what the W value is 
+				for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // Will go through all the W
+																							// values working out what
+																							// the W value is
 
 					double wValue = wValues[wValueIndex];
 
-					if (wValueIndex == 1) {  //This is the data which is used by the x2Data
+					if (wValueIndex == 1) { // This is the data which is used by the x2Data
 						predicted += wValue * x2Data;
 					}
 
-					else if (wValueIndex == 0) {  //For the bias bit
-						
+					else if (wValueIndex == 0) { // For the bias bit
+
 						double xToPower = Math.pow(xData, 0);
 
 						predicted += wValue * xToPower;
 					}
-					
-					else {  //For all other values
+
+					else { // For all other values
 
 						double xToPower = Math.pow(xData, wValueIndex - 1);
 
@@ -89,7 +90,7 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 					}
 
 				}
-				
+
 				double finalPredicted = activationFunction(predicted);
 				double difference = (yData - finalPredicted); // Works out the difference between the actual answer and
 																// the
@@ -102,7 +103,7 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 					if (wValueIndex == 1) {
 						wValue += alpha * difference * x2Data;
 					}
-					
+
 					else if (wValueIndex == 0) {
 						double xToPower = Math.pow(xData, 0);
 
@@ -125,8 +126,8 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 
 	@Override
 	public void getData() {
-		
-		//Used for testing
+
+		// Used for testing
 
 		makeLogisticRegressionData a = new makeLogisticRegressionData();
 
@@ -143,8 +144,7 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 
 	}
 
-	
-	//TODO  CHECK ALL THESE FUNCTIONS!!!
+	// TODO CHECK ALL THESE FUNCTIONS!!!
 	@Override
 	public double calculate(double inputs[]) {
 		// TODO Auto-generated method stub
@@ -207,7 +207,7 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 
 	@Override
 	public double[] answers() {
-		
+
 		return wValues;
 	}
 
@@ -253,14 +253,15 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 
 	@Override
 	public void getData(int variableSize) {
-		
-		CSVFiles formattor = new CSVFiles(file, variableSize);  //Makes a new formatter object
-		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV();  //Get all the data 
 
-		for (ArrayList<String> item : dataToUse) {  // For each set of items in the data they will be converted to type double
-			
+		CSVFiles formattor = new CSVFiles(file, variableSize); // Makes a new formatter object
+		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV(); // Get all the data
+
+		for (ArrayList<String> item : dataToUse) { // For each set of items in the data they will be converted to type
+													// double
+
 			ArrayList<Double> dataToAdd = new ArrayList<Double>();
-			
+
 			for (String numberStr : item) {
 
 				double number = Double.parseDouble(numberStr);

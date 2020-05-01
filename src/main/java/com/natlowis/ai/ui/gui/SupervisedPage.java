@@ -9,48 +9,59 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * This will output the Supervised page
+ * 
+ * @author low101043
+ *
+ */
 public class SupervisedPage extends Application implements Window {
 
 	private Button backHome; // Takes the user back to the main page
 	private Button knn;
 	private Button regression;
-	
+
+	/**
+	 * The constructor which creates the page
+	 * 
+	 * @param sceneChooser
+	 */
 	public SupervisedPage(ScreenController sceneChooser) {
-	
+
 		// Sets the main root
 		BorderPane root = new BorderPane();
 
 		// sets the correct button
 		backHome = new Button("Go To Home Page");
 		root.setLeft(backHome);
-		
+
 		root.setTop(new Label("Supervised Learning"));
-		
+
 		knn = new Button("KNN");
 		regression = new Button("Regression/Logistic Regression");
-		
+
 		VBox controls = new VBox();
 		controls.getChildren().addAll(knn, regression);
-		
+
 		root.setCenter(controls);
-		
+
 		sceneChooser.addScreen("Supervised Page", root, this);
 	}
-	
+
 	@Override
 	public void controls(ScreenController sceneChooser) {
 		// TODO Auto-generated method stub
 
 		// Takes user back to the main page
-				backHome.setOnAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent t) {
-						// Clears the screen
-						sceneChooser.activate("Main Page"); // Activates home page screen
-						return;
-					}
-				});
-				
+		backHome.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				// Clears the screen
+				sceneChooser.activate("Main Page"); // Activates home page screen
+				return;
+			}
+		});
+
 		regression.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
@@ -58,7 +69,7 @@ public class SupervisedPage extends Application implements Window {
 				controls.controls(sceneChooser);
 			}
 		});
-		
+
 		knn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {

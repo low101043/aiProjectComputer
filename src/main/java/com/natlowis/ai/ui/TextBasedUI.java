@@ -4,11 +4,8 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import com.natlowis.ai.graphs.Graph;
-import com.natlowis.ai.supervised.knn.ClassificationKNN;
 import com.natlowis.ai.supervised.knn.KNearestNeighbour;
 import com.natlowis.ai.supervised.knn.RegressionKNN;
-import com.natlowis.ai.unsupervised.QLearning;
 
 /**
  * This is used mostly for testing purposes
@@ -29,15 +26,13 @@ public class TextBasedUI {
 		logger.trace("Does This work");
 
 		KNearestNeighbour a = new RegressionKNN();
-		
+
 		ArrayList<ArrayList<Double>> trainingData = new ArrayList<ArrayList<Double>>();
 		ArrayList<Double> input = new ArrayList<Double>();
 		input.add(2.0);
 		input.add(2.0);
-		
-		double[][] trainingData2 = { { 2, 1, 1 },
-									 { 2, 3, 2 },
-									};
+
+		double[][] trainingData2 = { { 2, 1, 1 }, { 2, 3, 2 }, };
 
 		for (double[] item : trainingData2) {
 
@@ -49,9 +44,9 @@ public class TextBasedUI {
 			trainingData.add(dataToAdd);
 
 		}
-		
+
 		Double answer = a.knn(input, 1, trainingData);
-		
+
 		logger.trace("a" + answer);
 	}
 }
