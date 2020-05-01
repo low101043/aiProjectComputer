@@ -2,6 +2,7 @@ package com.natlowis.ai.fileHandaling;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +26,30 @@ public class CSVFiles {
 		file = fileToChange;
 		lengthOfRow = size;
 
+	}
+
+	public CSVFiles(File files) {
+		// TODO Auto-generated constructor stub
+		
+		file = files;
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(file));) {  //Will try and open the files.  Will close the file if it cannot be opened
+			
+			 
+			
+			String line = "";  //The output from each line
+			
+			while ((line = br.readLine()) != null) {  //Reads each line from the file and adds it to the string array
+				String[] split = line.split(",");
+				lengthOfRow = split.length;
+			}
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	}
 
 	/**
@@ -73,7 +98,26 @@ public class CSVFiles {
 		return output;
 	}
 
+	
+	public ArrayList<ArrayList<Double>> convertData(ArrayList<ArrayList<String>> data) {
+		
+		ArrayList<ArrayList<Double>> output = new ArrayList<ArrayList<Double>>();
+		
+		for (ArrayList<String> input: data) {
+			ArrayList<Double> dataForRow = new ArrayList<Double>();
+			
+			for (String inputData: input) {
+				
+				dataForRow.add(Double.parseDouble(inputData));
+			}
+			
+			output.add(dataForRow);
+		}
+		
+		return output;
+	}
 }
+
 
 //Graphs size 3 - origin, destination, weight
 //TODO  What the size should be for each input.  Add to GUI.

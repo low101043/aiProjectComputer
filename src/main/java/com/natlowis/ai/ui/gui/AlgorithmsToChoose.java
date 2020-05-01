@@ -11,30 +11,33 @@ import javafx.stage.Stage;
 
 /**
  * This Page allows you to choose which set of algorithms you want to use
+ * 
  * @author low101043
  *
  */
 public class AlgorithmsToChoose extends Application implements Window {
 
-	private Button backHome;  //Button which takes you back to the home page
-	private Button search;  //Button which takes you to the search algorithms
-	private Button regression;  //Button which takes you to the regression page 
-	private Button qLearning;  //Button which takes you to the q learning page
-	
+	private Button backHome; // Button which takes you back to the home page
+	private Button search; // Button which takes you to the search algorithms
+	private Button regression; // Button which takes you to the regression page
+	private Button qLearning; // Button which takes you to the q learning page
+
 	/**
 	 * The constructor which sets up the page
-	 * @param sceneChooser This is the <code> ScreenController </code> which has all the different pages used.
+	 * 
+	 * @param sceneChooser This is the <code> ScreenController </code> which has all
+	 *                     the different pages used.
 	 */
 	public AlgorithmsToChoose(ScreenController sceneChooser) {
-		
-		//Sets ups the mane pane
+
+		// Sets ups the mane pane
 		BorderPane root = new BorderPane();
-		
-		//Sets up the back home button
+
+		// Sets up the back home button
 		backHome = new Button("Go To Home Page");
 		root.setLeft(backHome);
 
-		//Sets where all other buttons go
+		// Sets where all other buttons go
 		VBox centreNodes = new VBox();
 		Label label1 = new Label("Press the button to take you to which algorithm you want to try");
 		search = new Button("Search Algorithms");
@@ -45,46 +48,46 @@ public class AlgorithmsToChoose extends Application implements Window {
 		centreNodes.getChildren().addAll(search, regression, qLearning);
 		root.setCenter(centreNodes);
 
-		//Adds the algorithm to ScreenController
+		// Adds the algorithm to ScreenController
 		sceneChooser.addScreen("Algorithms To Choose", root, this);
 	}
 
 	@Override
 	public void controls(ScreenController sceneChooser) {
 
-		//This will take the user back to the home page
+		// This will take the user back to the home page
 		backHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				sceneChooser.activate("Main Page");  //activates the screen
+				sceneChooser.activate("Main Page"); // activates the screen
 				return;
 			}
 		});
 
-		//This will take the user to to q learning page
+		// This will take the user to to q learning page
 		qLearning.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				Window controls = sceneChooser.activate("Q Learning Input");  //activates screen
-				controls.controls(sceneChooser); //transfer control to right set
+				Window controls = sceneChooser.activate("Q Learning Input"); // activates screen
+				controls.controls(sceneChooser); // transfer control to right set
 			}
 		});
 
-		//This will take the user to the regression page
+		// This will take the user to the regression page
 		regression.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				Window controls = sceneChooser.activate("Regression Page");  //activates screen
-				controls.controls(sceneChooser); //transfer control to right set
+				Window controls = sceneChooser.activate("Supervised Page"); // activates screen
+				controls.controls(sceneChooser); // transfer control to right set
 			}
 		});
 
-		//This will take the user to the search page
+		// This will take the user to the search page
 		search.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				Window controls = sceneChooser.activate("Search Problems Page");  //activates screen
-				controls.controls(sceneChooser); //transfer control to right set
+				Window controls = sceneChooser.activate("Search Problems Page"); // activates screen
+				controls.controls(sceneChooser); // transfer control to right set
 			}
 		});
 	}

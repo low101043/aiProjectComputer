@@ -21,14 +21,14 @@ import javafx.stage.Stage;
 
 /**
  * The page which allows you to use Q Learning
+ * 
  * @author low101043
  *
  */
 public class QLearningInput extends Application implements Window {
 
-	
-	//Sets up variables which are needed
-	private Button backHome; 
+	// Sets up variables which are needed
+	private Button backHome;
 	private TextField learningRate;
 	private TextField epoch;
 	private TextField discountRate;
@@ -38,12 +38,15 @@ public class QLearningInput extends Application implements Window {
 	private Label label;
 
 	/**
-	 * The Constructor where it constructs the page and adds it to <code> sceneChanger </code>
-	 * @param sceneChooser The {@code ScreenController} which has all the correct pages
+	 * The Constructor where it constructs the page and adds it to
+	 * <code> sceneChanger </code>
+	 * 
+	 * @param sceneChooser The {@code ScreenController} which has all the correct
+	 *                     pages
 	 */
 	public QLearningInput(ScreenController sceneChooser) {
-		
-		//This sets up the root and then 
+
+		// This sets up the root and then
 		BorderPane root = new BorderPane();
 		backHome = new Button("Go back home");
 		root.setLeft(backHome);
@@ -97,26 +100,26 @@ public class QLearningInput extends Application implements Window {
 		GridPane.setColumnSpan(label, 2);
 		grid.getChildren().add(label);
 
-		//Adding all buttons and label to scene
+		// Adding all buttons and label to scene
 		root.setCenter(grid);
 
-		sceneChooser.addScreen("Q Learning Input", root, this);  //Adds the screen to the ScreenController
+		sceneChooser.addScreen("Q Learning Input", root, this); // Adds the screen to the ScreenController
 	}
 
 	@Override
 	public void controls(ScreenController sceneChooser) {
-		
-		//Takes the user back to the main page
+
+		// Takes the user back to the main page
 		backHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				//Clears all inputs
+				// Clears all inputs
 				learningRate.clear();
 				epoch.clear();
 				discountRate.clear();
 				endState.clear();
 				label.setText(null);
-				sceneChooser.activate("Main Page");  //activates the main page
+				sceneChooser.activate("Main Page"); // activates the main page
 				return;
 			}
 		});
@@ -126,24 +129,26 @@ public class QLearningInput extends Application implements Window {
 
 			@Override
 			public void handle(ActionEvent e) {
-				
-				if ((!learningRate.getText().isEmpty() && !epoch.getText().isEmpty()
-						&& !discountRate.getText().isEmpty() && !endState.getText().isEmpty())) {  //Checks if there is an input
 
-					//Opens a file
+				if ((!learningRate.getText().isEmpty() && !epoch.getText().isEmpty()
+						&& !discountRate.getText().isEmpty() && !endState.getText().isEmpty())) { // Checks if there is
+																									// an input
+
+					// Opens a file
 					FileChooser fileChooser = new FileChooser();
 					fileChooser.setTitle("Open Data File");
 					Stage stage = sceneChooser.getStage();
-					File files = fileChooser.showOpenDialog(stage);  //allow user to open file
-					CSVFiles formattor = new CSVFiles(files, 3);  //makes a formatter to use
-					ArrayList<ArrayList<String>> data = formattor.readCSV();  //gets the data
+					File files = fileChooser.showOpenDialog(stage); // allow user to open file
+					CSVFiles formattor = new CSVFiles(files, 3); // makes a formatter to use
+					ArrayList<ArrayList<String>> data = formattor.readCSV(); // gets the data
 
-					Graph graph = new Graph(data);  //Makes a graph from the data
+					Graph graph = new Graph(data); // Makes a graph from the data
 
-					QLearning qLearning = new QLearning(graph);  //makes a QLearning object
-					qLearning.qLearning(Double.parseDouble(discountRate.getText()), Double.parseDouble(learningRate.getText()),
-							Integer.parseInt(epoch.getText()), Integer.parseInt(endState.getText()));  //does qLearning
-					label.setText(qLearning.toString());  //Outputs the table
+					QLearning qLearning = new QLearning(graph); // makes a QLearning object
+					qLearning.qLearning(Double.parseDouble(discountRate.getText()),
+							Double.parseDouble(learningRate.getText()), Integer.parseInt(epoch.getText()),
+							Integer.parseInt(endState.getText())); // does qLearning
+					label.setText(qLearning.toString()); // Outputs the table
 				} else {
 					label.setText("You have not inputted all data.");
 				}
