@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implements the GraphInterface
+ * @author low101043
+ *
+ */
 public class Graph implements GraphInterface {
 	
 	private Map<Integer, Node> graph;
@@ -122,10 +127,20 @@ public class Graph implements GraphInterface {
 		return graph.get(nodeNum).getConnections();
 	}
 	
+	/**
+	 * Returns the special info for that node
+	 * @param nodeToGet The node which has the special info to get
+	 * @return the extra info for that node
+	 */
 	public int getNodeSpecial(int nodeToGet) {
 		return graph.get(nodeToGet).getExtraInfo();
 	}
 	
+	/**
+	 * A setter which sets the extra info
+	 * @param nodeToChange The node to change
+	 * @param newInfo The extra info to change
+	 */
 	public void setNodeSpecial(int nodeToChange, int newInfo) {
 		Node node = graph.get(nodeToChange);
 		node.setExtraInfo(newInfo);
