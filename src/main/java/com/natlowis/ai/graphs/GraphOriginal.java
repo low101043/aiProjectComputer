@@ -13,14 +13,14 @@ import java.util.Map;
  * @author low101043
  *
  */
-public class Graph implements GraphInterface {
+public class GraphOriginal implements GraphInterface {
 
 	protected Map<Integer, ArrayList<Connection>> graph;  //The hash map which will have the integer to the arraylist of connections
 
 	/**
 	 * Default Constructor for Graph Class. Initialises the  empty graph
 	 */
-	public Graph() {
+	public GraphOriginal() {
 		graph = new HashMap<Integer, ArrayList<Connection>>();  //Initialises an empty hash map
 	}
 
@@ -28,8 +28,9 @@ public class Graph implements GraphInterface {
 	 * This one assumes it takes data from a file
 	 * @param data
 	 */
-	public Graph(ArrayList<ArrayList<String>> data) {
-
+	public GraphOriginal(ArrayList<ArrayList<String>> data) {
+ 
+		graph = new HashMap<Integer, ArrayList<Connection>>();
 		for (ArrayList<String> list : data) {  //For each line in the arraylist will add it as a connection 
 			
 			addConnection(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)),
