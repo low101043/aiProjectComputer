@@ -65,7 +65,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 			answerOfNodes.push(endNode);  
 			answerOfNodes.push(currentNode);
 			
-		} else if (!frontier.isEmpty()) {  //If the frontier is not empty
+		} else if (!frontier.isEmpty()) {  //If the frontier is not empty  //TODO Fix cos if it is not down the first tree to look it will break very quickly
 			
 			algorithmToImplement(frontier.removeFirst(), endNode);  //Will do BFS on the next node in the frontier
 			ArrayList<Connection> childrenOfTree = tree.getConnection(currentNode);  //Gets the connections for the current node

@@ -65,7 +65,7 @@ public class DepthFirstSearch implements SearchAlgorithm {
 				}
 			}
 
-			if (!frontier.isEmpty()) {  //If the frontier is not empty 
+			if (!frontier.isEmpty()) {  //If the frontier is not empty   //TODO Fix cos if it is not down the first tree to look it will break very quickly
 				algorithmToImplement(frontier.pop(), endNode);  //Next node from the frontier is gone to 
 			}
 

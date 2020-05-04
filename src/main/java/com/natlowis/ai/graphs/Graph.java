@@ -146,5 +146,6 @@ public class Graph implements GraphInterface {
 		node.setExtraInfo(newInfo);
 		graph.replace(nodeToChange, node);
 	}
+	
 
 }
