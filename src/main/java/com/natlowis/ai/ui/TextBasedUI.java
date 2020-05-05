@@ -93,6 +93,7 @@ public class TextBasedUI {
 		SearchAlgorithm astar = new AStar(graph);
 		astar.algorithmToImplement(8, 1);
 		Integer[] a = astar.nodesToVisit();
+		logger.trace(a.length);
 		
 		for (int e:a) {
 			System.out.println(e);

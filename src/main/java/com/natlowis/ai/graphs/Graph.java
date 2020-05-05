@@ -35,6 +35,23 @@ public class Graph implements GraphInterface {
 		}
 	}
 	
+	public Graph(ArrayList<ArrayList<String>> dataNodes, ArrayList<ArrayList<String>> dataConnections) {
+
+		
+		graph = new HashMap<Integer, Node>();
+		
+		for (ArrayList<String> list: dataNodes) {
+			addNode(Integer.parseInt(list.get(0)));
+			setNodeSpecial(Integer.parseInt(list.get(0)), Double.parseDouble(list.get(1)));
+		}
+		
+		for (ArrayList<String> list : dataConnections) {  //For each line in the arraylist will add it as a connection 
+			
+			addConnection(Integer.parseInt(list.get(0)), Integer.parseInt(list.get(1)),
+					Double.parseDouble(list.get(2)));
+		}
+	}
+	
 	@Override
 	public void addNode(int nodeToAdd) {
 		// TODO Auto-generated method stub
@@ -132,7 +149,7 @@ public class Graph implements GraphInterface {
 	 * @param nodeToGet The node which has the special info to get
 	 * @return the extra info for that node
 	 */
-	public int getNodeSpecial(int nodeToGet) {
+	public double getNodeSpecial(int nodeToGet) {
 		return graph.get(nodeToGet).getExtraInfo();
 	}
 	
@@ -141,7 +158,7 @@ public class Graph implements GraphInterface {
 	 * @param nodeToChange The node to change
 	 * @param newInfo The extra info to change
 	 */
-	public void setNodeSpecial(int nodeToChange, int newInfo) {
+	public void setNodeSpecial(int nodeToChange, double newInfo) {
 		Node node = graph.get(nodeToChange);
 		node.setExtraInfo(newInfo);
 		graph.replace(nodeToChange, node);

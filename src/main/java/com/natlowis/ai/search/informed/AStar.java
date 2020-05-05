@@ -6,9 +6,12 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
 import com.natlowis.ai.search.uninformed.SearchAlgorithm;
+import com.natlowis.ai.ui.gui.MainPage;
 
 public class AStar implements SearchAlgorithm {
 	
@@ -19,6 +22,7 @@ public class AStar implements SearchAlgorithm {
 	private Deque<Integer> answerOfNodes;  //This hold the solution of which nodes to visit
 	private Deque<Connection> answerOfConnections;  //This holds the connections which need to be visited
 	
+	private static Logger logger = Logger.getLogger(AStar.class);
 	
 	public AStar(Graph graph) {
 		this.graph = graph;
@@ -26,6 +30,7 @@ public class AStar implements SearchAlgorithm {
 				frontier = new ArrayList<double[]>();
 				visited = new HashSet<Integer>();
 				answerOfNodes = new ArrayDeque<Integer>();
+				answerOfConnections = new ArrayDeque<Connection>();
 				tree = new Graph();
 
 	}
@@ -51,7 +56,7 @@ public class AStar implements SearchAlgorithm {
 				
 				Connection connection = connections.get(i);
 				int child = connection.getDestinationNode();
-				int destinationInfo = graph.getNodeSpecial(child);
+				double destinationInfo = graph.getNodeSpecial(child);
 				double weight = connection.getWeight() + oldFNode;
 				
 				double fNode = destinationInfo + weight;
@@ -104,12 +109,12 @@ public class AStar implements SearchAlgorithm {
 			
 			for (int i = connectionsFinal.size() -1; i >= 0; i--) {
 				if (connectionsFinal.get(i)[1] == currentNode ) {
-					if (currentNode == endNode) {
+					/*if (currentNode == endNode) {
 						currentNode = connectionsFinal.get(i)[0];;
 					}
-					else {
+					else {*/
 					answerOfNodes.push(connectionsFinal.get(i)[0]);
-					currentNode = connectionsFinal.get(i)[0];}
+					currentNode = connectionsFinal.get(i)[0];//}
 				}
 			}
 		}
@@ -126,6 +131,8 @@ public class AStar implements SearchAlgorithm {
 	public Connection[] solutionActions() {
 		
 		Integer[] answer = nodesToVisit();
+		
+		logger.debug(answer.length);
 		
 		for (int i = 1; i < answer.length; i++) {
 			int originNode = answer[i -1];

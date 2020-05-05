@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Node {
 
 	private int nodeNum;
-	private int extraInfo;
+	private double extraInfo;
 	private ArrayList<Connection> connections;
 	
 	/**
@@ -46,7 +46,7 @@ public class Node {
 	 * A getter which returns the extra info
 	 * @return An <Code> int </Code> which is the extra info for that node
 	 */
-	public int getExtraInfo() {
+	public double getExtraInfo() {
 		return extraInfo;
 	}
 	
@@ -54,7 +54,7 @@ public class Node {
 	 * A setter which edits the extra info
 	 * @param newInfo The new info you want to edit
 	 */
-	public void setExtraInfo(int newInfo) {
+	public void setExtraInfo(double newInfo) {
 		extraInfo = newInfo;
 	}
 	
