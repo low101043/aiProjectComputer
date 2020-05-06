@@ -13,6 +13,9 @@ Depth First Search
 Breadth First Search
 Q-Learning
 
+Note:
+This is not finished at the moment.  It has not been fully tested nor has everything been implemented yet.
+
 Credits:
 Miqing Li 
 Harish Tayyar Madabushi
@@ -24,3 +27,6 @@ Provided Code for ScreenChanger which I have then edited to make it work for my 
 
 Oracle Docs https://docs.oracle.com/javafx/2/ui_controls/text-field.htm
 Provided Code for GUI which is used throughout.
+
+Alan Sexton 
+Provided Code for MergeSort and Linear Search.  
