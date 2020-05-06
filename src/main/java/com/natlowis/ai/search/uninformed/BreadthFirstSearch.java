@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
+import com.natlowis.ai.search.*;
 
 /**
  * This class will implement the Breadth First Algorithm
@@ -36,6 +37,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 		frontier = new ArrayDeque<Integer>();
 		visited = new HashSet<Integer>();
 		answerOfNodes = new ArrayDeque<Integer>();
+		answerOfConnections = new ArrayDeque<Connection>();
 		tree = new Graph();
 
 	}
@@ -64,6 +66,14 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 			//The end node and the current node is pushed to the answerOfNodes 
 			answerOfNodes.push(endNode);  
 			answerOfNodes.push(currentNode);
+			
+			Connection finalNode = null;
+			for (Connection connection:connectionsToUse) {
+				if (connection.getDestinationNode() == endNode) {
+					finalNode = connection;
+				}
+			}
+			answerOfConnections.add(finalNode);
 			
 		} else if (!frontier.isEmpty()) {  //If the frontier is not empty  //TODO Fix cos if it is not down the first tree to look it will break very quickly
 			

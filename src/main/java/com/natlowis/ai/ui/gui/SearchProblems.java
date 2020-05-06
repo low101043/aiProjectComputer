@@ -9,7 +9,7 @@ import com.natlowis.ai.graphs.Graph;
 import com.natlowis.ai.search.informed.AStar;
 import com.natlowis.ai.search.uninformed.BreadthFirstSearch;
 import com.natlowis.ai.search.uninformed.DepthFirstSearch;
-import com.natlowis.ai.search.uninformed.SearchAlgorithm;
+import com.natlowis.ai.search.*;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

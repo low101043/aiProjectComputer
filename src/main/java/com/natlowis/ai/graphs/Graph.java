@@ -16,6 +16,9 @@ public class Graph implements GraphInterface {
 	
 	private Map<Integer, Node> graph;
 	
+	/**
+	 * Constructor which assumes no data to add at start
+	 */
 	public Graph() {
 		graph = new HashMap<Integer, Node>();
 	}
@@ -35,6 +38,11 @@ public class Graph implements GraphInterface {
 		}
 	}
 	
+	/**
+	 * Used if the data has special info for each node
+	 * @param dataNodes The nodes to add with the special info
+	 * @param dataConnections The connections for the graph
+	 */
 	public Graph(ArrayList<ArrayList<String>> dataNodes, ArrayList<ArrayList<String>> dataConnections) {
 
 		

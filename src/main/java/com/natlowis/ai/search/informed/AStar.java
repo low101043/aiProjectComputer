@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
-import com.natlowis.ai.search.uninformed.SearchAlgorithm;
+import com.natlowis.ai.search.*;
 import com.natlowis.ai.ui.gui.MainPage;
 
 public class AStar implements SearchAlgorithm {
@@ -24,6 +24,10 @@ public class AStar implements SearchAlgorithm {
 	
 	private static Logger logger = Logger.getLogger(AStar.class);
 	
+	/**
+	 * The constructor which allows you to make the object.
+	 * @param graph
+	 */
 	public AStar(Graph graph) {
 		this.graph = graph;
 		//Initialises all the needed variables
@@ -37,14 +41,8 @@ public class AStar implements SearchAlgorithm {
 
 	@Override
 	public void algorithmToImplement(int currentNode, int endNode) {
-		algorithmToImplement(currentNode, endNode, 0);
-	}
-	
-	public void algorithmToImplement(int currentNode, int endNode, double oldFNode) {
-		// TODO Auto-generated method stub
-
 		boolean finished = false;
-		oldFNode = 0;
+		double oldFNode = 0;
 		ArrayList<int[]> connectionsFinal = new ArrayList<int[]>();
 		
 		while (!finished) {
@@ -118,8 +116,9 @@ public class AStar implements SearchAlgorithm {
 				}
 			}
 		}
-		//TODO Add the connectio
 	}
+	
+	
 
 	@Override
 	public Integer[] nodesToVisit() {
@@ -154,11 +153,21 @@ public class AStar implements SearchAlgorithm {
 		return answerOfConnections.toArray(new Connection[0]);
 	}
 	
+	/**
+	 * Performs a sort on the frontier
+	 */
 	private void sort() {
 			
 		frontier = mergesort(frontier, 0, frontier.size() - 1);
 	}
 	
+	/**
+	 * Performs a merge sort on the data
+	 * @param data The data to be sorted
+	 * @param left The left index
+	 * @param right the right index
+	 * @return the data sorted
+	 */
 	private ArrayList<double[]> mergesort(ArrayList<double[]> data, int left, int right){
 		if (left < right) {
 			int mid = (left + right) / 2;
@@ -166,11 +175,18 @@ public class AStar implements SearchAlgorithm {
 			data = mergesort(data, mid + 1, right);
 			data = merge(data, left, mid, right);
 			
-		
 		}
 		return data;
 	}
 
+	/**
+	 * Merges the data in mergesort
+	 * @param a The data to be merged
+	 * @param left the left index
+	 * @param mid the middle of the data
+	 * @param right The right index 
+	 * @return the data sorted
+	 */
 	private ArrayList<double[]> merge(ArrayList<double[]> a, int left, int mid, int right) {
 		
 		double[][] b = new double[right - left + 1][2];
@@ -213,6 +229,12 @@ public class AStar implements SearchAlgorithm {
 		
 		return a;
 	}
+	
+	/**
+	 * Performs a linear search on the data
+	 * @param node The node to find
+	 * @return The index if the node is there or -1 if it is not
+	 */
 	private int search(int node) {
 		
 		for (int i = 0; i < frontier.size(); i++) {

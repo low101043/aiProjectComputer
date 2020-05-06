@@ -3,8 +3,9 @@ package com.natlowis.ai.ui;
 import org.apache.log4j.Logger;
 
 import com.natlowis.ai.graphs.Graph;
+import com.natlowis.ai.search.SearchAlgorithm;
 import com.natlowis.ai.search.informed.AStar;
-import com.natlowis.ai.search.uninformed.SearchAlgorithm;
+
 import com.natlowis.ai.unsupervised.QLearning;
 
 /**

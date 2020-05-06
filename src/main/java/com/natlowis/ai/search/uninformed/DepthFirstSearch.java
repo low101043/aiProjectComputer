@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
+import com.natlowis.ai.search.*;
 
 /**
  * This will implement the Depth First Search
@@ -36,6 +37,7 @@ public class DepthFirstSearch implements SearchAlgorithm {
 		frontier = new ArrayDeque<Integer>();
 		visited = new HashSet<Integer>();
 		answerOfNodes = new ArrayDeque<Integer>();
+		answerOfConnections = new ArrayDeque<Connection>();
 		tree = new Graph();
 
 	}
