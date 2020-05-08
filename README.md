@@ -5,7 +5,7 @@ Java 11 or later (No guarantee that the code will work in any earlier Java Versi
 JavaFX on machine
 Logger4 on the machine
 
-This is the AI Project. 
+This is an AI Project. 
 It implements these Algorithms to a certain degree:
 Regression (Linear and Non linear and multivariable and univariate),
 Logistic Regression (Linear MultiVariable),
@@ -13,10 +13,13 @@ Depth First Search,
 Breadth First Search,
 Q-Learning,
 K Nearest Neighbour
+Ant Colony Optimisation
 
+The Graph class used throughout requires that the nodes are numbered 0,..., n with n being the number of nodes - 1.  I will try and make this not a requirement soon.
+Please only add one edge between 2 nodes as well
 
 Note:
-This is not finished at the moment.  It has not been fully tested nor has everything been implemented yet.
+This is not finished at the moment.  It has not been fully tested.  As well, if you enter an incorrect input the code WILL fail.  I will add error catching code and make it easier for the user to use soon.
 
 Credits:
 Miqing Li, 
