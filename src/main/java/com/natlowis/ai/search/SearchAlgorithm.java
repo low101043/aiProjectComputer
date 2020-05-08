@@ -1,4 +1,4 @@
-package com.natlowis.ai.search.uninformed;
+package com.natlowis.ai.search;
 
 import com.natlowis.ai.graphs.Connection;
 

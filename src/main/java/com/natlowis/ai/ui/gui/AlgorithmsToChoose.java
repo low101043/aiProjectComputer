@@ -17,11 +17,20 @@ import javafx.stage.Stage;
  */
 public class AlgorithmsToChoose extends Application implements Window {
 
+<<<<<<< HEAD
 	private Button backHome; // Button which takes you back to the home page
 	private Button search; // Button which takes you to the search algorithms
 	private Button regression; // Button which takes you to the regression page
 	private Button qLearning; // Button which takes you to the q learning page
 
+=======
+	private Button backHome;  //Button which takes you back to the home page
+	private Button search;  //Button which takes you to the search algorithms
+	private Button regression;  //Button which takes you to the regression page 
+	private Button qLearning;  //Button which takes you to the q learning page
+	private Button optimisation;
+	
+>>>>>>> addingGraphs
 	/**
 	 * The constructor which sets up the page
 	 * 
@@ -43,9 +52,10 @@ public class AlgorithmsToChoose extends Application implements Window {
 		search = new Button("Search Algorithms");
 		regression = new Button("Supervised Learning");
 		qLearning = new Button("Unsupervised Learning");
+		optimisation = new Button("Optimisation");
 
 		root.setTop(label1);
-		centreNodes.getChildren().addAll(search, regression, qLearning);
+		centreNodes.getChildren().addAll(search, regression, qLearning, optimisation);
 		root.setCenter(centreNodes);
 
 		// Adds the algorithm to ScreenController
@@ -88,6 +98,14 @@ public class AlgorithmsToChoose extends Application implements Window {
 			public void handle(ActionEvent t) {
 				Window controls = sceneChooser.activate("Search Problems Page"); // activates screen
 				controls.controls(sceneChooser); // transfer control to right set
+			}
+		});
+		
+		optimisation.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				Window controls = sceneChooser.activate("Optimisation");
+				controls.controls(sceneChooser);
 			}
 		});
 	}

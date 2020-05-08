@@ -1,10 +1,15 @@
 package com.natlowis.ai.ui.gui;
 
+import java.io.File;
+import java.util.ArrayList;
+
+import com.natlowis.ai.fileHandaling.CSVFiles;
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
+import com.natlowis.ai.search.informed.AStar;
 import com.natlowis.ai.search.uninformed.BreadthFirstSearch;
 import com.natlowis.ai.search.uninformed.DepthFirstSearch;
-import com.natlowis.ai.search.uninformed.SearchAlgorithm;
+import com.natlowis.ai.search.*;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -16,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -30,6 +36,7 @@ public class SearchProblems extends Application implements Window {
 	private Button backHome;
 	private Button dfsButton;
 	private Button bfsButton;
+	private Button AStarButton;
 	private TextField startNode;
 	private TextField endNode;
 	private Label label;
@@ -59,6 +66,7 @@ public class SearchProblems extends Application implements Window {
 		// Defining the buttons needed
 		dfsButton = new Button("Depth First Search");
 		bfsButton = new Button("Breadth First Search");
+		AStarButton = new Button("A* Algorithm");
 
 		// Defining the StartNode Text Field
 		startNode = new TextField();
@@ -84,7 +92,7 @@ public class SearchProblems extends Application implements Window {
 
 		// Adds everything to the scene
 		HBox choices = new HBox();
-		choices.getChildren().addAll(dfsButton, bfsButton);
+		choices.getChildren().addAll(dfsButton, bfsButton, AStarButton);
 		GridPane.setConstraints(choices, 0, 5);
 		grid.getChildren().add(choices);
 		root.setCenter(grid);
@@ -107,6 +115,11 @@ public class SearchProblems extends Application implements Window {
 				return;
 			}
 		});
+<<<<<<< HEAD
+=======
+		
+		//TODO Get text file input for DFS and BFS and A*
+>>>>>>> addingGraphs
 
 		// TODO Get text file input for DFS and BFS
 
@@ -117,10 +130,19 @@ public class SearchProblems extends Application implements Window {
 
 				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) { // Checks we have inputs
 
+<<<<<<< HEAD
 					Graph graph = new Graph(); // Makes a graph
 					DepthFirstSearch dfs = new DepthFirstSearch(graph);
 					dfs.algorithmToImplement(Integer.parseInt(startNode.getText()),
 							Integer.parseInt(endNode.getText())); // Does DFS then output it
+=======
+					label.setText("Loading");
+					ArrayList<ArrayList<String>> data = getData(sceneChooser, 3);
+					Graph graph = new Graph(data);  //Makes a graph 
+					DepthFirstSearch dfs = new DepthFirstSearch(graph);  
+					dfs.algorithmToImplement(Integer.parseInt(startNode.getText()),  
+							Integer.parseInt(endNode.getText()));  //Does DFS then output it
+>>>>>>> addingGraphs
 					label.setText(outputAll(dfs));
 				}
 
@@ -132,9 +154,17 @@ public class SearchProblems extends Application implements Window {
 			@Override
 			public void handle(ActionEvent t) {
 
+<<<<<<< HEAD
 				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) { // Checks we have inputs
 
 					Graph graph = new Graph(); // Makes a graph
+=======
+				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) {  //Checks we have inputs
+					
+					label.setText("Loading");
+					ArrayList<ArrayList<String>> data = getData(sceneChooser, 3);
+					Graph graph = new Graph(data);  //Makes a graph 
+>>>>>>> addingGraphs
 					BreadthFirstSearch bfs = new BreadthFirstSearch(graph);
 					bfs.algorithmToImplement(Integer.parseInt(startNode.getText()),
 							Integer.parseInt(endNode.getText())); // Does BFS and output it
@@ -143,7 +173,26 @@ public class SearchProblems extends Application implements Window {
 
 			}
 		});
+		
+		AStarButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
 
+				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) {  //Checks we have inputs
+
+					label.setText("Loading");
+					ArrayList<ArrayList<String>> dataNodes = getData(sceneChooser, 2);
+					ArrayList<ArrayList<String>> dataConnections = getData(sceneChooser, 3);  //TODO THIS DOESN'T WORK
+					
+					Graph graph = new Graph(dataNodes, dataConnections);  //Makes a graph 
+					AStar astar = new AStar(graph);  
+					astar.algorithmToImplement(Integer.parseInt(startNode.getText()),  
+							Integer.parseInt(endNode.getText()));  //Does DFS then output it
+					label.setText(outputAll(astar));  //TODO Outputs the wrong way!
+				}
+
+			}
+		});
 	}
 
 	@Override
@@ -180,6 +229,18 @@ public class SearchProblems extends Application implements Window {
 		}
 
 		return output;
+	}
+	
+	private ArrayList<ArrayList<String>> getData(ScreenController sceneChooser, int number){
+		//Opens the file to use
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Data File");
+		Stage stage = sceneChooser.getStage();
+		File files = fileChooser.showOpenDialog(stage);
+		CSVFiles formattor = new CSVFiles(files, number);  //makes a formatter to use
+		ArrayList<ArrayList<String>> data = formattor.readCSV();  //gets the data
+		
+		return data;
 	}
 
 }
