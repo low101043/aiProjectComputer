@@ -2,12 +2,14 @@ package com.natlowis.ai.optimisation.antcolony;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
 
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
+import com.natlowis.ai.graphs.Node;
 import com.natlowis.ai.ui.TextBasedUI;
 
 public class AntColonyOptimisation {  //TODO Complete
@@ -119,9 +121,16 @@ public class AntColonyOptimisation {  //TODO Complete
 			if (route.get(route.size() - 1) == endNode) {
 				double pheromoneToAdd = 1.0 / route.size();
 				for (int i = 0; i < route.size() - 2; i++) {
+
+					int index = -1;
 					
-					int[] node = {route.get(i), route.get(i + 1)};
-					int index = indexMap.get(node);
+					for (Map.Entry<int[], Integer> entry : indexMap.entrySet()) {
+						int[] key = entry.getKey();
+						
+						if (key[0] == route.get(i) && key[1] == route.get(i + 1)) {
+							index = entry.getValue();
+						}
+					}
 					
 					double pheromone = newPheromoneLevel[index];
 					pheromone += pheromoneToAdd;
@@ -155,11 +164,17 @@ public class AntColonyOptimisation {  //TODO Complete
 				Connection connection = connections.get(i);
 				int destination = connection.getDestinationNode();
 				
-				int[] key = {node, destination};
 				
 				double oldPheromone = connection.getSpecial();
-				int index = indexMap.get(key);
+				int index = -1;
 				
+				for (Map.Entry<int[], Integer> entry : indexMap.entrySet()) {
+					int[] key = entry.getKey();
+					
+					if (key[0] == node && key[1] == destination) {
+						index = entry.getValue();
+					}
+				}
 				double newPheromoneToAdd = newPheromoneLevel[index];
 				
 				double newPheromone = ((1 - pheromoneLevel) * oldPheromone) + newPheromoneToAdd;
