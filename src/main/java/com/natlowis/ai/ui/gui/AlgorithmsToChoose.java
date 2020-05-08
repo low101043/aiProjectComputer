@@ -17,20 +17,13 @@ import javafx.stage.Stage;
  */
 public class AlgorithmsToChoose extends Application implements Window {
 
-<<<<<<< HEAD
-	private Button backHome; // Button which takes you back to the home page
-	private Button search; // Button which takes you to the search algorithms
-	private Button regression; // Button which takes you to the regression page
-	private Button qLearning; // Button which takes you to the q learning page
 
-=======
 	private Button backHome;  //Button which takes you back to the home page
 	private Button search;  //Button which takes you to the search algorithms
 	private Button regression;  //Button which takes you to the regression page 
 	private Button qLearning;  //Button which takes you to the q learning page
 	private Button optimisation;
-	
->>>>>>> addingGraphs
+
 	/**
 	 * The constructor which sets up the page
 	 * 

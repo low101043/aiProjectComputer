@@ -68,20 +68,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 			// The end node and the current node is pushed to the answerOfNodes
 			answerOfNodes.push(endNode);
 			answerOfNodes.push(currentNode);
-<<<<<<< HEAD
 
-		} else if (!frontier.isEmpty()) { // If the frontier is not empty
-
-			algorithmToImplement(frontier.removeFirst(), endNode); // Will do BFS on the next node in the frontier
-			ArrayList<Connection> childrenOfTree = tree.getConnection(currentNode); // Gets the connections for the
-																					// current node
-
-			for (Connection item : childrenOfTree) { // Will go through each connection
-
-				if (item.getDestinationNode() == answerOfNodes.peek()) { // If the connection links to the last node in
-																			// the answerOfNodes
-					answerOfNodes.push(currentNode); // Will be added to both stacks
-=======
 			
 			Connection finalNode = null;
 			for (Connection connection:connectionsToUse) {
@@ -100,8 +87,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 				
 				if (item.getDestinationNode() == answerOfNodes.peek()) {  //If the connection links to the last node in the answerOfNodes 
 					answerOfNodes.push(currentNode);  //Will be added to both stacks
->>>>>>> addingGraphs
-					answerOfConnections.push(item);
+answerOfConnections.push(item);
 				}
 			}
 		}

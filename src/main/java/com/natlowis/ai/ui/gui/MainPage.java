@@ -100,11 +100,11 @@ public class MainPage extends Application implements Window {
 		Window qlearningScreen = new QLearningInput(sceneChooser);
 		Window regressionScreen = new RegressionChoice(sceneChooser);
 		Window searchScreen = new SearchProblems(sceneChooser);
-<<<<<<< HEAD
+
 		Window knn = new KNN(sceneChooser);
 		Window supervised = new SupervisedPage(sceneChooser);
-=======
+
 		Window optimisation = new Optimisation(sceneChooser);
->>>>>>> addingGraphs
+
 	}
 }

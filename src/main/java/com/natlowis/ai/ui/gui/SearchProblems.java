@@ -115,11 +115,7 @@ public class SearchProblems extends Application implements Window {
 				return;
 			}
 		});
-<<<<<<< HEAD
-=======
-		
-		//TODO Get text file input for DFS and BFS and A*
->>>>>>> addingGraphs
+
 
 		// TODO Get text file input for DFS and BFS
 
@@ -130,19 +126,14 @@ public class SearchProblems extends Application implements Window {
 
 				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) { // Checks we have inputs
 
-<<<<<<< HEAD
-					Graph graph = new Graph(); // Makes a graph
-					DepthFirstSearch dfs = new DepthFirstSearch(graph);
-					dfs.algorithmToImplement(Integer.parseInt(startNode.getText()),
-							Integer.parseInt(endNode.getText())); // Does DFS then output it
-=======
+
 					label.setText("Loading");
 					ArrayList<ArrayList<String>> data = getData(sceneChooser, 3);
 					Graph graph = new Graph(data);  //Makes a graph 
 					DepthFirstSearch dfs = new DepthFirstSearch(graph);  
 					dfs.algorithmToImplement(Integer.parseInt(startNode.getText()),  
 							Integer.parseInt(endNode.getText()));  //Does DFS then output it
->>>>>>> addingGraphs
+
 					label.setText(outputAll(dfs));
 				}
 
@@ -154,17 +145,13 @@ public class SearchProblems extends Application implements Window {
 			@Override
 			public void handle(ActionEvent t) {
 
-<<<<<<< HEAD
-				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) { // Checks we have inputs
 
-					Graph graph = new Graph(); // Makes a graph
-=======
 				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) {  //Checks we have inputs
 					
 					label.setText("Loading");
 					ArrayList<ArrayList<String>> data = getData(sceneChooser, 3);
 					Graph graph = new Graph(data);  //Makes a graph 
->>>>>>> addingGraphs
+
 					BreadthFirstSearch bfs = new BreadthFirstSearch(graph);
 					bfs.algorithmToImplement(Integer.parseInt(startNode.getText()),
 							Integer.parseInt(endNode.getText())); // Does BFS and output it
@@ -244,3 +231,5 @@ public class SearchProblems extends Application implements Window {
 	}
 
 }
+
+
