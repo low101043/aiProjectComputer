@@ -172,6 +172,10 @@ public class Graph implements GraphInterface {
 		graph.replace(nodeToChange, node);
 	}
 	
+	/**
+	 * Will return all the node numbers in the graph
+	 * @return An integer array which has all the Nodes used
+	 */
 	public Integer[] getNodes() {
 		ArrayList<Integer> nodes = new ArrayList<Integer>();
 		for (Map.Entry<Integer, Node> entry : graph.entrySet()) {
@@ -183,6 +187,12 @@ public class Graph implements GraphInterface {
 		return nodes.toArray(new Integer[0]);
 	}
 	
+	/**
+	 * Will set the special info for a connection
+	 * @param originNode The origin node for the connection
+	 * @param destinationNode The destination node for the connection
+	 * @param newSpecial The new special info needed
+	 */
 	public void setSpecial(int originNode, int destinationNode, double newSpecial) {
 		ArrayList<Connection> connections = this.getConnection(originNode);
 		Connection connectionToFind = null;

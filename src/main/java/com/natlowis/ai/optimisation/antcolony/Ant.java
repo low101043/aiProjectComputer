@@ -22,6 +22,13 @@ public class Ant extends Thread {// implements Runnable {
 	private int endNode;
 	private Random rand;
 	
+	/**
+	 * The Constructor which sets up the Ant
+	 * @param id Unique Id
+	 * @param graph The graph to be traversed
+	 * @param startNode The start node 
+	 * @param endNode The end Node
+	 */
 	public Ant(int id, Graph graph, int startNode, int endNode) {
 		this.id = id;
 		this.graph = graph;
@@ -35,10 +42,13 @@ public class Ant extends Thread {// implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		route = new ArrayList<Integer>();
-		update();
+		construct();
 	}
 	
-	private void update() {
+	/**
+	 * Will construct the route to take. 
+	 */
+	private void construct() {
 		while (currentNode != endNode) {
 			int nextNode = chooseNext();
 			route.add(nextNode);
@@ -49,7 +59,10 @@ public class Ant extends Thread {// implements Runnable {
 		//TODO Kill ants if take too long
 	}
 	
-	
+	/**
+	 * Chooses the next node to go to probabilistically.   
+	 * @return the next node to go to
+	 */
 	private int chooseNext() {
 		
 		ArrayList<Connection> connections = graph.getConnection(currentNode);
@@ -81,6 +94,9 @@ public class Ant extends Thread {// implements Runnable {
 		return destination;
 	}
 	
+	/**
+	 * Removes loops in the route chosen
+	 */
 	private void eliminateLoops() {
 		boolean goneThroughWholeList = false;
 		
@@ -124,6 +140,10 @@ public class Ant extends Thread {// implements Runnable {
 		}
 	}
 	
+	/**
+	 * Returns the final route
+	 * @return An {@code ArrayList of Integers} which shows the route taken
+	 */
 	public ArrayList<Integer> returnRoute(){
 		return route;
 	}

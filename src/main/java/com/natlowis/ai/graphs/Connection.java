@@ -58,16 +58,24 @@ public class Connection {
 	/**
 	 * A getter which gets the weight of the node
 	 * 
-	 * @return - Integer which is the weight of the node
+	 * @return - {@code double} which is the weight of the node
 	 */
 	public double getWeight() {
 		return weight;
 	}
 	
+	/**
+	 * This will return the special info for that node
+	 * @return The special info.
+	 */
 	public double getSpecial() {
 		return specialInfo;
 	}
 	
+	/**
+	 * Sets the special info for that node
+	 * @param newSpecial {@code double} which is the new special info
+	 */
 	public void setSpecial(double newSpecial) {
 		this.specialInfo = newSpecial;
 	}
