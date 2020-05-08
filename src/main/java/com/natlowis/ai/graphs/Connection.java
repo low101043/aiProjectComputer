@@ -11,6 +11,7 @@ public class Connection {
 	protected int originNode; //This is the origin node  
 	protected int destinationNode;  //This is the destination node
 	protected double weight; //This is the weight of the edge
+	protected double specialInfo;
 
 	/**
 	 * The constructor for the class.
@@ -23,6 +24,7 @@ public class Connection {
 		this.originNode = node1;
 		this.destinationNode = node2;
 		this.weight = weight;
+		this.specialInfo = 1;
 
 	}
 
@@ -60,6 +62,14 @@ public class Connection {
 	 */
 	public double getWeight() {
 		return weight;
+	}
+	
+	public double getSpecial() {
+		return specialInfo;
+	}
+	
+	public void setSpecial(double newSpecial) {
+		this.specialInfo = newSpecial;
 	}
 
 	@Override

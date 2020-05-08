@@ -172,5 +172,29 @@ public class Graph implements GraphInterface {
 		graph.replace(nodeToChange, node);
 	}
 	
+	public Integer[] getNodes() {
+		ArrayList<Integer> nodes = new ArrayList<Integer>();
+		for (Map.Entry<Integer, Node> entry : graph.entrySet()) {
+			Integer node = entry.getKey();
+			nodes.add(node);
+		}
+		
+		
+		return nodes.toArray(new Integer[0]);
+	}
+	
+	public void setSpecial(int originNode, int destinationNode, double newSpecial) {
+		ArrayList<Connection> connections = this.getConnection(originNode);
+		Connection connectionToFind = null;
+		
+		for (Connection connection: connections) {
+			if (connection.getDestinationNode() == destinationNode) {
+				connectionToFind = connection;
+			}
+		}
+		connectionToFind.setSpecial(newSpecial);
+		
+	}
+	
 
 }
