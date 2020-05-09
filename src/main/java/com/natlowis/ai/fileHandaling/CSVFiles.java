@@ -40,7 +40,6 @@ public class CSVFiles {
 	 * @param files A <Code> File </Code> type which is the file to edit
 	 */
 	public CSVFiles(File files) {
-		// TODO Auto-generated constructor stub
 
 		file = files;
 
@@ -53,11 +52,11 @@ public class CSVFiles {
 				String[] split = line.split(",");
 				lengthOfRow = split.length;
 			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (FileNotFoundException e) { // The exceptions //TODO what to do if exceptions happen
+
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}
@@ -119,22 +118,25 @@ public class CSVFiles {
 	 */
 	public ArrayList<ArrayList<Double>> convertData(ArrayList<ArrayList<String>> data) {
 
-		ArrayList<ArrayList<Double>> output = new ArrayList<ArrayList<Double>>();
+		ArrayList<ArrayList<Double>> output = new ArrayList<ArrayList<Double>>(); // Makes a new ArrayList of ArrayList
+																					// of Doubles
 
-		for (ArrayList<String> input : data) {
-			ArrayList<Double> dataForRow = new ArrayList<Double>();
+		for (ArrayList<String> input : data) { // For each line in the input
+			ArrayList<Double> dataForRow = new ArrayList<Double>(); //
 
-			for (String inputData : input) {
+			for (String inputData : input) { // Converts each data item into a double
 
-				dataForRow.add(Double.parseDouble(inputData));
+				dataForRow.add(Double.parseDouble(inputData)); // TODO if parseDouble does not woek
 			}
 
-			output.add(dataForRow);
+			output.add(dataForRow); // Adds to output
 		}
 
 		return output;
 	}
 }
 
-//Graphs size 3 - origin, destination, weight
+//Graphs One file size 3 - origin, destination, weight
+//Graphs Two file  Nodes Size 2 node, special - Connections size 3 - origin, destination, weight
+//TODO regression
 //TODO  What the size should be for each input.  Add to GUI.

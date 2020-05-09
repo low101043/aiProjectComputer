@@ -1,19 +1,9 @@
 package com.natlowis.ai.ui;
 
-import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 
 import com.natlowis.ai.supervised.knn.KNearestNeighbour;
 import com.natlowis.ai.supervised.knn.RegressionKNN;
-
-import com.natlowis.ai.graphs.Graph;
-import com.natlowis.ai.optimisation.antcolony.AntColonyOptimisation;
-import com.natlowis.ai.search.SearchAlgorithm;
-import com.natlowis.ai.search.informed.AStar;
-
-import com.natlowis.ai.unsupervised.QLearning;
-
 
 /**
  * This is used mostly for testing purposes

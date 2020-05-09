@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
-import com.natlowis.ai.search.*;
+import com.natlowis.ai.search.SearchAlgorithm;
 
 /**
  * This class will implement the Breadth First Algorithm
@@ -69,25 +69,28 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 			answerOfNodes.push(endNode);
 			answerOfNodes.push(currentNode);
 
-			
+			// FInds the connection
 			Connection finalNode = null;
-			for (Connection connection:connectionsToUse) {
+			for (Connection connection : connectionsToUse) {
 				if (connection.getDestinationNode() == endNode) {
 					finalNode = connection;
 				}
 			}
 			answerOfConnections.add(finalNode);
-			
-		} else if (!frontier.isEmpty()) {  //If the frontier is not empty  //TODO Fix cos if it is not down the first tree to look it will break very quickly
-			
-			algorithmToImplement(frontier.removeFirst(), endNode);  //Will do BFS on the next node in the frontier
-			ArrayList<Connection> childrenOfTree = tree.getConnection(currentNode);  //Gets the connections for the current node
-			
-			for (Connection item : childrenOfTree) {  //Will go through each connection
-				
-				if (item.getDestinationNode() == answerOfNodes.peek()) {  //If the connection links to the last node in the answerOfNodes 
-					answerOfNodes.push(currentNode);  //Will be added to both stacks
-answerOfConnections.push(item);
+
+		} else if (!frontier.isEmpty()) { // If the frontier is not empty //TODO Fix cos if it is not down the first
+											// tree to look it will break very quickly
+
+			algorithmToImplement(frontier.removeFirst(), endNode); // Will do BFS on the next node in the frontier
+			ArrayList<Connection> childrenOfTree = tree.getConnection(currentNode); // Gets the connections for the
+																					// current node
+
+			for (Connection item : childrenOfTree) { // Will go through each connection
+
+				if (item.getDestinationNode() == answerOfNodes.peek()) { // If the connection links to the last node in
+																			// the answerOfNodes
+					answerOfNodes.push(currentNode); // Will be added to both stacks
+					answerOfConnections.push(item);
 				}
 			}
 		}

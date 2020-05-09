@@ -25,43 +25,51 @@ public class ClassificationKNN extends KNearestNeighbour {
 	 */
 	@Override
 	public Double knn(ArrayList<Double> input, int kNeighbours, ArrayList<ArrayList<Double>> trainingData) {
-		// TODO Auto-generated method stub
 
-		trainingData.add(input);
+		trainingData.add(input); // Adds the input to the training data and change the name
 		inputs = trainingData;
-		addingToList();
+		addingToList(); // Adds data
 
-		List<double[]> firstKNeighbours = D.subList(0, kNeighbours);
+		List<double[]> firstKNeighbours = D.subList(0, kNeighbours); // Gets the first k neighbours
 
-		HashMap<Double, Integer> findMax = new HashMap<Double, Integer>();
+		HashMap<Double, Integer> findMax = new HashMap<Double, Integer>(); // Will find the max
 
-		for (double[] item : firstKNeighbours) {
-			double classIn = item[1];
-			Integer total = findMax.get(classIn);
-			if (total == null) {
-				findMax.put(classIn, 1);
-			} else {
-				total += 1;
-				findMax.put(classIn, total);
+		for (double[] item : firstKNeighbours) { // For each set of data
+
+			double classIn = item[1]; // Finds the class
+			Integer total = findMax.get(classIn); // Gets the class
+
+			if (total == null) { // If the class does not exist
+
+				findMax.put(classIn, 1); // Adds it
+
+			} else { // If the class does exist
+
+				total += 1; // increments the total
+				findMax.put(classIn, total); // Adds back in the class
 			}
 		}
 
-		int max = -1;
-		double classToOutput = -5;
-		boolean clash = false;
-		for (Map.Entry<Double, Integer> entry : findMax.entrySet()) {
-			if (entry.getValue() > max) {
-				max = entry.getValue();
-				classToOutput = entry.getKey();
-				clash = false;
-			} else if (entry.getValue() == max) {
-				clash = true;
+		int max = -1; // The max at the moment
+		double classToOutput = -5; // The class to output
+		boolean clash = false; // If there is a clash
+
+		for (Map.Entry<Double, Integer> entry : findMax.entrySet()) { // For each data entry in the hash map
+
+			if (entry.getValue() > max) { // If the total is larger than the lastest
+
+				max = entry.getValue(); // Change max to that
+				classToOutput = entry.getKey(); // Change class to that key
+				clash = false; // Set clash to false
+
+			} else if (entry.getValue() == max) { // If the entry value is the same total
+				clash = true; // Set clash to true
 			}
 		}
 
-		if (clash == true) {
+		if (clash == true) { // If clash is true return null
 			return null;
-		} else {
+		} else { // Or return the class to output
 			return classToOutput;
 		}
 	}

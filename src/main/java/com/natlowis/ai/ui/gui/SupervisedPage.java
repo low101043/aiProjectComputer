@@ -18,8 +18,8 @@ import javafx.stage.Stage;
 public class SupervisedPage extends Application implements Window {
 
 	private Button backHome; // Takes the user back to the main page
-	private Button knn;
-	private Button regression;
+	private Button knn; // Takes user to KNN page
+	private Button regression; // Takes the User to regression page
 
 	/**
 	 * The constructor which creates the page
@@ -62,6 +62,7 @@ public class SupervisedPage extends Application implements Window {
 			}
 		});
 
+		// Takes user to regression page
 		regression.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
@@ -70,6 +71,7 @@ public class SupervisedPage extends Application implements Window {
 			}
 		});
 
+		// Takes user to knn page
 		knn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
@@ -81,8 +83,6 @@ public class SupervisedPage extends Application implements Window {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
-import com.natlowis.ai.search.*;
+import com.natlowis.ai.search.SearchAlgorithm;
 
 /**
  * This will implement the Depth First Search
@@ -68,9 +68,9 @@ public class DepthFirstSearch implements SearchAlgorithm {
 				}
 			}
 
-
-			if (!frontier.isEmpty()) {  //If the frontier is not empty   //TODO Fix cos if it is not down the first tree to look it will break very quickly
-				algorithmToImplement(frontier.pop(), endNode);  //Next node from the frontier is gone to 
+			if (!frontier.isEmpty()) { // If the frontier is not empty //TODO Fix cos if it is not down the first tree
+										// to look it will break very quickly
+				algorithmToImplement(frontier.pop(), endNode); // Next node from the frontier is gone to
 
 			}
 

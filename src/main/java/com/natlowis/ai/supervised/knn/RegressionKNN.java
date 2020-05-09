@@ -17,13 +17,14 @@ public class RegressionKNN extends KNearestNeighbour {
 
 	@Override
 	public Double knn(ArrayList<Double> input, int kNeighbours, ArrayList<ArrayList<Double>> trainingData) {
-		// TODO Auto-generated method stub
-		trainingData.add(input);
+
+		trainingData.add(input); // Add input to trianing data
 		inputs = trainingData;
-		addingToList();
+		addingToList(); // Sort data
 
-		List<double[]> firstKNeighbours = D.subList(0, kNeighbours);
+		List<double[]> firstKNeighbours = D.subList(0, kNeighbours); // Get the sublist
 
+		// Works out average
 		double total = 0;
 		for (double[] item : firstKNeighbours) {
 			total += item[1];

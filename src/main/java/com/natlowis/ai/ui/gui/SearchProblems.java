@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import com.natlowis.ai.fileHandaling.CSVFiles;
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
+import com.natlowis.ai.search.SearchAlgorithm;
 import com.natlowis.ai.search.informed.AStar;
 import com.natlowis.ai.search.uninformed.BreadthFirstSearch;
 import com.natlowis.ai.search.uninformed.DepthFirstSearch;
-import com.natlowis.ai.search.*;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -116,7 +116,6 @@ public class SearchProblems extends Application implements Window {
 			}
 		});
 
-
 		// TODO Get text file input for DFS and BFS
 
 		// Does Depth First Search
@@ -126,13 +125,12 @@ public class SearchProblems extends Application implements Window {
 
 				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) { // Checks we have inputs
 
-
 					label.setText("Loading");
 					ArrayList<ArrayList<String>> data = getData(sceneChooser, 3);
-					Graph graph = new Graph(data);  //Makes a graph 
-					DepthFirstSearch dfs = new DepthFirstSearch(graph);  
-					dfs.algorithmToImplement(Integer.parseInt(startNode.getText()),  
-							Integer.parseInt(endNode.getText()));  //Does DFS then output it
+					Graph graph = new Graph(data); // Makes a graph
+					DepthFirstSearch dfs = new DepthFirstSearch(graph);
+					dfs.algorithmToImplement(Integer.parseInt(startNode.getText()),
+							Integer.parseInt(endNode.getText())); // Does DFS then output it
 
 					label.setText(outputAll(dfs));
 				}
@@ -145,12 +143,11 @@ public class SearchProblems extends Application implements Window {
 			@Override
 			public void handle(ActionEvent t) {
 
+				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) { // Checks we have inputs
 
-				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) {  //Checks we have inputs
-					
 					label.setText("Loading");
 					ArrayList<ArrayList<String>> data = getData(sceneChooser, 3);
-					Graph graph = new Graph(data);  //Makes a graph 
+					Graph graph = new Graph(data); // Makes a graph
 
 					BreadthFirstSearch bfs = new BreadthFirstSearch(graph);
 					bfs.algorithmToImplement(Integer.parseInt(startNode.getText()),
@@ -160,22 +157,23 @@ public class SearchProblems extends Application implements Window {
 
 			}
 		});
-		
+
+		// Defining what do if AStar clicked
 		AStarButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
 
-				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) {  //Checks we have inputs
+				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) { // Checks we have inputs
 
 					label.setText("Loading");
 					ArrayList<ArrayList<String>> dataNodes = getData(sceneChooser, 2);
-					ArrayList<ArrayList<String>> dataConnections = getData(sceneChooser, 3);  //TODO THIS DOESN'T WORK
-					
-					Graph graph = new Graph(dataNodes, dataConnections);  //Makes a graph 
-					AStar astar = new AStar(graph);  
-					astar.algorithmToImplement(Integer.parseInt(startNode.getText()),  
-							Integer.parseInt(endNode.getText()));  //Does DFS then output it
-					label.setText(outputAll(astar));  //TODO Outputs the wrong way!
+					ArrayList<ArrayList<String>> dataConnections = getData(sceneChooser, 3);
+
+					Graph graph = new Graph(dataNodes, dataConnections); // Makes a graph
+					AStar astar = new AStar(graph);
+					astar.algorithmToImplement(Integer.parseInt(startNode.getText()),
+							Integer.parseInt(endNode.getText())); // Does A* then output it
+					label.setText(outputAll(astar)); // TODO Outputs the wrong way!
 				}
 
 			}
@@ -217,19 +215,17 @@ public class SearchProblems extends Application implements Window {
 
 		return output;
 	}
-	
-	private ArrayList<ArrayList<String>> getData(ScreenController sceneChooser, int number){
-		//Opens the file to use
+
+	private ArrayList<ArrayList<String>> getData(ScreenController sceneChooser, int number) {
+		// Opens the file to use
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Data File");
 		Stage stage = sceneChooser.getStage();
 		File files = fileChooser.showOpenDialog(stage);
-		CSVFiles formattor = new CSVFiles(files, number);  //makes a formatter to use
-		ArrayList<ArrayList<String>> data = formattor.readCSV();  //gets the data
-		
+		CSVFiles formattor = new CSVFiles(files, number); // makes a formatter to use
+		ArrayList<ArrayList<String>> data = formattor.readCSV(); // gets the data
+
 		return data;
 	}
 
 }
-
-

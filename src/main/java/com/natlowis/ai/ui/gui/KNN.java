@@ -29,13 +29,13 @@ import javafx.stage.Stage;
  */
 public class KNN extends Application implements Window {
 
-	private Button backHome;
-	private TextField neighboursWanted;
-	private Label label;
-	private Button input;
-	private Button regressionKNN;
-	private Button classificationKNN;
-	private File inputData;
+	private Button backHome; // Button to back home
+	private TextField neighboursWanted; // Neighbours wanted
+	private Label label; // Output
+	private Button input; // The input button
+	private Button regressionKNN; // For regression KNN
+	private Button classificationKNN; // For Classification KNN
+	private File inputData; // The input fi;e
 
 	/**
 	 * The Constructor which constructs the screen to be used
@@ -58,6 +58,7 @@ public class KNN extends Application implements Window {
 		grid.setVgap(5);
 		grid.setHgap(5);
 
+		// Defines the neighbours wanted
 		neighboursWanted = new TextField();
 		neighboursWanted.setPromptText("Enter the neighbours needed");
 		neighboursWanted.setPrefColumnCount(10);
@@ -75,6 +76,7 @@ public class KNN extends Application implements Window {
 		GridPane.setColumnSpan(label, 2);
 		grid.getChildren().add(label);
 
+		// Defines button for input data
 		input = new Button("Get the file with the input data");
 		GridPane.setConstraints(input, 0, 3);
 		grid.getChildren().add(input);
@@ -96,7 +98,6 @@ public class KNN extends Application implements Window {
 
 	@Override
 	public void controls(ScreenController sceneChooser) {
-		// TODO Auto-generated method stub
 
 		// Takes user back to the main page
 		backHome.setOnAction(new EventHandler<ActionEvent>() {
@@ -111,6 +112,7 @@ public class KNN extends Application implements Window {
 			}
 		});
 
+		// What to do to get file
 		input.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
@@ -122,16 +124,17 @@ public class KNN extends Application implements Window {
 			}
 		});
 
+		// What to do if regression pressed
 		regressionKNN.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-				if (inputData != null && !neighboursWanted.getText().isEmpty()) {
+				if (inputData != null && !neighboursWanted.getText().isEmpty()) { // Need data
 					label.setText("Computing");
-					ArrayList<Double> input = openFile();
+					ArrayList<Double> input = openFile(); // Opens the file
 
 					FileChooser fileChooser = new FileChooser(); // TODO these lines same as in other button maybe sort
 																	// out
-					fileChooser.setTitle("Open Data File");
+					fileChooser.setTitle("Open Training Data");
 					Stage stage = sceneChooser.getStage();
 					File files = fileChooser.showOpenDialog(stage); // allow user to open file
 					CSVFiles formattor = new CSVFiles(files, input.size() + 1); // makes a formatter to use
@@ -159,7 +162,7 @@ public class KNN extends Application implements Window {
 					ArrayList<Double> input = openFile();
 
 					FileChooser fileChooser = new FileChooser();
-					fileChooser.setTitle("Open Data File");
+					fileChooser.setTitle("Open Training Data");
 					Stage stage = sceneChooser.getStage();
 					File files = fileChooser.showOpenDialog(stage); // allow user to open file
 					CSVFiles formattor = new CSVFiles(files, input.size() + 1); // makes a formatter to use
