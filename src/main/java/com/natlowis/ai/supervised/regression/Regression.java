@@ -1,5 +1,9 @@
 package com.natlowis.ai.supervised.regression;
 
+import java.io.IOException;
+
+import com.natlowis.ai.exceptions.FileException;
+
 /**
  * This is the interface which specifies all the methods for a Regression
  * algorithm
@@ -55,7 +59,9 @@ public interface Regression {
 	 * This will get data from a File
 	 * 
 	 * @param varaibleSize the number of variables needed
+	 * @throws IOException 
+	 * @throws FileException 
 	 */
-	public void getData(int varaibleSize); // TODO could be made private
+	public void getData(int varaibleSize) throws FileException, IOException, NumberFormatException; // TODO could be made private
 
 }

@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.natlowis.ai.exceptions.FileException;
+
 /**
  * This is a file which handles CSV files and can output information from the
  * file.
@@ -38,8 +40,9 @@ public class CSVFiles {
 	 * length of first row then uses that length throughout
 	 * 
 	 * @param files A <Code> File </Code> type which is the file to edit
+	 * @throws IOException 
 	 */
-	public CSVFiles(File files) {
+	public CSVFiles(File files) throws IOException, FileNotFoundException{
 
 		file = files;
 
@@ -54,10 +57,10 @@ public class CSVFiles {
 			}
 		} catch (FileNotFoundException e) { // The exceptions //TODO what to do if exceptions happen
 
-			e.printStackTrace();
+			throw e;
 		} catch (IOException e) {
 
-			e.printStackTrace();
+			throw e;
 		}
 	}
 
@@ -67,8 +70,9 @@ public class CSVFiles {
 	 * 
 	 * @return An <Code> ArrayList </code> which contains an
 	 *         <Code> ArrayList of Strings </Code>
+	 * @throws IOException 
 	 */
-	public ArrayList<ArrayList<String>> readCSV() {
+	public ArrayList<ArrayList<String>> readCSV() throws FileException, IOException {
 
 		ArrayList<ArrayList<String>> output = null; // Sets the output to null if it does not work thus passing null
 													// object back which can be dealt with other code
@@ -85,7 +89,7 @@ public class CSVFiles {
 				String[] split = line.split(",");
 
 				if (split.length != lengthOfRow) { // If the array is not the correct length it throws an exception
-					throw new Exception();
+					throw new FileException();
 				}
 
 				ArrayList<String> lineList = new ArrayList<String>(); // This is the data in the String array
@@ -99,11 +103,11 @@ public class CSVFiles {
 
 		} catch (IOException e) { // Catches the exceptions thrown //TODO sort what to do with them
 
-			e.printStackTrace();
+			throw e;
 
-		} catch (Exception e) {
+		} catch (FileException e) {
 
-			e.printStackTrace();
+			throw e;
 		}
 
 		return output;
@@ -116,7 +120,7 @@ public class CSVFiles {
 	 * @param data The data to convert to double
 	 * @return The same data as double data types
 	 */
-	public ArrayList<ArrayList<Double>> convertData(ArrayList<ArrayList<String>> data) {
+	public ArrayList<ArrayList<Double>> convertData(ArrayList<ArrayList<String>> data) throws NumberFormatException {
 
 		ArrayList<ArrayList<Double>> output = new ArrayList<ArrayList<Double>>(); // Makes a new ArrayList of ArrayList
 																					// of Doubles
@@ -126,7 +130,15 @@ public class CSVFiles {
 
 			for (String inputData : input) { // Converts each data item into a double
 
-				dataForRow.add(Double.parseDouble(inputData)); // TODO if parseDouble does not woek
+				try {
+					Double.parseDouble(inputData);
+					dataForRow.add(Double.parseDouble(inputData)); 
+					
+				}
+				catch (NumberFormatException e) {
+					throw e;
+				}
+				
 			}
 
 			output.add(dataForRow); // Adds to output

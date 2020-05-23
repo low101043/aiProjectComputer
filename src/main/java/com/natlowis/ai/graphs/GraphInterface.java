@@ -1,6 +1,7 @@
 package com.natlowis.ai.graphs;
 
 import java.util.ArrayList;
+import com.natlowis.ai.exceptions.*;
 
 /**
  * This interface will specify the methods a graph will have.
@@ -15,7 +16,7 @@ public interface GraphInterface {
 	 * 
 	 * @param nodeToAdd - This is the node to add
 	 */
-	public void addNode(int nodeToAdd);
+	public void addNode(int nodeToAdd) throws GraphNodeException;
 
 	/**
 	 * This will add a connection from the origin node to the destination node with
@@ -26,14 +27,15 @@ public interface GraphInterface {
 	 * @param destinationNode - The node the connection goes to
 	 * @param weight          - The weight of the node
 	 */
-	public void addConnection(int originNode, int destinationNode, double weight);
+	public void addConnection(int originNode, int destinationNode, double weight) throws GraphException, GraphNodeException;
 
 	/**
 	 * This will remove the node from the graph and any connections to that node
 	 * 
 	 * @param nodeToRemove - The node to remove from the graph
+	 * @throws GraphNodeException 
 	 */
-	public void removeNode(int nodeToRemove);
+	public void removeNode(int nodeToRemove) throws GraphException, GraphNodeException;
 
 	/**
 	 * This will get all the connections in the form of {originNode,
@@ -49,10 +51,11 @@ public interface GraphInterface {
 	 * 
 	 * @param originNode      - The originNode of the connection to remove
 	 * @param destinationNode - The destinationNode of the connection to remove
+	 * @throws GraphNodeException 
 	 * 
 	 * 
 	 */
-	public void removeConnection(int originNode, int destinationNode);
+	public void removeConnection(int originNode, int destinationNode) throws GraphException, GraphNodeException;
 
 	/**
 	 * This will get the number of nodes which are in the graph - Like .size()
@@ -66,7 +69,10 @@ public interface GraphInterface {
 	 * 
 	 * @param nodeNum - The node to get the connections for
 	 * @return An ArrayList of Connections of the connections for that node
+	 * @throws GraphNodeException 
 	 */
-	public ArrayList<Connection> getConnection(int nodeNum);
+	public ArrayList<Connection> getConnection(int nodeNum) throws GraphNodeException;
+	
+	public boolean inGraph(int node);
 
 }

@@ -1,7 +1,9 @@
 package com.natlowis.ai.ui.gui;
 
 import java.io.File;
+import java.io.IOException;
 
+import com.natlowis.ai.exceptions.FileException;
 import com.natlowis.ai.supervised.regression.LinearRegressionMultivariate;
 import com.natlowis.ai.supervised.regression.LinearRegressionUnivariate;
 import com.natlowis.ai.supervised.regression.LogisticRegressionMultivariate;
@@ -40,6 +42,7 @@ public class RegressionChoice extends Application implements Window {
 	private Button submitLogisticMulti;
 	private Button submitLogisticUni;
 	private Label label;
+	private String instructions;
 
 	/**
 	 * The Constructor which makes the page.
@@ -107,7 +110,13 @@ public class RegressionChoice extends Application implements Window {
 		grid.getChildren().add(clear);
 
 		// Adding a Label
-		label = new Label();
+		instructions = "Please enter these data: \n" + "-> The alpha value between 0 and 1 \n"
+				+ "-> The number of iterations as an integer \n"
+				+ "-> The next field will be the highest Power if the data can be modelled by one variable or the number of variables if the data can be modelled by multiple variables \n"
+				+ "-> Then choose which regression to use.  Each one expects you to enter a file with the data seperated by commas \n"
+				+ " \t-> Each row MUST be the same length and the final data point be either the numerical y number or the class it is in (Can split 2 classes either 0 or 1) \n"
+				+ "In future updates I will improve the regression algorithms to handle more cases";
+		label = new Label(instructions);
 		GridPane.setConstraints(label, 0, 5);
 		GridPane.setColumnSpan(label, 2);
 		grid.getChildren().add(label);
@@ -128,7 +137,7 @@ public class RegressionChoice extends Application implements Window {
 				alpha.clear();
 				epoch.clear();
 				polynomialOrVariables.clear();
-				label.setText(null);
+				label.setText(instructions);
 				sceneChooser.activate("Main Page"); // activates the main page screen
 				return;
 			}
@@ -138,7 +147,7 @@ public class RegressionChoice extends Application implements Window {
 		submitMulti.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
-
+				label.setText("Loading Values");
 				if ((!alpha.getText().isEmpty() && !epoch.getText().isEmpty()
 						&& !polynomialOrVariables.getText().isEmpty())) { // checks there are inputs
 
@@ -147,15 +156,35 @@ public class RegressionChoice extends Application implements Window {
 					fileChooser.setTitle("Open Data File");
 					Stage stage = sceneChooser.getStage();
 					File files = fileChooser.showOpenDialog(stage);
+					if (files != null) {
+						try {
+							Integer.parseInt(polynomialOrVariables.getText());
+							Integer.parseInt(epoch.getText());
+							Double.parseDouble(alpha.getText());
+							Integer.parseInt(polynomialOrVariables.getText());
 
-					Regression regressionObject = new LinearRegressionMultivariate(files,
-							Integer.parseInt(polynomialOrVariables.getText())); // Makes a regression object
-					label.setText("Loading Values");
-					regressionObject.gradientDescent(Integer.parseInt(epoch.getText()),
-							Double.parseDouble(alpha.getText()), Integer.parseInt(polynomialOrVariables.getText())); // Does
-																														// gradient
-																														// descent
-					label.setText(output(regressionObject)); // Output answer
+							try {
+								Regression regressionObject = new LinearRegressionMultivariate(files,
+										Integer.parseInt(polynomialOrVariables.getText()));
+								regressionObject.gradientDescent(Integer.parseInt(epoch.getText()),
+										Double.parseDouble(alpha.getText()),
+										Integer.parseInt(polynomialOrVariables.getText())); // Does
+																							// gradient
+																							// descent
+								label.setText(output(regressionObject)); // Output answer
+							} catch (FileException e) {
+								label.setText("Not the correct file length");
+
+							} catch (IOException e) {
+								label.setText("The file cannot be read");
+							} // Makes a regression object
+
+						} catch (NumberFormatException e1) {
+							label.setText("PLease make sure you have entered numbers in the boxes");
+						}
+					} else {
+						label.setText("Please choose a file");
+					}
 				} else {
 					label.setText("You have not filled out all values.");
 				}
@@ -166,23 +195,43 @@ public class RegressionChoice extends Application implements Window {
 		submitUni.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
+				label.setText("Loading Values");
 				if ((!alpha.getText().isEmpty() && !epoch.getText().isEmpty()
 						&& !polynomialOrVariables.getText().isEmpty())) { // checks there are inputs
 
-					// opens the file
+					// Opens the file to use
 					FileChooser fileChooser = new FileChooser();
 					fileChooser.setTitle("Open Data File");
 					Stage stage = sceneChooser.getStage();
 					File files = fileChooser.showOpenDialog(stage);
+					if (files != null) {
+						try {
+							Integer.parseInt(polynomialOrVariables.getText());
+							Integer.parseInt(epoch.getText());
+							Double.parseDouble(alpha.getText());
+							Integer.parseInt(polynomialOrVariables.getText());
 
-					Regression regressionObject = new LinearRegressionUnivariate(files); // makes the correct regression
-																							// object
-					label.setText("Loading Values");
-					regressionObject.gradientDescent(Integer.parseInt(epoch.getText()),
-							Double.parseDouble(alpha.getText()), Integer.parseInt(polynomialOrVariables.getText())); // Does
-																														// gradient
-																														// descent
-					label.setText(output(regressionObject)); // Output answer
+							try {
+								Regression regressionObject = new LinearRegressionUnivariate(files);
+								regressionObject.gradientDescent(Integer.parseInt(epoch.getText()),
+										Double.parseDouble(alpha.getText()),
+										Integer.parseInt(polynomialOrVariables.getText())); // Does
+																							// gradient
+																							// descent
+								label.setText(output(regressionObject)); // Output answer
+							} catch (FileException e) {
+								label.setText("Not the correct file length");
+
+							} catch (IOException e) {
+								label.setText("The file cannot be read");
+							} // Makes a regression object
+
+						} catch (NumberFormatException e1) {
+							label.setText("PLease make sure you have entered numbers in the boxes");
+						}
+					} else {
+						label.setText("Please choose a file");
+					}
 				} else {
 					label.setText("You have not filled out all values.");
 				}
@@ -193,23 +242,44 @@ public class RegressionChoice extends Application implements Window {
 		submitLogisticMulti.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
+				label.setText("Loading Values");
 				if ((!alpha.getText().isEmpty() && !epoch.getText().isEmpty()
-						&& !polynomialOrVariables.getText().isEmpty())) { // Checks there are inputs
+						&& !polynomialOrVariables.getText().isEmpty())) { // checks there are inputs
 
-					// Opens a file
+					// Opens the file to use
 					FileChooser fileChooser = new FileChooser();
 					fileChooser.setTitle("Open Data File");
 					Stage stage = sceneChooser.getStage();
 					File files = fileChooser.showOpenDialog(stage);
+					if (files != null) {
+						try {
+							Integer.parseInt(polynomialOrVariables.getText());
+							Integer.parseInt(epoch.getText());
+							Double.parseDouble(alpha.getText());
+							Integer.parseInt(polynomialOrVariables.getText());
 
-					Regression regressionObject = new LogisticRegressionMultivariate(files,
-							Integer.parseInt(polynomialOrVariables.getText())); // Makes correct regression object
-					label.setText("Loading Values");
-					regressionObject.gradientDescent(Integer.parseInt(epoch.getText()),
-							Double.parseDouble(alpha.getText()), Integer.parseInt(polynomialOrVariables.getText())); // Does
-																														// gradient
-																														// descent
-					label.setText(output(regressionObject)); // Ouputs answer
+							try {
+								Regression regressionObject = new LogisticRegressionMultivariate(files,
+										Integer.parseInt(polynomialOrVariables.getText()));
+								regressionObject.gradientDescent(Integer.parseInt(epoch.getText()),
+										Double.parseDouble(alpha.getText()),
+										Integer.parseInt(polynomialOrVariables.getText())); // Does
+																							// gradient
+																							// descent
+								label.setText(output(regressionObject)); // Output answer
+							} catch (FileException e) {
+								label.setText("Not the correct file length");
+
+							} catch (IOException e) {
+								label.setText("The file cannot be read");
+							} // Makes a regression object
+
+						} catch (NumberFormatException e1) {
+							label.setText("PLease make sure you have entered numbers in the boxes");
+						}
+					} else {
+						label.setText("Please choose a file");
+					}
 				} else {
 					label.setText("You have not filled out all values.");
 				}
@@ -220,24 +290,43 @@ public class RegressionChoice extends Application implements Window {
 		submitLogisticUni.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent t) {
+				label.setText("Loading Values");
 				if ((!alpha.getText().isEmpty() && !epoch.getText().isEmpty()
-						&& !polynomialOrVariables.getText().isEmpty())) { // Checks there are inputs
+						&& !polynomialOrVariables.getText().isEmpty())) { // checks there are inputs
 
-					// Opens a file
+					// Opens the file to use
 					FileChooser fileChooser = new FileChooser();
 					fileChooser.setTitle("Open Data File");
 					Stage stage = sceneChooser.getStage();
 					File files = fileChooser.showOpenDialog(stage);
+					if (files != null) {
+						try {
+							Integer.parseInt(polynomialOrVariables.getText());
+							Integer.parseInt(epoch.getText());
+							Double.parseDouble(alpha.getText());
+							Integer.parseInt(polynomialOrVariables.getText());
 
-					Regression regressionObject = new LogisticRegressionUnivariate(files); // Makes correct regression
-																							// object
-					label.setText("Loading Values");
-					regressionObject.gradientDescent(Integer.parseInt(epoch.getText()),
-							Double.parseDouble(alpha.getText()), Integer.parseInt(polynomialOrVariables.getText())); // Does
-																														// gradient
-																														// descent
+							try {
+								Regression regressionObject = new LogisticRegressionUnivariate(files);
+								regressionObject.gradientDescent(Integer.parseInt(epoch.getText()),
+										Double.parseDouble(alpha.getText()),
+										Integer.parseInt(polynomialOrVariables.getText())); // Does
+																							// gradient
+																							// descent
+								label.setText(output(regressionObject)); // Output answer
+							} catch (FileException e) {
+								label.setText("Not the correct file length");
 
-					label.setText(output(regressionObject)); // Ouputs answer
+							} catch (IOException e) {
+								label.setText("The file cannot be read");
+							} // Makes a regression object
+
+						} catch (NumberFormatException e1) {
+							label.setText("PLease make sure you have entered numbers in the boxes");
+						}
+					} else {
+						label.setText("Please choose a file");
+					}
 				} else {
 					label.setText("You have not filled out all values.");
 				}
@@ -253,7 +342,7 @@ public class RegressionChoice extends Application implements Window {
 				alpha.clear();
 				epoch.clear();
 				polynomialOrVariables.clear();
-				label.setText(null);
+				label.setText(instructions);
 			}
 		});
 

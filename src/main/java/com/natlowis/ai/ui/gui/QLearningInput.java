@@ -1,8 +1,12 @@
 package com.natlowis.ai.ui.gui;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import com.natlowis.ai.exceptions.FileException;
+import com.natlowis.ai.exceptions.GraphException;
+import com.natlowis.ai.exceptions.GraphNodeException;
 import com.natlowis.ai.fileHandaling.CSVFiles;
 import com.natlowis.ai.graphs.Graph;
 import com.natlowis.ai.unsupervised.QLearning;
@@ -19,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+//TODO ADD ERROR CATCHING CODE
 /**
  * The page which allows you to use Q Learning
  * 
@@ -36,6 +41,7 @@ public class QLearningInput extends Application implements Window {
 	private Button submit;
 	private Button clear;
 	private Label label;
+	private String instructions;
 
 	/**
 	 * The Constructor where it constructs the page and adds it to
@@ -95,7 +101,13 @@ public class QLearningInput extends Application implements Window {
 		grid.getChildren().add(clear);
 
 		// Adding a Label
-		label = new Label();
+		instructions = "To run Q Learning \n" + "-> Enter a Learning Rate between 0 and 1 \n"
+				+ "-> Enter the number of iterations as an integer \n"
+				+ "-> Enter the discount rate as a number between 0 and 1 \n"
+				+ "-> Enter the end state as an integer \n"
+				+ "-> Press submit and choose a csv or txt file with each value seperated by commas which has each row designate a Connection in this order: \n"
+				+ "\t -> Origin Node, Destination Node, weight";
+		label = new Label(instructions);
 		GridPane.setConstraints(label, 0, 5);
 		GridPane.setColumnSpan(label, 2);
 		grid.getChildren().add(label);
@@ -118,7 +130,7 @@ public class QLearningInput extends Application implements Window {
 				epoch.clear();
 				discountRate.clear();
 				endState.clear();
-				label.setText(null);
+				label.setText(instructions);
 				sceneChooser.activate("Main Page"); // activates the main page
 				return;
 			}
@@ -140,15 +152,63 @@ public class QLearningInput extends Application implements Window {
 					Stage stage = sceneChooser.getStage();
 					File files = fileChooser.showOpenDialog(stage); // allow user to open file
 					CSVFiles formattor = new CSVFiles(files, 3); // makes a formatter to use
-					ArrayList<ArrayList<String>> data = formattor.readCSV(); // gets the data
+					ArrayList<ArrayList<String>> data = null;
+					try {
+						data = formattor.readCSV();
+						Graph graph = null;
+						try {
+							graph = new Graph(data);
+							QLearning qLearning = new QLearning(graph); // makes a QLearning object
+							try {
+								Double.parseDouble(discountRate.getText());
+								Double.parseDouble(learningRate.getText());
+								Integer.parseInt(epoch.getText());
+								Integer.parseInt(endState.getText());
+								if (Double.parseDouble(discountRate.getText()) > 0
+										&& Double.parseDouble(discountRate.getText()) < 1) {
+									if (Double.parseDouble(learningRate.getText()) > 0
+											&& Double.parseDouble(learningRate.getText()) < 1) {
+										if (graph.inGraph(Integer.parseInt(endState.getText()))) {
+											qLearning.qLearning(Double.parseDouble(discountRate.getText()),
+													Double.parseDouble(learningRate.getText()),
+													Integer.parseInt(epoch.getText()),
+													Integer.parseInt(endState.getText())); // does qLearning
+											label.setText(qLearning.toString()); // Outputs the table
+										}
+										
+										else {
+											label.setText("The end node is not in the graph");
+										}
+										
+									} else {
+										label.setText("The learning rate needs to be between 0 and 1");
+									}
+								} else {
+									label.setText("The discount rate needs to be between 0 and 1");
+								}
+							} catch (NumberFormatException e2) {
+								label.setText("The numbers in the box are not actual numbers");
+								;
+							}
 
-					Graph graph = new Graph(data); // Makes a graph from the data
+						} catch (GraphException e5) {
+							label.setText(
+									"Tried adding multiple connections between same node or other problems(Check graph will fit spec) ");
+							;
+						} catch (GraphNodeException e4) {
+							label.setText("Added multiple of the same node");
+							;
+						} catch (NumberFormatException e6) {
+							label.setText("Tried adding something which is not a number");
+							;
+						} // Makes a graph from the data
 
-					QLearning qLearning = new QLearning(graph); // makes a QLearning object
-					qLearning.qLearning(Double.parseDouble(discountRate.getText()),
-							Double.parseDouble(learningRate.getText()), Integer.parseInt(epoch.getText()),
-							Integer.parseInt(endState.getText())); // does qLearning
-					label.setText(qLearning.toString()); // Outputs the table
+					} catch (FileException e2) {
+						label.setText("One of the rows is not the right length");
+					} catch (IOException e3) {
+						label.setText("There is an error finding the file or reading the file");
+					} // gets the data
+
 				} else {
 					label.setText("You have not inputted all data.");
 				}
@@ -164,7 +224,7 @@ public class QLearningInput extends Application implements Window {
 				epoch.clear();
 				discountRate.clear();
 				endState.clear();
-				label.setText(null);
+				label.setText(instructions);
 			}
 		});
 

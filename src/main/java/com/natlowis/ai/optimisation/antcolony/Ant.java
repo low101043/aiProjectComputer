@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
+import com.natlowis.ai.exceptions.GraphNodeException;
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
 
@@ -64,7 +65,13 @@ public class Ant extends Thread {
 	 */
 	private int chooseNext() {
 
-		ArrayList<Connection> connections = graph.getConnection(currentNode); // Gets the Connections for the node
+		ArrayList<Connection> connections = null;
+		try {
+			connections = graph.getConnection(currentNode);
+		} catch (GraphNodeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // Gets the Connections for the node
 
 		rand = new Random(); // Creates new random object
 

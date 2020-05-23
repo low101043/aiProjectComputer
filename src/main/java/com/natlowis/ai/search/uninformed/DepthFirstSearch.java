@@ -6,6 +6,8 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.natlowis.ai.exceptions.GraphException;
+import com.natlowis.ai.exceptions.GraphNodeException;
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
 import com.natlowis.ai.search.SearchAlgorithm;
@@ -16,6 +18,7 @@ import com.natlowis.ai.search.SearchAlgorithm;
  * @author low101043
  *
  */
+//TODO FIX ERRORS
 public class DepthFirstSearch implements SearchAlgorithm {
 
 	private Deque<Integer> frontier; // This will hold the nodes to be visited
@@ -43,7 +46,7 @@ public class DepthFirstSearch implements SearchAlgorithm {
 	}
 
 	@Override
-	public void algorithmToImplement(int currentNode, int endNode) {
+	public void algorithmToImplement(int currentNode, int endNode) throws GraphNodeException {
 
 		// If we have reached the end node
 		if (currentNode == endNode) {
@@ -63,7 +66,12 @@ public class DepthFirstSearch implements SearchAlgorithm {
 				if (!visited.contains(child) && !frontier.contains(child)) { // If it has not been visited or not in the
 																				// frontier
 
-					tree.addConnection(currentNode, child, 1); // Adds to the tree and frontier
+					try {
+						tree.addConnection(currentNode, child, 1);
+					} catch (GraphException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} // Adds to the tree and frontier
 					frontier.push(child);
 				}
 			}

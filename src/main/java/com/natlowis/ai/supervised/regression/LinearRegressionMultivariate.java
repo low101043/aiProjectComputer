@@ -1,10 +1,12 @@
 package com.natlowis.ai.supervised.regression;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import com.natlowis.ai.exceptions.FileException;
 import com.natlowis.ai.fileHandaling.CSVFiles;
-
+//TODO ADD ERROR CATCHING CODE
 /**
  * This implements multivariate linear regression
  * 
@@ -34,8 +36,10 @@ public class LinearRegressionMultivariate implements Regression {
 	 * 
 	 * @param files             The file which has all the data
 	 * @param multibleVariables The number of different variables needed
+	 * @throws IOException 
+	 * @throws FileException 
 	 */
-	public LinearRegressionMultivariate(File files, int multibleVariables) {
+	public LinearRegressionMultivariate(File files, int multibleVariables) throws FileException, IOException, NumberFormatException {
 
 		// Initialises all needed variables
 		file = files;
@@ -164,25 +168,23 @@ public class LinearRegressionMultivariate implements Regression {
 	}
 
 	@Override
-	public void getData(int variableSize) { // TODO what happens if not passed a number?
+	public void getData(int variableSize) throws FileException, IOException, NumberFormatException {
 
 		CSVFiles formattor = new CSVFiles(file, variableSize); // Makes a new formatter object
-		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV(); // Get all the data
+		ArrayList<ArrayList<String>> dataToUse = null;
+		try {
+			dataToUse = formattor.readCSV();
+		} catch (FileException | IOException e) {
+			// TODO Auto-generated catch block
+			throw e;
+		} // Get all the data
 
-		for (ArrayList<String> item : dataToUse) { // For each set of items in the data they will be converted to type
-													// double
-
-			ArrayList<Double> dataToAdd = new ArrayList<Double>();
-
-			for (String numberStr : item) {
-
-				double number = Double.parseDouble(numberStr);
-				dataToAdd.add(number);
-			}
-
-			data.add(dataToAdd);
-
+		try{data = formattor.convertData(dataToUse);}
+		catch (NumberFormatException e) {
+			throw e;
 		}
+
+		
 	}
 
 	@Override

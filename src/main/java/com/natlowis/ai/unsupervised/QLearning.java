@@ -3,6 +3,7 @@ package com.natlowis.ai.unsupervised;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.natlowis.ai.exceptions.GraphNodeException;
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
 
@@ -55,13 +56,25 @@ public class QLearning {
 			do { // Completes one episode
 
 				// Gets all the data needed
-				ArrayList<Connection> data = graph.getConnection(stateInt);
+				ArrayList<Connection> data = null;
+				try {
+					data = graph.getConnection(stateInt);
+				} catch (GraphNodeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				int nextActionIndex = rand.nextInt(data.size()); // TODO Error here if no connections in graph!!
 				Connection nextAction = data.get(nextActionIndex);
 				double reward = nextAction.getWeight();
 
 				int nextState = nextAction.getDestinationNode();
-				ArrayList<Connection> nextActions = graph.getConnection(nextState);
+				ArrayList<Connection> nextActions = null;
+				try {
+					nextActions = graph.getConnection(nextState);
+				} catch (GraphNodeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				double nextQValueFinal = Double.NEGATIVE_INFINITY;
 
 				// Finds the connection with largest Q score in q Table

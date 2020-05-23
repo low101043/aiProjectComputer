@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import com.natlowis.ai.exceptions.GraphNodeException;
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
 import com.natlowis.ai.search.SearchAlgorithm;
@@ -38,7 +39,7 @@ public class AStar implements SearchAlgorithm {
 	}
 
 	@Override
-	public void algorithmToImplement(int currentNode, int endNode) {
+	public void algorithmToImplement(int currentNode, int endNode) throws GraphNodeException {  //TODO DEAL WITH PROBLEM OFF IF NO CURRENT NODEOR END NODE
 
 		boolean finished = false; // This checks if it finished
 		double oldFNode = 0; // This is what the previous f node value was
@@ -131,7 +132,13 @@ public class AStar implements SearchAlgorithm {
 			// Gets the correct connection
 			int originNode = answer[i - 1];
 			int endNode = answer[i];
-			ArrayList<Connection> connection = graph.getConnection(originNode);
+			ArrayList<Connection> connection = null;
+			try {
+				connection = graph.getConnection(originNode);
+			} catch (GraphNodeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			Connection finalConnection = null; // This will be the correct connection
 			for (Connection connectionMaybe : connection) {

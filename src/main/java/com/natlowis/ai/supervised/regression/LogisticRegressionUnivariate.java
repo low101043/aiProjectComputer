@@ -1,13 +1,15 @@
 package com.natlowis.ai.supervised.regression;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import com.natlowis.ai.exceptions.FileException;
 import com.natlowis.ai.fileHandaling.CSVFiles;
 import com.natlowis.ai.testData.makeLogisticRegressionData;
-
+//TODO ADD ERROR CATCHING CODE
 /**
  * This class will implement Logistic Regression which is linear or non linear
  * HOWEVER it does not work
@@ -41,12 +43,17 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 	 * 
 	 * @param files
 	 */
-	public LogisticRegressionUnivariate(File files) {
+	public LogisticRegressionUnivariate(File files) throws FileException, IOException, NumberFormatException {
 
 		// Initialises the variables
 		file = files;
 		data = new ArrayList<ArrayList<Double>>();
-		getData(3);
+		try {
+			getData(3);
+		} catch (NumberFormatException | FileException | IOException e) {
+			// TODO Auto-generated catch block
+			throw e;
+		}
 	}
 
 	@Override
@@ -252,24 +259,21 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 	}
 
 	@Override
-	public void getData(int variableSize) {
+	public void getData(int variableSize) throws FileException, IOException, NumberFormatException {
 
 		CSVFiles formattor = new CSVFiles(file, variableSize); // Makes a new formatter object
-		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV(); // Get all the data
+		ArrayList<ArrayList<String>> dataToUse = null;
+		try {
+			dataToUse = formattor.readCSV();
+		} catch (FileException |IOException e) {
+			// TODO Auto-generated catch block
+			throw e;
+		} // Get all the data
 
-		for (ArrayList<String> item : dataToUse) { // For each set of items in the data they will be converted to type
-													// double
-
-			ArrayList<Double> dataToAdd = new ArrayList<Double>();
-
-			for (String numberStr : item) {
-
-				double number = Double.parseDouble(numberStr);
-				dataToAdd.add(number);
-			}
-
-			data.add(dataToAdd);
-
+		try {
+		data = formattor.convertData(dataToUse);}
+		catch (NumberFormatException e) {
+			throw e;
 		}
 	}
 

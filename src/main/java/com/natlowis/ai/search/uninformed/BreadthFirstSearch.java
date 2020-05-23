@@ -6,6 +6,8 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.natlowis.ai.exceptions.GraphException;
+import com.natlowis.ai.exceptions.GraphNodeException;
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
 import com.natlowis.ai.search.SearchAlgorithm;
@@ -16,6 +18,7 @@ import com.natlowis.ai.search.SearchAlgorithm;
  * @author low101043
  *
  */
+//TODO FIX ERRORS
 public class BreadthFirstSearch implements SearchAlgorithm {
 
 	private Deque<Integer> frontier; // This will hold the nodes to be visited
@@ -43,7 +46,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 	}
 
 	@Override
-	public void algorithmToImplement(int currentNode, int endNode) {
+	public void algorithmToImplement(int currentNode, int endNode) throws GraphNodeException {
 
 		ArrayList<Connection> connectionsToUse = graph.getConnection(currentNode); // This will get the connections for
 																					// that node
@@ -57,7 +60,12 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 																			// frontier or in the visited set
 
 				// If it is not
-				tree.addConnection(currentNode, child, 1); // Adds the connection to the tree
+				try {
+					tree.addConnection(currentNode, child, 1);
+				} catch (GraphException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} // Adds the connection to the tree
 				frontier.addLast(child); // Adds the node to the end of the frontier queue
 			}
 

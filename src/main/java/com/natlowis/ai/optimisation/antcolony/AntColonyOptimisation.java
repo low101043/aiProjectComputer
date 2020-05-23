@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.natlowis.ai.exceptions.GraphNodeException;
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
 
@@ -177,7 +178,13 @@ public class AntColonyOptimisation {
 
 		for (int node : nodes) {
 
-			ArrayList<Connection> connections = graph.getConnection(node); // Gets the connections for that node
+			ArrayList<Connection> connections = null;
+			try {
+				connections = graph.getConnection(node);
+			} catch (GraphNodeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // Gets the connections for that node
 
 			for (int i = 0; i < connections.size(); i++) { // For each connection
 
@@ -200,7 +207,12 @@ public class AntColonyOptimisation {
 				double newPheromone = ((1 - pheromoneLevel) * oldPheromone) + newPheromoneToAdd; // Updates the
 																									// pheromone level
 
-				graph.setSpecial(connection.getOriginNode(), connection.getDestinationNode(), newPheromone);
+				try {
+					graph.setSpecial(connection.getOriginNode(), connection.getDestinationNode(), newPheromone);
+				} catch (GraphNodeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 		}
@@ -214,7 +226,13 @@ public class AntColonyOptimisation {
 	 */
 	private int chooseNext(int currentNode) {
 
-		ArrayList<Connection> connections = graph.getConnection(currentNode); // Gets the connection for that node
+		ArrayList<Connection> connections = null;
+		try {
+			connections = graph.getConnection(currentNode);
+		} catch (GraphNodeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // Gets the connection for that node
 
 		int destination = -1;
 		double finalProbability = 0;

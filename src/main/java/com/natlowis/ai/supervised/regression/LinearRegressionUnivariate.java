@@ -1,9 +1,13 @@
 package com.natlowis.ai.supervised.regression;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import com.natlowis.ai.exceptions.FileException;
 import com.natlowis.ai.fileHandaling.CSVFiles;
+//TODO ADD ERROR CATCHING CODE
+
 
 /**
  * This implements linear and non linear regression with one variable
@@ -35,13 +39,19 @@ public class LinearRegressionUnivariate implements Regression {
 	 * This constructor is used if you have the file with the data.
 	 * 
 	 * @param files
+	 * @throws NumberFormatException, FileException, IOException 
 	 */
-	public LinearRegressionUnivariate(File files) {
+	public LinearRegressionUnivariate(File files) throws NumberFormatException, FileException, IOException {
 
 		// Initialises all the needed variables
 		file = files;
 		data = new ArrayList<ArrayList<Double>>();
-		getData(2); // Gets the correct data from the file
+		try {
+			getData(2);
+		} catch (NumberFormatException | FileException | IOException e) {
+			// TODO Auto-generated catch block
+			throw e;
+		} // Gets the correct data from the file
 	}
 
 	@Override
@@ -117,27 +127,22 @@ public class LinearRegressionUnivariate implements Regression {
 	}
 
 	@Override
-	public void getData(int variableSize) {
+	public void getData(int variableSize) throws FileException, IOException, NumberFormatException {
 
 		CSVFiles formattor = new CSVFiles(file, variableSize); // Makes a CSVFiles Object which can get data from a CSV
 																// file
-		ArrayList<ArrayList<String>> dataToUse = formattor.readCSV(); // Read the file
+		ArrayList<ArrayList<String>> dataToUse = null;
+		try {
+			dataToUse = formattor.readCSV();
+		} catch (IOException | FileException e) {
+			// TODO Auto-generated catch block
+			throw e;
+		} // Read the file
 
-		for (ArrayList<String> item : dataToUse) { // For every line in the file will convert each value to type double
-													// and add
-
-			// TODO what to do if input is not a number
-
-			ArrayList<Double> dataToAdd = new ArrayList<Double>();
-
-			for (String numberStr : item) {
-
-				double number = Double.parseDouble(numberStr);
-				dataToAdd.add(number);
-			}
-
-			data.add(dataToAdd);
-
+		try {
+		data = formattor.convertData(dataToUse);}
+		catch (NumberFormatException e) {
+			throw e;
 		}
 	}
 

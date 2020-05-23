@@ -173,4 +173,10 @@ public class GraphOriginal implements GraphInterface {
 		return graph.get(nodeNum);
 	}
 
+	@Override
+	public boolean inGraph(int node) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

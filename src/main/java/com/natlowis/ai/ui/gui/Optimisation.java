@@ -1,8 +1,12 @@
 package com.natlowis.ai.ui.gui;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import com.natlowis.ai.exceptions.FileException;
+import com.natlowis.ai.exceptions.GraphException;
+import com.natlowis.ai.exceptions.GraphNodeException;
 import com.natlowis.ai.fileHandaling.CSVFiles;
 import com.natlowis.ai.graphs.Graph;
 import com.natlowis.ai.optimisation.antcolony.AntColonyOptimisation;
@@ -19,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+//TODO ADD ERROR CATCHING CODE
 public class Optimisation extends Application implements Window {
 
 	private Button backHome; // Button to take back home
@@ -30,6 +35,7 @@ public class Optimisation extends Application implements Window {
 	private Button submit; // Button to submit
 	private Button clear; // Button to clear
 	private Label label; // Output label
+	private String instructions;
 
 	/**
 	 * The Constructor which makes the scene
@@ -95,8 +101,14 @@ public class Optimisation extends Application implements Window {
 		GridPane.setConstraints(clear, 1, 1);
 		grid.getChildren().add(clear);
 
-		// Adding a Label
-		label = new Label();
+		// Adding a Label TODO Make it persistant
+		instructions = "Please enter these figures: \n " + "-> The start node as an integer \n "
+				+ "-> The end node as an integer \n" + "-> The number of iterations as an integer \n"
+				+ "-> The evaporation rate as a number between 0 and 1 \n" + "-> The number of ants to use \n"
+				+ "-> Press Submit.  This will ask you to enter a file (Please by a csv or txt with values seperated with commas) \n\t"
+				+ "-> Each row designates 1 Connection.  Must be in this order: origin node, end node, weight \n"
+				+ "This program at the moment assumes all weights are the same.  This will be updated at a later point";
+		label = new Label(instructions);
 		GridPane.setConstraints(label, 0, 5);
 		GridPane.setColumnSpan(label, 2);
 		grid.getChildren().add(label);
@@ -125,7 +137,7 @@ public class Optimisation extends Application implements Window {
 				pheromoneLevel.clear();
 				numOfAnts.clear();
 				endState.clear();
-				label.setText(null);
+				label.setText(instructions);
 				sceneChooser.activate("Main Page"); // activates the main page
 				return;
 			}
@@ -139,40 +151,90 @@ public class Optimisation extends Application implements Window {
 
 				if ((!startNode.getText().isEmpty() && !epoch.getText().isEmpty() && !pheromoneLevel.getText().isEmpty()
 						&& !endState.getText().isEmpty() && !numOfAnts.getText().isEmpty())) { // Checks if there is an
-																								// input
+					label.setText("Loading"); // input
+					try {
+						Double.parseDouble(pheromoneLevel.getText());
+						if (Double.parseDouble(pheromoneLevel.getText()) < 1
+								&& Double.parseDouble(pheromoneLevel.getText()) > 0) { // If the evaporation rate is
+																						// between
+																						// 0 and 1
 
-					if (Double.parseDouble(pheromoneLevel.getText()) < 1
-							&& Double.parseDouble(pheromoneLevel.getText()) > 0) { // If the evaporation rate is between
-																					// 0 and 1
+							try {
+								ArrayList<ArrayList<String>> data = getData(sceneChooser, 3); // TODO if don't choose a
+																								// file
 
-						label.setText("Loading");
-						ArrayList<ArrayList<String>> data = getData(sceneChooser, 3); // TODO if don't choose a file
+								if (data != null) {
+									Graph graph = null;
+									try {
+										graph = new Graph(data);
+										// Makes a graph
 
-						if (data != null) {
-							Graph graph = new Graph(data); // Makes a graph
+										// Performs ACO
+										try {
+											Integer.parseInt(startNode.getText());
+											Integer.parseInt(endState.getText());
+											Integer.parseInt(epoch.getText());
+											Double.parseDouble(pheromoneLevel.getText());
+											Integer.parseInt(numOfAnts.getText());
+											if (graph.inGraph(Integer.parseInt(endState.getText())) && graph.inGraph(Integer.parseInt(startNode.getText()))) {
+												AntColonyOptimisation aco = new AntColonyOptimisation(graph);
+												aco.AntColonyOptimisationAlgorithm(Integer.parseInt(startNode.getText()),
+														Integer.parseInt(endState.getText()),
+														Integer.parseInt(epoch.getText()),
+														Double.parseDouble(pheromoneLevel.getText()),
+														Integer.parseInt(numOfAnts.getText()));
 
-							// Performs ACO
-							AntColonyOptimisation aco = new AntColonyOptimisation(graph);
-							aco.AntColonyOptimisationAlgorithm(Integer.parseInt(startNode.getText()),
-									Integer.parseInt(endState.getText()), Integer.parseInt(epoch.getText()),
-									Double.parseDouble(pheromoneLevel.getText()),
-									Integer.parseInt(numOfAnts.getText()));
+												ArrayList<Integer> route = aco.finalRoute();
 
-							ArrayList<Integer> route = aco.finalRoute();
+												String output = "Nodes Visited in order: "; // The final output
 
-							String output = "Nodes Visited in order: "; // The final output
+												for (int node : route) { // Adds all nodes to visit
+													output += node + ", ";
+												}
 
-							for (int node : route) { // Adds all nodes to visit
-								output += node + ", ";
+												label.setText(output);
+											}
+											else if (graph.inGraph(Integer.parseInt(endState.getText())) && !graph.inGraph(Integer.parseInt(startNode.getText()))) {
+												label.setText("The Start Node inputted is not in the graph");
+											}
+											else if (!graph.inGraph(Integer.parseInt(endState.getText())) && graph.inGraph(Integer.parseInt(startNode.getText()))) {
+												label.setText("The End Node inputted is not in the graph");
+											}
+											else {
+												label.setText("Both the start node and the end node is not in the graph");
+											}
+											
+										} catch (NumberFormatException e6) {
+											label.setText("The data inputted in above boxes is not numbers");
+										}
+									}
+
+									catch (GraphException e5) {
+										label.setText(
+												"Tried adding multiple connections between same node or other problems(Check graph will fit spec) ");
+										;
+									} catch (GraphNodeException e4) {
+										label.setText("Added multiple of the same node");
+										;
+									} catch (NumberFormatException e6) {
+										label.setText("Tried adding something which is not a number");
+										;
+									}
+								} else {
+									label.setText("Choose a File");
+								}
+							} catch (FileException e2) {
+								label.setText("One of the rows is not the right length");
+							} catch (IOException e3) {
+								label.setText("There is an error finding the file or reading the file");
 							}
-
-							label.setText(output);
 						} else {
-							label.setText("Choose a File");
+							label.setText("The evapouration needs be between 0 and 1");
 						}
-					} else {
-						label.setText("The evapouration needs be between 0 and 1");
+					} catch (NumberFormatException e1) {
+						label.setText("The Evapouration rate must be a number");
 					}
+
 				} else {
 					label.setText("You have not inputted all data.");
 				}
@@ -189,7 +251,7 @@ public class Optimisation extends Application implements Window {
 				pheromoneLevel.clear();
 				numOfAnts.clear();
 				endState.clear();
-				label.setText(null);
+				label.setText(instructions);
 			}
 		});
 
@@ -201,8 +263,10 @@ public class Optimisation extends Application implements Window {
 	 * @param sceneChooser The ScreenController used
 	 * @param number       The number of columns it should have
 	 * @return The data in an arraylist of arraylist of strings,
+	 * @throws FileException, IOException
 	 */
-	private ArrayList<ArrayList<String>> getData(ScreenController sceneChooser, int number) {
+	private ArrayList<ArrayList<String>> getData(ScreenController sceneChooser, int number)
+			throws FileException, IOException {
 		// Opens the file to use
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Data File");
@@ -212,8 +276,15 @@ public class Optimisation extends Application implements Window {
 		if (files == null) {
 			return null;
 		}
+		
 		CSVFiles formattor = new CSVFiles(files, number); // makes a formatter to use
-		ArrayList<ArrayList<String>> data = formattor.readCSV(); // gets the data
+		ArrayList<ArrayList<String>> data = null;
+		try {
+			data = formattor.readCSV();
+		} catch (FileException | IOException e) {
+			// TODO Auto-generated catch block
+			throw e;
+		} // gets the data
 
 		return data;
 	}
