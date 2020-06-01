@@ -22,6 +22,9 @@ This has not been fully tested.  This means that some inputs will not work as I 
 - Please do not use large amounts of data/ graphs this has not been optimised
 - For Regression Algorithms I have not written all code which will allow the program to guess what class/number the input points to.  If I have written the code it is not accessible to the user at the moment
 - There are a lot of TODO throughout the program.  These specifies areas that I believe need to be improved.
+- For ACO the Ant's are not killed if they take too long.  As well, can cause program to crash with too many threads.
+- The GUI just adds each class over the other so can easily crash if you click onto too many different screens
+- If there is no way to reach the end node from the start node on the algorithms which use graphs then the program will not work.
 
 ### Prerequistes:
 - Java 11 or later (No guarantee that the code will work in any earlier Java Version)
