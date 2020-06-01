@@ -23,7 +23,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-//TODO ADD ERROR CATCHING CODE
 public class Optimisation extends Application implements Window {
 
 	private Button backHome; // Button to take back home
@@ -101,7 +100,7 @@ public class Optimisation extends Application implements Window {
 		GridPane.setConstraints(clear, 1, 1);
 		grid.getChildren().add(clear);
 
-		// Adding a Label TODO Make it persistant
+		// Adding a Label 
 		instructions = "Please enter these figures: \n " + "-> The start node as an integer \n "
 				+ "-> The end node as an integer \n" + "-> The number of iterations as an integer \n"
 				+ "-> The evaporation rate as a number between 0 and 1 \n" + "-> The number of ants to use \n"
@@ -160,8 +159,7 @@ public class Optimisation extends Application implements Window {
 																						// 0 and 1
 
 							try {
-								ArrayList<ArrayList<String>> data = getData(sceneChooser, 3); // TODO if don't choose a
-																								// file
+								ArrayList<ArrayList<String>> data = getData(sceneChooser, 3); 
 
 								if (data != null) {
 									Graph graph = null;
@@ -176,9 +174,11 @@ public class Optimisation extends Application implements Window {
 											Integer.parseInt(epoch.getText());
 											Double.parseDouble(pheromoneLevel.getText());
 											Integer.parseInt(numOfAnts.getText());
-											if (graph.inGraph(Integer.parseInt(endState.getText())) && graph.inGraph(Integer.parseInt(startNode.getText()))) {
+											if (graph.inGraph(Integer.parseInt(endState.getText()))
+													&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
 												AntColonyOptimisation aco = new AntColonyOptimisation(graph);
-												aco.AntColonyOptimisationAlgorithm(Integer.parseInt(startNode.getText()),
+												aco.AntColonyOptimisationAlgorithm(
+														Integer.parseInt(startNode.getText()),
 														Integer.parseInt(endState.getText()),
 														Integer.parseInt(epoch.getText()),
 														Double.parseDouble(pheromoneLevel.getText()),
@@ -193,17 +193,17 @@ public class Optimisation extends Application implements Window {
 												}
 
 												label.setText(output);
-											}
-											else if (graph.inGraph(Integer.parseInt(endState.getText())) && !graph.inGraph(Integer.parseInt(startNode.getText()))) {
+											} else if (graph.inGraph(Integer.parseInt(endState.getText()))
+													&& !graph.inGraph(Integer.parseInt(startNode.getText()))) {
 												label.setText("The Start Node inputted is not in the graph");
-											}
-											else if (!graph.inGraph(Integer.parseInt(endState.getText())) && graph.inGraph(Integer.parseInt(startNode.getText()))) {
+											} else if (!graph.inGraph(Integer.parseInt(endState.getText()))
+													&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
 												label.setText("The End Node inputted is not in the graph");
+											} else {
+												label.setText(
+														"Both the start node and the end node is not in the graph");
 											}
-											else {
-												label.setText("Both the start node and the end node is not in the graph");
-											}
-											
+
 										} catch (NumberFormatException e6) {
 											label.setText("The data inputted in above boxes is not numbers");
 										}
@@ -276,13 +276,13 @@ public class Optimisation extends Application implements Window {
 		if (files == null) {
 			return null;
 		}
-		
+
 		CSVFiles formattor = new CSVFiles(files, number); // makes a formatter to use
 		ArrayList<ArrayList<String>> data = null;
 		try {
 			data = formattor.readCSV();
 		} catch (FileException | IOException e) {
-			// TODO Auto-generated catch block
+			
 			throw e;
 		} // gets the data
 

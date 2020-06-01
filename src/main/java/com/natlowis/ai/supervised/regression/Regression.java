@@ -3,6 +3,7 @@ package com.natlowis.ai.supervised.regression;
 import java.io.IOException;
 
 import com.natlowis.ai.exceptions.FileException;
+import com.natlowis.ai.exceptions.RegressionException;
 
 /**
  * This is the interface which specifies all the methods for a Regression
@@ -40,8 +41,9 @@ public interface Regression {
 	 * 
 	 * @param inputs The set of inputs for the data
 	 * @return The yData for the input
+	 * @throws RegressionException
 	 */
-	public double calculate(double[] inputs);
+	public double calculate(double[] inputs) throws RegressionException, RegressionException;
 
 	/**
 	 * This will check the function
@@ -59,9 +61,9 @@ public interface Regression {
 	 * This will get data from a File
 	 * 
 	 * @param varaibleSize the number of variables needed
-	 * @throws IOException 
-	 * @throws FileException 
+	 * @throws IOException
+	 * @throws FileException
 	 */
-	public void getData(int varaibleSize) throws FileException, IOException, NumberFormatException; // TODO could be made private
+	public void getData(int varaibleSize) throws FileException, IOException, NumberFormatException; 
 
 }

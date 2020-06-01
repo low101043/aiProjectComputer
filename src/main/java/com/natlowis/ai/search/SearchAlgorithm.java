@@ -16,10 +16,10 @@ public interface SearchAlgorithm {
 	 * 
 	 * @param startNode The start node for the graph
 	 * @param endNode   The end node for the graph
-	 * @throws GraphNodeException 
+	 * @throws GraphNodeException
 	 */
-	public void algorithmToImplement(int startNode, int endNode) throws GraphNodeException; // TODO What happens if node is not in graph
-
+	public void algorithmToImplement(int startNode, int endNode) throws GraphNodeException; 
+	
 	/**
 	 * This will give the nodes to visit for the solution which has been found by
 	 * that algorithm

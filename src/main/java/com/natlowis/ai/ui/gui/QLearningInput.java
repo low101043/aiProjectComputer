@@ -23,7 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-//TODO ADD ERROR CATCHING CODE
+
 /**
  * The page which allows you to use Q Learning
  * 
@@ -175,11 +175,11 @@ public class QLearningInput extends Application implements Window {
 													Integer.parseInt(endState.getText())); // does qLearning
 											label.setText(qLearning.toString()); // Outputs the table
 										}
-										
+
 										else {
 											label.setText("The end node is not in the graph");
 										}
-										
+
 									} else {
 										label.setText("The learning rate needs to be between 0 and 1");
 									}

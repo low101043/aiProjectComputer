@@ -1,7 +1,9 @@
 package com.natlowis.ai.graphs;
 
 import java.util.ArrayList;
-import com.natlowis.ai.exceptions.*;
+
+import com.natlowis.ai.exceptions.GraphException;
+import com.natlowis.ai.exceptions.GraphNodeException;
 
 /**
  * This interface will specify the methods a graph will have.
@@ -27,13 +29,14 @@ public interface GraphInterface {
 	 * @param destinationNode - The node the connection goes to
 	 * @param weight          - The weight of the node
 	 */
-	public void addConnection(int originNode, int destinationNode, double weight) throws GraphException, GraphNodeException;
+	public void addConnection(int originNode, int destinationNode, double weight)
+			throws GraphException, GraphNodeException;
 
 	/**
 	 * This will remove the node from the graph and any connections to that node
 	 * 
 	 * @param nodeToRemove - The node to remove from the graph
-	 * @throws GraphNodeException 
+	 * @throws GraphNodeException
 	 */
 	public void removeNode(int nodeToRemove) throws GraphException, GraphNodeException;
 
@@ -51,7 +54,7 @@ public interface GraphInterface {
 	 * 
 	 * @param originNode      - The originNode of the connection to remove
 	 * @param destinationNode - The destinationNode of the connection to remove
-	 * @throws GraphNodeException 
+	 * @throws GraphNodeException
 	 * 
 	 * 
 	 */
@@ -69,10 +72,16 @@ public interface GraphInterface {
 	 * 
 	 * @param nodeNum - The node to get the connections for
 	 * @return An ArrayList of Connections of the connections for that node
-	 * @throws GraphNodeException 
+	 * @throws GraphNodeException
 	 */
 	public ArrayList<Connection> getConnection(int nodeNum) throws GraphNodeException;
-	
+
+	/**
+	 * Checks if it is in the graph
+	 * 
+	 * @param node The node to find
+	 * @return Boolean if it is in the node
+	 */
 	public boolean inGraph(int node);
 
 }

@@ -40,9 +40,9 @@ public class CSVFiles {
 	 * length of first row then uses that length throughout
 	 * 
 	 * @param files A <Code> File </Code> type which is the file to edit
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public CSVFiles(File files) throws IOException, FileNotFoundException{
+	public CSVFiles(File files) throws IOException, FileNotFoundException {
 
 		file = files;
 
@@ -55,7 +55,7 @@ public class CSVFiles {
 				String[] split = line.split(",");
 				lengthOfRow = split.length;
 			}
-		} catch (FileNotFoundException e) { // The exceptions //TODO what to do if exceptions happen
+		} catch (FileNotFoundException e) { // The exceptions
 
 			throw e;
 		} catch (IOException e) {
@@ -70,7 +70,7 @@ public class CSVFiles {
 	 * 
 	 * @return An <Code> ArrayList </code> which contains an
 	 *         <Code> ArrayList of Strings </Code>
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public ArrayList<ArrayList<String>> readCSV() throws FileException, IOException {
 
@@ -101,7 +101,7 @@ public class CSVFiles {
 				output.add(lineList); // Adds each line to output
 			}
 
-		} catch (IOException e) { // Catches the exceptions thrown //TODO sort what to do with them
+		} catch (IOException e) { // Catches the exceptions thrown
 
 			throw e;
 
@@ -132,13 +132,12 @@ public class CSVFiles {
 
 				try {
 					Double.parseDouble(inputData);
-					dataForRow.add(Double.parseDouble(inputData)); 
-					
-				}
-				catch (NumberFormatException e) {
+					dataForRow.add(Double.parseDouble(inputData));
+
+				} catch (NumberFormatException e) {
 					throw e;
 				}
-				
+
 			}
 
 			output.add(dataForRow); // Adds to output
@@ -150,5 +149,3 @@ public class CSVFiles {
 
 //Graphs One file size 3 - origin, destination, weight
 //Graphs Two file  Nodes Size 2 node, special - Connections size 3 - origin, destination, weight
-//TODO regression
-//TODO  What the size should be for each input.  Add to GUI.

@@ -34,7 +34,7 @@ public class MainPage extends Application implements Window {
 		sceneChooser = new ScreenController(mainPage, stage); // Sets up the ScreenController
 
 		// Adds the first label and makes screen pretty
-		Label label1 = new Label("This is the GUI for the AI Project");
+		Label label1 = new Label("This is a program which uses some of the AI algorithms which I have learnt in first year");
 		root.setTop(label1);
 		root.setLeft(new Label("\t"));
 
@@ -47,7 +47,7 @@ public class MainPage extends Application implements Window {
 		root.setCenter(centre);
 
 		// Sets up more labels
-		root.setBottom(new Label("CopyRight Nathaniel Lowis"));
+		root.setBottom(new Label("Copyright Nathaniel Lowis"));
 
 		sceneChooser.addScreen("Main Page", root, this); // Adds everything to the ScreenController
 
@@ -95,16 +95,16 @@ public class MainPage extends Application implements Window {
 	 * This sets up all the other scenes used so they can be used
 	 */
 	private void addAllScreens() {
-		Window intstructionScreen = new Instructions(sceneChooser);
-		Window algorithmsScreen = new AlgorithmsToChoose(sceneChooser);
-		Window qlearningScreen = new QLearningInput(sceneChooser);
-		Window regressionScreen = new RegressionChoice(sceneChooser);
-		Window searchScreen = new SearchProblems(sceneChooser);
+		new Instructions(sceneChooser);
+		new AlgorithmsToChoose(sceneChooser);
+		new QLearningInput(sceneChooser);
+		new RegressionChoice(sceneChooser);
+		new SearchProblems(sceneChooser);
 
-		Window knn = new KNN(sceneChooser);
-		Window supervised = new SupervisedPage(sceneChooser);
+		new KNN(sceneChooser);
+		new SupervisedPage(sceneChooser);
 
-		Window optimisation = new Optimisation(sceneChooser);
+		new Optimisation(sceneChooser);
 
 	}
 }

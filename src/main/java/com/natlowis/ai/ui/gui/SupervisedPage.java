@@ -50,7 +50,7 @@ public class SupervisedPage extends Application implements Window {
 
 	@Override
 	public void controls(ScreenController sceneChooser) {
-		// TODO Auto-generated method stub
+		
 
 		// Takes user back to the main page
 		backHome.setOnAction(new EventHandler<ActionEvent>() {

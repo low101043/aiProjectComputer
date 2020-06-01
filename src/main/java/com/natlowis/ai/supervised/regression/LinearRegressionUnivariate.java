@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.natlowis.ai.exceptions.FileException;
+import com.natlowis.ai.exceptions.RegressionException;
 import com.natlowis.ai.fileHandaling.CSVFiles;
-//TODO ADD ERROR CATCHING CODE
-
 
 /**
  * This implements linear and non linear regression with one variable
@@ -19,7 +18,7 @@ public class LinearRegressionUnivariate implements Regression {
 
 	private ArrayList<ArrayList<Double>> data; // The data to be used
 	private double[] wValues; // The wValues which are being used
-	private File file; // The file which holds the training data //TODO Maybe don;t pass in file to
+	private File file; // The file which holds the training data //TODO Maybe don't pass in file to
 						// make better space usage
 
 	/**
@@ -39,7 +38,7 @@ public class LinearRegressionUnivariate implements Regression {
 	 * This constructor is used if you have the file with the data.
 	 * 
 	 * @param files
-	 * @throws NumberFormatException, FileException, IOException 
+	 * @throws NumberFormatException, FileException, IOException
 	 */
 	public LinearRegressionUnivariate(File files) throws NumberFormatException, FileException, IOException {
 
@@ -49,7 +48,7 @@ public class LinearRegressionUnivariate implements Regression {
 		try {
 			getData(2);
 		} catch (NumberFormatException | FileException | IOException e) {
-			// TODO Auto-generated catch block
+			
 			throw e;
 		} // Gets the correct data from the file
 	}
@@ -135,35 +134,40 @@ public class LinearRegressionUnivariate implements Regression {
 		try {
 			dataToUse = formattor.readCSV();
 		} catch (IOException | FileException e) {
-			// TODO Auto-generated catch block
+			
 			throw e;
 		} // Read the file
 
 		try {
-		data = formattor.convertData(dataToUse);}
-		catch (NumberFormatException e) {
+			data = formattor.convertData(dataToUse);
+		} catch (NumberFormatException e) {
 			throw e;
 		}
 	}
 
 	@Override
-	public double calculate(double inputs[]) {
+	public double calculate(double inputs[]) throws RegressionException {
 
-		// TODO should only be ONE input not multiple. MUST FIX
 
-		double predicted = 0; // Will hold the predicted value
-		for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // For every W value will work out wi *
-																					// x^i and add to predicted
+		if (inputs.length != 1) {
+			throw new RegressionException();
+		} else {
 
-			double wValue = wValues[wValueIndex];
+			double predicted = 0; // Will hold the predicted value
+			for (int wValueIndex = 0; wValueIndex < wValues.length; wValueIndex++) { // For every W value will work out
+																						// wi *
+																						// x^i and add to predicted
 
-			double xToPower = Math.pow(inputs[wValueIndex], wValueIndex);
+				double wValue = wValues[wValueIndex];
 
-			predicted += wValue * xToPower;
+				double xToPower = Math.pow(inputs[wValueIndex], wValueIndex);
 
+				predicted += wValue * xToPower;
+
+			}
+
+			return predicted;
 		}
-
-		return predicted;
 
 	}
 
@@ -195,8 +199,7 @@ public class LinearRegressionUnivariate implements Regression {
 			}
 
 			cost = cost + Math.pow((yData - predicted), 2.0); // This is (y- hw(x))**2
-			// System.out.println("Predicted: " + predicted + " Actual: " + yData); //TODO
-			// output the value to a file along with cost
+			// System.out.println("Predicted: " + predicted + " Actual: " + yData); 
 		}
 		cost = cost / data.size(); // This will be the final cost.
 

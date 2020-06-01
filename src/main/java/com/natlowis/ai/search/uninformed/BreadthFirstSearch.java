@@ -18,7 +18,6 @@ import com.natlowis.ai.search.SearchAlgorithm;
  * @author low101043
  *
  */
-//TODO FIX ERRORS
 public class BreadthFirstSearch implements SearchAlgorithm {
 
 	private Deque<Integer> frontier; // This will hold the nodes to be visited
@@ -63,7 +62,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 				try {
 					tree.addConnection(currentNode, child, 1);
 				} catch (GraphException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				} // Adds the connection to the tree
 				frontier.addLast(child); // Adds the node to the end of the frontier queue

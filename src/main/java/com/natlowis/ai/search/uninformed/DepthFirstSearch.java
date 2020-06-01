@@ -18,7 +18,6 @@ import com.natlowis.ai.search.SearchAlgorithm;
  * @author low101043
  *
  */
-//TODO FIX ERRORS
 public class DepthFirstSearch implements SearchAlgorithm {
 
 	private Deque<Integer> frontier; // This will hold the nodes to be visited
@@ -69,7 +68,7 @@ public class DepthFirstSearch implements SearchAlgorithm {
 					try {
 						tree.addConnection(currentNode, child, 1);
 					} catch (GraphException e) {
-						// TODO Auto-generated catch block
+						
 						e.printStackTrace();
 					} // Adds to the tree and frontier
 					frontier.push(child);

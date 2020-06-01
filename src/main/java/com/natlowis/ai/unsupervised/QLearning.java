@@ -60,7 +60,7 @@ public class QLearning {
 				try {
 					data = graph.getConnection(stateInt);
 				} catch (GraphNodeException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 				int nextActionIndex = rand.nextInt(data.size()); // TODO Error here if no connections in graph!!
@@ -72,7 +72,7 @@ public class QLearning {
 				try {
 					nextActions = graph.getConnection(nextState);
 				} catch (GraphNodeException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 				double nextQValueFinal = Double.NEGATIVE_INFINITY;

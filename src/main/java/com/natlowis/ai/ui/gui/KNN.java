@@ -22,7 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-//TODO ADD ERROR CATCHING CODE
 
 /**
  * This will output the screen which has KNN on it
@@ -137,7 +136,7 @@ public class KNN extends Application implements Window {
 		});
 
 		// What to do if regression pressed
-		regressionKNN.setOnAction(new EventHandler<ActionEvent>() { //TODO Sort out catches.  ATM catching ALL exceptions want to catch specific ones 
+		regressionKNN.setOnAction(new EventHandler<ActionEvent>() { 
 			@Override
 			public void handle(ActionEvent t) {
 				if (inputData != null && !neighboursWanted.getText().isEmpty()) {
@@ -157,7 +156,8 @@ public class KNN extends Application implements Window {
 							try {
 								Integer.parseInt(neighboursWanted.getText());
 								KNearestNeighbour knn = new RegressionKNN();
-								Double output = knn.knn(input, Integer.parseInt(neighboursWanted.getText()), trainingData);
+								Double output = knn.knn(input, Integer.parseInt(neighboursWanted.getText()),
+										trainingData);
 
 								if (output == null) {
 									label.setText("There was no majority.  Choose another amount of neighbours");
@@ -165,29 +165,26 @@ public class KNN extends Application implements Window {
 								} else {
 									label.setText("The value for the input given and the training data is: " + output);
 								}
+							} catch (NumberFormatException e2) {
+								label.setText("The neighbour input needs to be an integer");
+								;
 							}
-							catch (NumberFormatException e2) {
-								label.setText("The neighbour input needs to be an integer");;
-							}
-							
+
 						} catch (NumberFormatException e) {
-							// TODO Auto-generated catch block
+							
 							label.setText("The data is not all double");
 						} // gets the data
 
-						
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						
 						label.setText("Error in opening file.  Try again and check if it is in a CSV format");
-					}
-					catch (FileException e2) {
+					} catch (FileException e2) {
 						label.setText("One of the row lengths is not the correct length");
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
+						
 						label.setText("The input file is not correct.  Make sure it only has numbers");
 					}
 
-					
 				} else {
 					label.setText("Not added a file for training data or not added number of neighbours needed");
 				}
@@ -216,7 +213,8 @@ public class KNN extends Application implements Window {
 							try {
 								Integer.parseInt(neighboursWanted.getText());
 								KNearestNeighbour knn = new ClassificationKNN();
-								Double output = knn.knn(input, Integer.parseInt(neighboursWanted.getText()), trainingData);
+								Double output = knn.knn(input, Integer.parseInt(neighboursWanted.getText()),
+										trainingData);
 
 								if (output == null) {
 									label.setText("There was no majority.  Choose another amount of neighbours");
@@ -224,29 +222,26 @@ public class KNN extends Application implements Window {
 								} else {
 									label.setText("The value for the input given and the training data is: " + output);
 								}
+							} catch (NumberFormatException e2) {
+								label.setText("The neighbour input needs to be an integer");
+								;
 							}
-							catch (NumberFormatException e2) {
-								label.setText("The neighbour input needs to be an integer");;
-							}
-							
+
 						} catch (NumberFormatException e) {
-							// TODO Auto-generated catch block
+							
 							label.setText("The data is not all double");
 						} // gets the data
 
-						
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						
 						label.setText("Error in opening file.  Try again and check if it is in a CSV format");
-					}
-					catch (FileException e2) {
+					} catch (FileException e2) {
 						label.setText("One of the row lengths is not the correct length");
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
+						
 						label.setText("Not added a file for training data or not added number of neighbours needed");
 					}
 
-					
 				} else {
 					label.setText("Not added a file for training data or not added number of neighbours needed");
 				}
@@ -268,10 +263,9 @@ public class KNN extends Application implements Window {
 		try {
 			data = reader.readCSV();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			throw e;
-		}
-		catch (FileException e) {
+		} catch (FileException e) {
 			throw e;
 		}
 		ArrayList<String> inputAsString = data.get(0);

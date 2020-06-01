@@ -44,12 +44,13 @@ public class Instructions extends Application implements Window {
 		Label label7 = new Label("-> K Nearest Neighbours");
 		Label label8 = new Label("-> A* Algorithm");
 		Label label9 = new Label("-> Ant Colony Optimisation");
-		
+
 		Label label10 = new Label("\n How to use each algorithm is specified on it's page");
 
 		// Add everything to the pane
 		VBox instructions = new VBox();
-		instructions.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7, label8, label9, label10);
+		instructions.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7, label8, label9,
+				label10);
 		root.setLeft(backHome);
 		root.setTop(new Label("AI Instructions"));
 		root.setCenter(instructions);

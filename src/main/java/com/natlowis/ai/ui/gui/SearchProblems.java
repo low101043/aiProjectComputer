@@ -28,7 +28,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-//TODO Error catching
 /**
  * This Screen will show all the different search algorithms
  * 
@@ -131,7 +130,7 @@ public class SearchProblems extends Application implements Window {
 			}
 		});
 
-		// TODO Get text file input for DFS and BFS
+		
 
 		// Does Depth First Search
 		dfsButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -140,61 +139,61 @@ public class SearchProblems extends Application implements Window {
 
 				label.setText("Loading");
 				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) { // Checks we have inputs
-					
+
 					try {
-					ArrayList<ArrayList<String>> data = getData(sceneChooser, 3);
-					Graph graph = null;
-					try {
-						graph = new Graph(data);
-						// Makes a graph
-						DepthFirstSearch dfs = new DepthFirstSearch(graph);
+						ArrayList<ArrayList<String>> data = getData(sceneChooser, 3);
+						Graph graph = null;
 						try {
-
-							Integer.parseInt(startNode.getText());
-							Integer.parseInt(endNode.getText());
+							graph = new Graph(data);
+							// Makes a graph
+							DepthFirstSearch dfs = new DepthFirstSearch(graph);
 							try {
-								if (graph.inGraph(Integer.parseInt(endNode.getText()))
-										&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
-									dfs.algorithmToImplement(Integer.parseInt(startNode.getText()),
-											Integer.parseInt(endNode.getText()));
-									// Does DFS then output it
 
-									label.setText(outputAll(dfs));
-								} else if (!graph.inGraph(Integer.parseInt(endNode.getText()))
-										&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
-									label.setText("The end Node is not in the graph");
-								} else if (graph.inGraph(Integer.parseInt(endNode.getText()))
-										&& !graph.inGraph(Integer.parseInt(startNode.getText()))) {
-									label.setText("The start node is not in the graph");
-								} else {
-									label.setText("Both the start node and the end node is in the graph");
+								Integer.parseInt(startNode.getText());
+								Integer.parseInt(endNode.getText());
+								try {
+									if (graph.inGraph(Integer.parseInt(endNode.getText()))
+											&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
+										dfs.algorithmToImplement(Integer.parseInt(startNode.getText()),
+												Integer.parseInt(endNode.getText()));
+										// Does DFS then output it
+
+										label.setText(outputAll(dfs));
+									} else if (!graph.inGraph(Integer.parseInt(endNode.getText()))
+											&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
+										label.setText("The end Node is not in the graph");
+									} else if (graph.inGraph(Integer.parseInt(endNode.getText()))
+											&& !graph.inGraph(Integer.parseInt(startNode.getText()))) {
+										label.setText("The start node is not in the graph");
+									} else {
+										label.setText("Both the start node and the end node is in the graph");
+									}
+								} catch (GraphNodeException e) {
+									label.setText("If you've got here I have no idea.");
+
 								}
-							} catch (GraphNodeException e) {
-								 label.setText("If you've got here I have no idea.");
-
+							} catch (NumberFormatException e) {
+								label.setText("The start node or the end node is not an integer");
+								;
 							}
+
 						} catch (NumberFormatException e) {
-							label.setText("The start node or the end node is not an integer");;
+							label.setText("The numbers in your file is not actual numbers");
+							;
+						} catch (GraphException e) {
+							
+							label.setText("You've tried adding multiple connections between nodes");
+						} catch (GraphNodeException e) {
+							
+							label.setText("Added multiple of the same node (Somehow!)");
 						}
-						
-					} catch (NumberFormatException e) {
-						label.setText("The numbers in your file is not actual numbers");;
-					} catch (GraphException e) {
-						// TODO Auto-generated catch block
-						label.setText("You've tried adding multiple connections between nodes");
-					} catch (GraphNodeException e) {
-						// TODO Auto-generated catch block
-						label.setText("Added multiple of the same node (Somehow!)");
-					}
-					}catch(FileException e) {
+					} catch (FileException e) {
 						label.setText("Need 3 data on each row");
-					}
-					catch (IOException e) {
+					} catch (IOException e) {
 						label.setText("Cannot read file");
 					}
 
-				}
-				else {
+				} else {
 					label.setText("Please enter some data");
 				}
 
@@ -209,59 +208,58 @@ public class SearchProblems extends Application implements Window {
 				label.setText("Loading");
 				if ((!startNode.getText().isEmpty() && !endNode.getText().isEmpty())) { // Checks we have inputs
 					try {
-					ArrayList<ArrayList<String>> data = getData(sceneChooser, 3);
-					Graph graph = null;
-					try {
-						graph = new Graph(data);
-						// Makes a graph
-						SearchAlgorithm bfs = new BreadthFirstSearch(graph);
+						ArrayList<ArrayList<String>> data = getData(sceneChooser, 3);
+						Graph graph = null;
 						try {
-
-							Integer.parseInt(startNode.getText());
-							Integer.parseInt(endNode.getText());
+							graph = new Graph(data);
+							// Makes a graph
+							SearchAlgorithm bfs = new BreadthFirstSearch(graph);
 							try {
-								if (graph.inGraph(Integer.parseInt(endNode.getText()))
-										&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
-									bfs.algorithmToImplement(Integer.parseInt(startNode.getText()),
-											Integer.parseInt(endNode.getText()));
-									// Does DFS then output it
 
-									label.setText(outputAll(bfs));
-								} else if (!graph.inGraph(Integer.parseInt(endNode.getText()))
-										&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
-									label.setText("The end Node is not in the graph");
-								} else if (graph.inGraph(Integer.parseInt(endNode.getText()))
-										&& !graph.inGraph(Integer.parseInt(startNode.getText()))) {
-									label.setText("The start node is not in the graph");
-								} else {
-									label.setText("Both the start node and the end node is in the graph");
+								Integer.parseInt(startNode.getText());
+								Integer.parseInt(endNode.getText());
+								try {
+									if (graph.inGraph(Integer.parseInt(endNode.getText()))
+											&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
+										bfs.algorithmToImplement(Integer.parseInt(startNode.getText()),
+												Integer.parseInt(endNode.getText()));
+										// Does DFS then output it
+
+										label.setText(outputAll(bfs));
+									} else if (!graph.inGraph(Integer.parseInt(endNode.getText()))
+											&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
+										label.setText("The end Node is not in the graph");
+									} else if (graph.inGraph(Integer.parseInt(endNode.getText()))
+											&& !graph.inGraph(Integer.parseInt(startNode.getText()))) {
+										label.setText("The start node is not in the graph");
+									} else {
+										label.setText("Both the start node and the end node is in the graph");
+									}
+								} catch (GraphNodeException e) {
+									label.setText("If you've got here I have no idea.");
+
 								}
-							} catch (GraphNodeException e) {
-								 label.setText("If you've got here I have no idea.");
-
+							} catch (NumberFormatException e) {
+								label.setText("The start node or the end node is not an integer");
+								;
 							}
 						} catch (NumberFormatException e) {
-							label.setText("The start node or the end node is not an integer");;
+							label.setText("The numbers in your file is not actual numbers");
+							;
+						} catch (GraphException e) {
+							
+							label.setText("You've tried adding multiple connections between nodes");
+						} catch (GraphNodeException e) {
+							
+							label.setText("Added multiple of the same node (Somehow!)");
 						}
-					} catch (NumberFormatException e) {
-						label.setText("The numbers in your file is not actual numbers");;
-					} catch (GraphException e) {
-						// TODO Auto-generated catch block
-						label.setText("You've tried adding multiple connections between nodes");
-					} catch (GraphNodeException e) {
-						// TODO Auto-generated catch block
-						label.setText("Added multiple of the same node (Somehow!)");
+					} catch (FileException e) {
+						label.setText("Need 3 data on each row");
+					} catch (IOException e) {
+						label.setText("Cannot read file");
 					}
-				}catch(FileException e) {
-					label.setText("Need 3 data on each row");
-				}
-				catch (IOException e) {
-					label.setText("Cannot read file");
-				}
 
-
-				}
-				else {
+				} else {
 					label.setText("Please enter some data");
 				}
 
@@ -277,68 +275,66 @@ public class SearchProblems extends Application implements Window {
 
 					label.setText("Loading");
 					try {
-					ArrayList<ArrayList<String>> dataNodes = getData(sceneChooser, 2);
-					try {
-					ArrayList<ArrayList<String>> dataConnections = getData(sceneChooser, 3);
-
-					Graph graph = null;
-					try {
-						graph = new Graph(dataNodes, dataConnections);
-						// Makes a graph
-						SearchAlgorithm aStar = new AStar(graph);
+						ArrayList<ArrayList<String>> dataNodes = getData(sceneChooser, 2);
 						try {
+							ArrayList<ArrayList<String>> dataConnections = getData(sceneChooser, 3);
 
-							Integer.parseInt(startNode.getText());
-							Integer.parseInt(endNode.getText());
+							Graph graph = null;
 							try {
-								if (graph.inGraph(Integer.parseInt(endNode.getText()))
-										&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
-									aStar.algorithmToImplement(Integer.parseInt(startNode.getText()),
-											Integer.parseInt(endNode.getText()));
-									// Does DFS then output it
+								graph = new Graph(dataNodes, dataConnections);
+								// Makes a graph
+								SearchAlgorithm aStar = new AStar(graph);
+								try {
 
-									label.setText(outputAll(aStar));
-								} else if (!graph.inGraph(Integer.parseInt(endNode.getText()))
-										&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
-									label.setText("The end Node is not in the graph");
-								} else if (graph.inGraph(Integer.parseInt(endNode.getText()))
-										&& !graph.inGraph(Integer.parseInt(startNode.getText()))) {
-									label.setText("The start node is not in the graph");
-								} else {
-									label.setText("Both the start node and the end node is in the graph");
+									Integer.parseInt(startNode.getText());
+									Integer.parseInt(endNode.getText());
+									try {
+										if (graph.inGraph(Integer.parseInt(endNode.getText()))
+												&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
+											aStar.algorithmToImplement(Integer.parseInt(startNode.getText()),
+													Integer.parseInt(endNode.getText()));
+											// Does DFS then output it
+
+											label.setText(outputAll(aStar));
+										} else if (!graph.inGraph(Integer.parseInt(endNode.getText()))
+												&& graph.inGraph(Integer.parseInt(startNode.getText()))) {
+											label.setText("The end Node is not in the graph");
+										} else if (graph.inGraph(Integer.parseInt(endNode.getText()))
+												&& !graph.inGraph(Integer.parseInt(startNode.getText()))) {
+											label.setText("The start node is not in the graph");
+										} else {
+											label.setText("Both the start node and the end node is in the graph");
+										}
+									} catch (GraphNodeException e) {
+										label.setText("If you've got here I have no idea.");
+
+									}
+								} catch (NumberFormatException e) {
+									label.setText("The start node or the end node is not an integer");
+									;
 								}
+							} catch (NumberFormatException e) {
+								label.setText("The numbers in your file is not actual numbers");
+								;
+							} catch (GraphException e) {
+								
+								label.setText("You've tried adding multiple connections between nodes");
 							} catch (GraphNodeException e) {
-								 label.setText("If you've got here I have no idea.");
-
+								
+								label.setText("Added multiple of the same node (Somehow!)");
 							}
-						} catch (NumberFormatException e) {
-							label.setText("The start node or the end node is not an integer");;
+						} catch (FileException e) {
+							label.setText("Need 3 data on each row");
+						} catch (IOException e) {
+							label.setText("Cannot read file");
 						}
-					} catch (NumberFormatException e) {
-						label.setText("The numbers in your file is not actual numbers");;
-					} catch (GraphException e) {
-						// TODO Auto-generated catch block
-						label.setText("You've tried adding multiple connections between nodes");
-					} catch (GraphNodeException e) {
-						// TODO Auto-generated catch block
-						label.setText("Added multiple of the same node (Somehow!)");
-					}
-					}
-					catch(FileException e) {
-						label.setText("Need 3 data on each row");
-					}
-					catch (IOException e) {
-						label.setText("Cannot read file");
-					}
-					}catch(FileException e) {
+					} catch (FileException e) {
 						label.setText("Need 2 data on each row");
-					}
-					catch (IOException e) {
+					} catch (IOException e) {
 						label.setText("Cannot read file");
 					}
 
-				}
-				else {
+				} else {
 					label.setText("Please enter some text");
 				}
 
@@ -382,7 +378,8 @@ public class SearchProblems extends Application implements Window {
 		return output;
 	}
 
-	private ArrayList<ArrayList<String>> getData(ScreenController sceneChooser, int number) throws FileException, IOException {
+	private ArrayList<ArrayList<String>> getData(ScreenController sceneChooser, int number)
+			throws FileException, IOException {
 		// Opens the file to use
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Data File");
@@ -390,17 +387,17 @@ public class SearchProblems extends Application implements Window {
 		File files = fileChooser.showOpenDialog(stage);
 		CSVFiles formattor = new CSVFiles(files, number); // makes a formatter to use
 		ArrayList<ArrayList<String>> data = null;
-		
-			try {
-				data = formattor.readCSV();
-			} catch (FileException e) {
-				// TODO Auto-generated catch block
-				throw e;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				throw e;
-			}
-		 // gets the data
+
+		try {
+			data = formattor.readCSV();
+		} catch (FileException e) {
+			
+			throw e;
+		} catch (IOException e) {
+			
+			throw e;
+		}
+		// gets the data
 
 		return data;
 	}

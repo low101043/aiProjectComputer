@@ -10,6 +10,11 @@ import com.natlowis.ai.exceptions.GraphNodeException;
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
 
+/**
+ * Class which performs Ant Colony Optimisation
+ * @author low101043
+ *
+ */
 public class AntColonyOptimisation {
 
 	Graph graph; // The graph to be traversed
@@ -25,8 +30,7 @@ public class AntColonyOptimisation {
 	 * 
 	 * @param graph The graph to be traversed
 	 */
-	public AntColonyOptimisation(Graph graph) { // TODO TEST
-
+	public AntColonyOptimisation(Graph graph) { 
 		this.graph = graph;
 	}
 
@@ -40,7 +44,7 @@ public class AntColonyOptimisation {
 	 * @param numOfAnts      The number of ants to use
 	 */
 	public void AntColonyOptimisationAlgorithm(int startNode, int endNode, int epoch, double pheromoneLevel,
-			int numOfAnts) { // TODO need to make sure pheromomelevel is between 0 and 1
+			int numOfAnts) { 
 
 		antsArray = new Ant[numOfAnts]; // Sets up the ants array with the right number of arrays
 		newPheromoneLevel = new double[graph.getConnections().length]; // Sets up the new pheromone array for all
@@ -102,14 +106,14 @@ public class AntColonyOptimisation {
 
 		}
 
-		for (int i = 0; i < numOfAnts; i++) { // Halts the main thread until all the ants have finished //TODO CHECK
-												// THIS STILL ALLOWS THREADING
+		for (int i = 0; i < numOfAnts; i++) { // Halts the main thread until all the ants have finished 
+												
 			Thread threadToWait = antsArray[i];
 
 			try {
 				threadToWait.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
@@ -182,7 +186,7 @@ public class AntColonyOptimisation {
 			try {
 				connections = graph.getConnection(node);
 			} catch (GraphNodeException e) {
-				// TODO Auto-generated catch block
+			
 				e.printStackTrace();
 			} // Gets the connections for that node
 
@@ -210,7 +214,7 @@ public class AntColonyOptimisation {
 				try {
 					graph.setSpecial(connection.getOriginNode(), connection.getDestinationNode(), newPheromone);
 				} catch (GraphNodeException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 			}
@@ -230,7 +234,7 @@ public class AntColonyOptimisation {
 		try {
 			connections = graph.getConnection(currentNode);
 		} catch (GraphNodeException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} // Gets the connection for that node
 

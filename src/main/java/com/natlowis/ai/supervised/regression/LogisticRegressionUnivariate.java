@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import com.natlowis.ai.exceptions.FileException;
 import com.natlowis.ai.fileHandaling.CSVFiles;
 import com.natlowis.ai.testData.makeLogisticRegressionData;
-//TODO ADD ERROR CATCHING CODE
+
 /**
  * This class will implement Logistic Regression which is linear or non linear
  * HOWEVER it does not work
@@ -22,7 +22,7 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 	private static final Logger logger = Logger.getLogger(LogisticRegressionUnivariate.class);
 	private ArrayList<ArrayList<Double>> data; // The data to be used
 	private double[] wValues; // The wValues which are being used
-	private File file; // The file which holds the training data //TODO Maybe don;t pass in file to
+	private File file; // The file which holds the training data //TODO Maybe don't pass in file to
 						// make better space usage
 
 	/**
@@ -51,7 +51,7 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 		try {
 			getData(3);
 		} catch (NumberFormatException | FileException | IOException e) {
-			// TODO Auto-generated catch block
+			
 			throw e;
 		}
 	}
@@ -151,16 +151,16 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 
 	}
 
-	// TODO CHECK ALL THESE FUNCTIONS!!!
+	
 	@Override
-	public double calculate(double inputs[]) {
-		// TODO Auto-generated method stub
+	public double calculate(double inputs[]) {  //TODO Actually write this code
+		
 		return 0;
 	}
 
 	@Override
 	public void checkFunction() {
-		// TODO Auto-generated method stub
+		
 		double cost = 0;
 		for (int j = 0; j < data.size(); j++) { // This part of the code will just output the final predicted
 			// values against the actual values. Used for debugging.
@@ -220,7 +220,7 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 
 	@Override
 	public double cost() {
-		// TODO Auto-generated method stub
+	
 		double cost = 0;
 		for (int j = 0; j < data.size(); j++) { // This part of the code will just output the final predicted
 			// values against the actual values. Used for debugging.
@@ -265,14 +265,14 @@ public class LogisticRegressionUnivariate extends LogisticRegression implements 
 		ArrayList<ArrayList<String>> dataToUse = null;
 		try {
 			dataToUse = formattor.readCSV();
-		} catch (FileException |IOException e) {
-			// TODO Auto-generated catch block
+		} catch (FileException | IOException e) {
+			
 			throw e;
 		} // Get all the data
 
 		try {
-		data = formattor.convertData(dataToUse);}
-		catch (NumberFormatException e) {
+			data = formattor.convertData(dataToUse);
+		} catch (NumberFormatException e) {
 			throw e;
 		}
 	}

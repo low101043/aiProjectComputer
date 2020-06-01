@@ -266,6 +266,14 @@ public class Graph implements GraphInterface {
 
 	}
 
+	/**
+	 * This will find a specific connection
+	 * 
+	 * @param node        The node to start with
+	 * @param destination the destination node
+	 * @return The Connection if found
+	 * @throws GraphNodeException
+	 */
 	private Connection findConnection(int node, int destination) throws GraphNodeException {
 
 		ArrayList<Connection> connections = getConnection(node);
@@ -277,6 +285,7 @@ public class Graph implements GraphInterface {
 		return null;
 	}
 
+	@Override
 	public boolean inGraph(int node) {
 		return graph.containsKey(node);
 	}

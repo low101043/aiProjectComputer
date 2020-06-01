@@ -3,15 +3,20 @@ package com.natlowis.ai.optimisation.antcolony;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.apache.log4j.Logger;
-
 import com.natlowis.ai.exceptions.GraphNodeException;
 import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
 
+/**
+ * A Class which behaves like an Ant in Ant Colony Optimisations
+ * 
+ * @author low101043
+ *
+ */
 public class Ant extends Thread {
 
-	private static Logger logger = Logger.getLogger(Ant.class);
+	// private static Logger logger = Logger.getLogger(Ant.class);
+	@SuppressWarnings("unused")
 	private int id; // The id number as uses threads
 	private Graph graph; // The graph to be traversed
 	private ArrayList<Integer> route; // The final route found
@@ -69,7 +74,6 @@ public class Ant extends Thread {
 		try {
 			connections = graph.getConnection(currentNode);
 		} catch (GraphNodeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // Gets the Connections for the node
 

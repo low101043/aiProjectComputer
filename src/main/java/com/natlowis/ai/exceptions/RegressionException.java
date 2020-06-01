@@ -1,19 +1,19 @@
 package com.natlowis.ai.exceptions;
 
 /**
- * An exception for nodes in a graph
+ * An Exception for regression problems
  * 
  * @author low101043
  *
  */
-public class GraphNodeException extends Exception {
+public class RegressionException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public GraphNodeException() {
+	public RegressionException() {
 		super();
 	}
 }

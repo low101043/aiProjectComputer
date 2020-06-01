@@ -13,6 +13,11 @@ import com.natlowis.ai.graphs.Connection;
 import com.natlowis.ai.graphs.Graph;
 import com.natlowis.ai.search.SearchAlgorithm;
 
+/**
+ * Class which performs the A* Algorithm
+ * @author low101043
+ *
+ */
 public class AStar implements SearchAlgorithm {
 
 	private ArrayList<double[]> frontier; // This will hold the nodes to be visited
@@ -39,7 +44,9 @@ public class AStar implements SearchAlgorithm {
 	}
 
 	@Override
-	public void algorithmToImplement(int currentNode, int endNode) throws GraphNodeException {  //TODO DEAL WITH PROBLEM OFF IF NO CURRENT NODEOR END NODE
+	public void algorithmToImplement(int currentNode, int endNode) throws GraphNodeException { 
+																								
+																								
 
 		boolean finished = false; // This checks if it finished
 		double oldFNode = 0; // This is what the previous f node value was
@@ -136,7 +143,7 @@ public class AStar implements SearchAlgorithm {
 			try {
 				connection = graph.getConnection(originNode);
 			} catch (GraphNodeException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 

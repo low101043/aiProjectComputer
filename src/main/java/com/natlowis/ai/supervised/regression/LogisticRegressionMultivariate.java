@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
-
 import com.natlowis.ai.exceptions.FileException;
 import com.natlowis.ai.fileHandaling.CSVFiles;
-//TODO ADD ERROR CATCHING CODE
+
 /**
  * This will implement logistic regression with multiple variables.
  * 
@@ -17,11 +15,11 @@ import com.natlowis.ai.fileHandaling.CSVFiles;
  */
 public class LogisticRegressionMultivariate extends LogisticRegression implements Regression {
 
-	private static final Logger logger = Logger.getLogger(LogisticRegressionMultivariate.class);
+	//private static final Logger logger = Logger.getLogger(LogisticRegressionMultivariate.class);
 
 	private ArrayList<ArrayList<Double>> data; // The data to be used
 	private double[] wValues; // The wValues which are being used
-	private File file; // The file which holds the training data //TODO Maybe don;t pass in file to
+	private File file; // The file which holds the training data //TODO Maybe don't pass in file to
 						// make better space usage
 
 	/**
@@ -41,7 +39,8 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 	 * @param files             The file with the data in it
 	 * @param multibleVariables The number of variables used
 	 */
-	public LogisticRegressionMultivariate(File files, int multibleVariables) throws FileException, IOException, NumberFormatException {
+	public LogisticRegressionMultivariate(File files, int multibleVariables)
+			throws FileException, IOException, NumberFormatException {
 
 		// Initialises the variables
 		file = files;
@@ -49,7 +48,7 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 		try {
 			getData(multibleVariables);
 		} catch (NumberFormatException | FileException | IOException e) {
-			// TODO Auto-generated catch block
+			
 			throw e;
 		} // Get the correct user inputs
 	}
@@ -144,14 +143,14 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 		ArrayList<ArrayList<String>> dataToUse = null;
 		try {
 			dataToUse = formattor.readCSV();
-		} catch (FileException |IOException e) {
-			// TODO Auto-generated catch block
+		} catch (FileException | IOException e) {
+			
 			throw e;
 		} // Get all the data
 
 		try {
-		data = formattor.convertData(dataToUse);}
-		catch (NumberFormatException e) {
+			data = formattor.convertData(dataToUse);
+		} catch (NumberFormatException e) {
 			throw e;
 		}
 	}
@@ -226,8 +225,8 @@ public class LogisticRegressionMultivariate extends LogisticRegression implement
 				cost += (1 - yData) * Math.log10(1 - finalPredicted);
 			}
 
-			// System.out.println("Predicted: " + predicted + " Actual: " + yData); //TODO
-			// Send to file
+			// System.out.println("Predicted: " + predicted + " Actual: " + yData); 
+			
 		}
 
 		cost = cost / data.size(); // This will be the final cost.

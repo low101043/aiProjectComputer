@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 import com.natlowis.ai.exceptions.FileException;
 import com.natlowis.ai.fileHandaling.CSVFiles;
-//TODO ADD ERROR CATCHING CODE
+
+
 /**
  * This implements multivariate linear regression
  * 
@@ -17,7 +18,7 @@ public class LinearRegressionMultivariate implements Regression {
 
 	private ArrayList<ArrayList<Double>> data; // The data to be used
 	private double[] wValues; // The wValues which are being used
-	private File file; // The file which holds the training data //TODO Maybe don;t pass in file to
+	private File file; // The file which holds the training data //TODO Maybe don't pass in file to
 						// make better space usage
 
 	/**
@@ -36,10 +37,11 @@ public class LinearRegressionMultivariate implements Regression {
 	 * 
 	 * @param files             The file which has all the data
 	 * @param multibleVariables The number of different variables needed
-	 * @throws IOException 
-	 * @throws FileException 
+	 * @throws IOException
+	 * @throws FileException
 	 */
-	public LinearRegressionMultivariate(File files, int multibleVariables) throws FileException, IOException, NumberFormatException {
+	public LinearRegressionMultivariate(File files, int multibleVariables)
+			throws FileException, IOException, NumberFormatException {
 
 		// Initialises all needed variables
 		file = files;
@@ -101,8 +103,7 @@ public class LinearRegressionMultivariate implements Regression {
 			}
 
 			cost = cost + Math.pow((yData - predicted), 2.0); // This is (y- hw(x))**2
-			// System.out.println("Predicted: " + predicted + " Actual: " + yData); //TODO
-			// Output to a file
+			
 		}
 		cost = cost / data.size(); // This will be the final cost.
 
@@ -175,16 +176,16 @@ public class LinearRegressionMultivariate implements Regression {
 		try {
 			dataToUse = formattor.readCSV();
 		} catch (FileException | IOException e) {
-			// TODO Auto-generated catch block
+			
 			throw e;
 		} // Get all the data
 
-		try{data = formattor.convertData(dataToUse);}
-		catch (NumberFormatException e) {
+		try {
+			data = formattor.convertData(dataToUse);
+		} catch (NumberFormatException e) {
 			throw e;
 		}
 
-		
 	}
 
 	@Override
